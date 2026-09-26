@@ -101,7 +101,7 @@ export function ContactForm({ onSuccess }: Props) {
   }
 
   const fieldClass =
-    "mt-1.5 w-full rounded-md border border-border bg-white px-3 py-2.5 text-sm text-ink placeholder:text-slate-muted focus:border-accent";
+    "mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-slate-muted focus:border-accent";
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-4" onFocus={markStarted}>

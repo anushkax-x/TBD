@@ -13,7 +13,7 @@ export function FinalCtaSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 70% 80% at 50% 100%, #e6f4f2 0%, transparent 60%), #f7f8fa",
+            "radial-gradient(ellipse 70% 80% at 50% 100%, rgba(43, 179, 163, 0.16) 0%, transparent 60%), #0b1118",
         }}
         aria-hidden
       />

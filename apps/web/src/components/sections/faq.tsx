@@ -35,7 +35,7 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="border-y border-border bg-white">
+    <section id="faq" className="border-y border-border bg-surface-elevated">
       <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal>
           <h2 className="font-display text-3xl text-ink sm:text-4xl">

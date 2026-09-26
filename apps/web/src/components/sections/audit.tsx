@@ -20,16 +20,20 @@ export function AuditSection() {
   const { handlePrimaryCta } = useContact();
 
   return (
-    <section id="audit" className="border-y border-border bg-ink text-white">
+    <section
+      id="audit"
+      className="border-y border-border"
+      style={{ background: "linear-gradient(180deg, #070b10 0%, #0b1118 100%)" }}
+    >
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal>
-          <h2 className="font-display text-3xl sm:text-4xl">
+          <h2 className="font-display text-3xl text-ink sm:text-4xl">
             Not sure what you should automate?
           </h2>
-          <p className="mt-3 text-lg text-white/80">
+          <p className="mt-3 text-lg text-ink-soft">
             Start with a Business Automation Audit.
           </p>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/70">
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate">
             We&apos;ll look at how your business currently captures leads,
             manages sales, communicates with customers and moves information
             between systems — then identify the highest-impact opportunities for
@@ -40,7 +44,7 @@ export function AuditSection() {
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {covers.map((item, i) => (
             <Reveal key={item} delayMs={i * 30}>
-              <div className="flex items-start gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-3 text-sm">
+              <div className="flex items-start gap-2 rounded-lg border border-border bg-surface-elevated px-3 py-3 text-sm text-ink-soft">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
                 <span>{item}</span>
               </div>
@@ -49,18 +53,15 @@ export function AuditSection() {
         </div>
 
         <Reveal>
-          <p className="mt-10 max-w-2xl text-base text-white/75">
+          <p className="mt-10 max-w-2xl text-base text-slate">
             You&apos;ll leave with a prioritized list of opportunities and a
             clear recommendation on what to implement first.
           </p>
           <div className="mt-6">
-            <Button
-              className="bg-white text-ink hover:bg-surface"
-              onClick={() => handlePrimaryCta("audit")}
-            >
+            <Button onClick={() => handlePrimaryCta("audit")}>
               Book a Discovery Call →
             </Button>
-            <p className="mt-3 text-xs text-white/50">
+            <p className="mt-3 text-xs text-slate-muted">
               30 minutes · No obligation · No technical knowledge required
             </p>
           </div>

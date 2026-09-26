@@ -38,7 +38,7 @@ export function ExamplesSection() {
   const { track } = useAnalytics();
 
   return (
-    <section id="examples" className="border-y border-border bg-white">
+    <section id="examples" className="border-y border-border bg-surface-elevated">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
@@ -61,7 +61,7 @@ export function ExamplesSection() {
                   track("example_project_viewed", { project: p.title })
                 }
               >
-                <span className="inline-flex rounded-md border border-border bg-white px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-slate-muted">
+                <span className="inline-flex rounded-md border border-border bg-surface-elevated px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-slate-muted">
                   Example Solution · Concept
                 </span>
                 <h3 className="mt-4 text-lg font-semibold text-ink">{p.title}</h3>

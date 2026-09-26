@@ -21,7 +21,7 @@ export function HeroSection() {
         className="pointer-events-none absolute inset-0 opacity-[0.45]"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse 80% 50% at 70% 0%, #e6f4f2 0%, transparent 55%), linear-gradient(180deg, #f7f8fa 0%, #eef1f4 100%)",
+            "radial-gradient(ellipse 70% 45% at 75% 0%, rgba(43, 179, 163, 0.18) 0%, transparent 55%), linear-gradient(180deg, #0b1118 0%, #0e1620 100%)",
         }}
         aria-hidden
       />
@@ -81,7 +81,7 @@ export function HeroSection() {
                 style={{ animationDelay: `${180 + i * 90}ms` }}
               >
                 <div className="flex flex-col items-center">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white text-xs font-semibold text-ink">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface-elevated text-xs font-semibold text-ink">
                     {i + 1}
                   </span>
                   {i < steps.length - 1 && (

@@ -41,7 +41,7 @@ export function HowItWorksSection() {
           {steps.map((step, i) => (
             <Reveal key={step.n} delayMs={i * 60}>
               <li className="relative flex gap-4 md:flex-col md:gap-3">
-                <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-white text-xs font-semibold text-accent">
+                <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated text-xs font-semibold text-accent">
                   {step.n}
                 </span>
                 <div>

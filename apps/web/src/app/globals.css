@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #0b1f33;
-  --ink-soft: #1a3348;
-  --slate: #5a6b7a;
-  --slate-muted: #8a97a5;
-  --border: #d8dee6;
-  --border-strong: #c2ccd6;
-  --surface: #f7f8fa;
-  --surface-elevated: #ffffff;
-  --accent: #0d7a6f;
-  --accent-hover: #0a635a;
-  --accent-soft: #e6f4f2;
-  --before: #9aa5b1;
-  --after: #0d7a6f;
-  --danger: #b42318;
-  --focus: #0d7a6f;
+  --ink: #e8eef4;
+  --ink-soft: #c5d0dc;
+  --slate: #9aa8b8;
+  --slate-muted: #6b7c8f;
+  --border: #243041;
+  --border-strong: #334155;
+  --surface: #0b1118;
+  --surface-elevated: #121a24;
+  --accent: #2bb3a3;
+  --accent-hover: #3fc4b4;
+  --accent-soft: #14352f;
+  --before: #5a6b7c;
+  --after: #2bb3a3;
+  --danger: #f07070;
+  --focus: #2bb3a3;
   --background: var(--surface);
   --foreground: var(--ink);
 }
@@ -34,18 +34,18 @@
   --color-accent-soft: var(--accent-soft);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-instrument-sans);
-  --font-serif: var(--font-instrument-serif);
+  --font-sans: var(--font-ibm-plex-sans);
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -60,7 +60,9 @@ body {
 }
 
 .font-display {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 @keyframes fade-up {

@@ -32,7 +32,7 @@ export function ContactModal() {
     >
       <button
         type="button"
-        className="absolute inset-0 bg-ink/40"
+        className="absolute inset-0 bg-black/70"
         aria-label="Close dialog"
         onClick={closeContact}
       />

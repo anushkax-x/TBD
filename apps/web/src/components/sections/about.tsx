@@ -13,7 +13,7 @@ const capabilities = [
 
 export function AboutSection() {
   return (
-    <section id="about" className="border-y border-border bg-white">
+    <section id="about" className="border-y border-border bg-surface-elevated">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
           <Reveal>
@@ -42,7 +42,7 @@ export function AboutSection() {
                 {capabilities.map((c) => (
                   <li
                     key={c}
-                    className="rounded-md border border-border bg-white px-3 py-1.5 text-sm text-ink-soft"
+                    className="rounded-md border border-border bg-surface-elevated px-3 py-1.5 text-sm text-ink-soft"
                   >
                     {c}
                   </li>

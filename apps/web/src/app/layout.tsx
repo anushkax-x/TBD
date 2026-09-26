@@ -1,20 +1,14 @@
 import { BUSINESS_NAME } from "@consultancy/shared";
 import type { Metadata } from "next";
-import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import { ContactProvider } from "@/components/contact/contact-provider";
 import { AnalyticsProvider } from "@/lib/analytics";
 import "./globals.css";
 
-const instrumentSans = Instrument_Sans({
+const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-instrument-sans",
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-instrument-serif",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex-sans",
   display: "swap",
 });
 
@@ -55,8 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${instrumentSans.variable} ${instrumentSerif.variable}`}>
-      <body className="min-h-screen bg-surface text-ink antialiased">
+    <html lang="en" className={ibmPlexSans.variable}>
+      <body className="min-h-screen bg-surface font-sans text-ink antialiased">
         <AnalyticsProvider>
           <ContactProvider>{children}</ContactProvider>
         </AnalyticsProvider>

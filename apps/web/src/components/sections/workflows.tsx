@@ -49,7 +49,7 @@ export function WorkflowsSection() {
   const current = workflows.find((w) => w.id === active) ?? workflows[0];
 
   return (
-    <section id="workflows" className="border-y border-border bg-white">
+    <section id="workflows" className="border-y border-border bg-surface-elevated">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal>
           <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -86,7 +86,7 @@ export function WorkflowsSection() {
                   {current.title}
                 </h3>
               </div>
-              <span className="hidden rounded-md border border-border bg-white px-2 py-1 text-xs text-slate sm:inline">
+              <span className="hidden rounded-md border border-border bg-surface-elevated px-2 py-1 text-xs text-slate sm:inline">
                 Automated pipeline
               </span>
             </div>
@@ -94,7 +94,7 @@ export function WorkflowsSection() {
               {current.steps.map((step, i) => (
                 <div key={step} className="flex items-center gap-2 md:gap-0">
                   <div
-                    className="workflow-node min-w-0 flex-1 rounded-lg border border-border bg-white px-3 py-2.5 text-sm font-medium text-ink shadow-sm md:flex-none md:px-4"
+                    className="workflow-node min-w-0 flex-1 rounded-lg border border-border bg-surface-elevated px-3 py-2.5 text-sm font-medium text-ink shadow-sm md:flex-none md:px-4"
                     style={{ animationDelay: `${i * 70}ms` }}
                   >
                     {step}
