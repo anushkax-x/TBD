@@ -1,6 +1,6 @@
-# BUSINESS_NAME Consultancy Platform
+# BUSINESS_NAME Platform
 
-Premium B2B technology consultancy marketing site and API — automation, sales systems, and integrations for growing US/UK businesses.
+
 
 ## Stack
 
