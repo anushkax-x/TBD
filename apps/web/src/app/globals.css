@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0b1f33;
+  --ink-soft: #1a3348;
+  --slate: #5a6b7a;
+  --slate-muted: #8a97a5;
+  --border: #d8dee6;
+  --border-strong: #c2ccd6;
+  --surface: #f7f8fa;
+  --surface-elevated: #ffffff;
+  --accent: #0d7a6f;
+  --accent-hover: #0a635a;
+  --accent-soft: #e6f4f2;
+  --before: #9aa5b1;
+  --after: #0d7a6f;
+  --danger: #b42318;
+  --focus: #0d7a6f;
+  --background: var(--surface);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-slate: var(--slate);
+  --color-slate-muted: var(--slate-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-instrument-sans);
+  --font-serif: var(--font-instrument-serif);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.font-display {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s ease-out both;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.workflow-node {
+  opacity: 0;
+  animation: node-in 0.45s ease-out forwards;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

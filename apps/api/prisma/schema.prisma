@@ -1,0 +1,63 @@
+// Future models (do not implement yet): Client, Project, Proposal, Invoice,
+// Automation, Contact, Activity, Subscription — keep schema extensible.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  CLOSED
+}
+
+enum LeadSource {
+  WEBSITE
+  DIRECT
+  LINKEDIN
+  COLD_EMAIL
+  OTHER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Lead {
+  id           String     @id @default(cuid())
+  name         String
+  businessName String
+  email        String
+  website      String?
+  country      String
+  industry     String?
+  improvement  String?
+  message      String?
+  source       LeadSource @default(WEBSITE)
+  status       LeadStatus @default(NEW)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([status])
+  @@index([industry])
+  @@index([country])
+  @@index([createdAt])
+  @@index([email])
+}

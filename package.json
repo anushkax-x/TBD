@@ -1,0 +1,27 @@
+{
+  "name": "business-consultancy",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api -c teal,blue \"npm run dev -w @consultancy/web\" \"npm run dev -w @consultancy/api\"",
+    "build": "npm run build -w @consultancy/shared && npm run build -w @consultancy/api && npm run build -w @consultancy/web",
+    "start": "concurrently -n web,api -c teal,blue \"npm run start -w @consultancy/web\" \"npm run start -w @consultancy/api\"",
+    "lint": "npm run lint -w @consultancy/web --if-present && npm run lint -w @consultancy/api --if-present",
+    "test": "npm run test -w @consultancy/api --if-present && npm run test -w @consultancy/web --if-present",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run prisma:migrate -w @consultancy/api",
+    "db:seed": "npm run prisma:seed -w @consultancy/api",
+    "db:generate": "npm run prisma:generate -w @consultancy/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
