@@ -39,12 +39,17 @@ export function AiSection() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+          Applied AI
+        </p>
         <h2 className="font-display text-3xl text-ink sm:text-4xl">
-          Put AI to work where it actually saves you time.
+          Use AI for the judgement-heavy steps ordinary automation cannot
+          handle.
         </h2>
         <p className="mt-4 max-w-2xl text-base text-slate sm:text-lg">
-          We don&apos;t add AI because it&apos;s trendy. We use it when it makes
-          a measurable difference.
+          AI is most useful when a process needs to read, classify, summarise or
+          answer from unstructured information. We combine it with validation
+          and human review where accuracy matters.
         </p>
       </Reveal>
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

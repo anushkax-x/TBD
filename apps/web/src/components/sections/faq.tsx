@@ -6,28 +6,32 @@ import { Reveal } from "@/components/ui/reveal";
 
 const faqs = [
   {
-    q: "Do I need to replace my existing software?",
-    a: "No. We usually work with the tools you already use and connect them where possible.",
+    q: "What kinds of problems are a good fit?",
+    a: "Processes that are repetitive, rule-based or spread across several tools are usually strong candidates. Common examples include lead follow-up, customer onboarding, document handling, reporting and moving data between systems.",
   },
   {
-    q: "Do you build custom software?",
-    a: "Yes. If existing tools can't solve the problem, we can build a custom solution.",
+    q: "Do I need to replace the software we already use?",
+    a: "Usually not. We first look for a reliable way to connect and improve the tools you already pay for. We only recommend replacing software when it is the real constraint.",
   },
   {
-    q: "Can you work with businesses in the US and UK?",
-    a: "Yes.",
+    q: "When do you recommend custom software?",
+    a: "When the workflow is important to your business and existing products create too many workarounds. Even then, we focus the first version on the smallest useful scope.",
   },
   {
-    q: "How much does a project cost?",
-    a: "Projects vary based on complexity. We start by understanding the workflow and recommend the smallest solution capable of producing meaningful impact.",
+    q: "What happens on the first call?",
+    a: "We discuss the current process, the people and tools involved, and what a successful improvement would look like. If there is a sensible fit, the next step is a scoped recommendation—not a high-pressure sales process.",
+  },
+  {
+    q: "How long does a project take and what does it cost?",
+    a: "It depends on the number of workflows, integrations and custom requirements. After discovery, you receive a clear scope and recommendation. We do not quote a generic package before understanding the problem.",
   },
   {
     q: "Do you provide ongoing support?",
-    a: "Yes. We can provide ongoing maintenance, improvements and technical support.",
+    a: "Yes. Support can include monitoring, maintenance, fixing integration changes and improving the system as your process evolves.",
   },
   {
-    q: "Do you only work with large companies?",
-    a: "No. We focus on growing businesses that need better systems but don't want to build an in-house engineering team.",
+    q: "Where do you work with clients?",
+    a: "The work is remote, so we can support businesses in the UK, US and other compatible time zones.",
   },
 ];
 

@@ -4,7 +4,6 @@ import { MobileStickyCta } from "@/components/layout/mobile-sticky-cta";
 import { HeroSection } from "@/components/sections/hero";
 import { ProblemSection } from "@/components/sections/problems";
 import { ServicesSection } from "@/components/sections/services";
-import { BeforeAfterSection } from "@/components/sections/before-after";
 import { WorkflowsSection } from "@/components/sections/workflows";
 import { AiSection } from "@/components/sections/ai";
 import { AuditSection } from "@/components/sections/audit";
@@ -24,14 +23,13 @@ export default function HomePage() {
         <HeroSection />
         <ProblemSection />
         <ServicesSection />
-        <BeforeAfterSection />
         <WorkflowsSection />
-        <AiSection />
         <AuditSection />
         <HowItWorksSection />
-        <ExamplesSection />
-        <IndustriesSection />
         <AboutSection />
+        <ExamplesSection />
+        <AiSection />
+        <IndustriesSection />
         <TechnologySection />
         <FaqSection />
         <FinalCtaSection />

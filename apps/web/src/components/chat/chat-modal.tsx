@@ -87,13 +87,13 @@ function IntroView() {
         Need help with your business?
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-slate">
-        Ask our AI whether what you need is feasible, from automating
-        repetitive work and connecting your tools to AI and fully custom
-        software. We can help with almost anything.
+        Describe a slow, repetitive or disconnected business process. Our AI
+        will help you assess whether automation, an integration, applied AI or
+        custom software is a practical fit.
       </p>
       <p className="mt-3 text-sm leading-relaxed text-slate">
-        It takes a couple of minutes, and our team will personally review the
-        conversation and follow up.
+        It takes a couple of minutes. If there is a good fit, you can ask for a
+        meeting and the conversation will be sent to our team for review.
       </p>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <Button className="sm:flex-1" onClick={startChat}>

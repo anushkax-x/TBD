@@ -1,19 +1,30 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useContact } from "@/components/contact/contact-provider";
+import { useChat } from "@/components/chat/chat-provider";
 
-const steps = [
-  "Website enquiry",
-  "AI qualification",
-  "CRM",
-  "Sales notification",
-  "Automated follow-up",
-  "Appointment booked",
-];
+const tools = [
+  { name: "OpenAI", file: "openai", label: "ChatGPT" },
+  { name: "Anthropic", file: "anthropic", label: "Claude" },
+  { name: "Google Gemini", file: "googlegemini", label: "Gemini" },
+  { name: "LangChain", file: "langchain", label: "LangGraph" },
+  { name: "ElevenLabs", file: "elevenlabs", label: "ElevenLabs" },
+  { name: "Shopify", file: "shopify", label: "Shopify" },
+  { name: "HubSpot", file: "hubspot", label: "HubSpot" },
+  { name: "Stripe", file: "stripe", label: "Stripe" },
+  { name: "Slack", file: "slack", label: "Slack" },
+  { name: "Notion", file: "notion", label: "Notion" },
+  { name: "Zapier", file: "zapier", label: "Zapier" },
+  { name: "Make", file: "make", label: "Make" },
+  { name: "Airtable", file: "airtable", label: "Airtable" },
+  { name: "Google Sheets", file: "googlesheets", label: "Sheets" },
+] as const;
 
 export function HeroSection() {
-  const { handlePrimaryCta, openContact } = useContact();
+  const { handlePrimaryCta } = useContact();
+  const { openChat } = useChat();
 
   return (
     <section className="relative overflow-hidden border-b border-border">
@@ -21,86 +32,76 @@ export function HeroSection() {
         className="pointer-events-none absolute inset-0 opacity-[0.45]"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse 70% 45% at 75% 0%, rgba(43, 179, 163, 0.18) 0%, transparent 55%), linear-gradient(180deg, #0b1118 0%, #0e1620 100%)",
+            "radial-gradient(ellipse 55% 50% at 78% 40%, rgba(43, 179, 163, 0.16) 0%, transparent 60%), linear-gradient(180deg, #0b1118 0%, #0e1620 100%)",
         }}
         aria-hidden
       />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-24">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-14 lg:px-8 lg:py-24">
         <div className="animate-fade-up">
-          <p className="font-display text-4xl leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.25rem]">
-            Your business shouldn&apos;t need more software. It needs better
-            systems.
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+            Automation · Integrations · AI · Custom Software
           </p>
+          <h1 className="mt-4 font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
+            Turn the manual work slowing your business down into a system that
+            runs reliably.
+          </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-slate sm:text-lg">
-            We automate repetitive workflows, improve lead and sales processes,
-            and connect the tools your business already uses — helping growing
-            companies operate more efficiently without hiring an in-house
-            technical team.
+            We help growing businesses automate repetitive operations, connect
+            disconnected tools and build practical software—so leads are
+            followed up, information moves automatically and your team can focus
+            on customers.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button onClick={() => handlePrimaryCta("hero_primary")}>
-              Find Your Automation Opportunities
+            <Button onClick={() => openChat("hero_primary")}>
+              Check Your Idea With Our AI
             </Button>
             <Button
               variant="secondary"
-              onClick={() => {
-                document.getElementById("workflows")?.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }}
+              onClick={() => handlePrimaryCta("hero_secondary")}
             >
-              See What We Can Automate
+              Book a 30-Minute Discovery Call
             </Button>
           </div>
-          <p className="mt-8 text-xs font-medium uppercase tracking-[0.14em] text-slate-muted">
-            Automation · AI · Integrations · Custom Software
+          <p className="mt-5 max-w-lg text-xs leading-relaxed text-slate-muted">
+            Not sure if your idea is feasible? Describe it to the AI assistant
+            and get an initial recommendation in a few minutes.
           </p>
         </div>
 
         <div
-          className="animate-fade-up rounded-xl border border-border bg-surface-elevated p-5 shadow-sm sm:p-6"
+          className="animate-fade-up"
           style={{ animationDelay: "120ms" }}
-          aria-label="Example automation workflow"
+          aria-label="Technologies and business tools we work with"
         >
-          <div className="mb-4 flex items-center justify-between border-b border-border pb-3">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-muted">
-                Workflow
-              </p>
-              <p className="text-sm font-semibold text-ink">Lead to appointment</p>
-            </div>
-            <span className="rounded-md bg-accent-soft px-2 py-1 text-xs font-medium text-accent">
-              Live system
-            </span>
-          </div>
-          <ol className="space-y-0">
-            {steps.map((step, i) => (
+          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.14em] text-slate-muted">
+            AI · CRM · commerce · operations
+          </p>
+          <ul className="grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-x-5 sm:gap-y-7">
+            {tools.map((tool, i) => (
               <li
-                key={step}
-                className="workflow-node flex gap-3"
-                style={{ animationDelay: `${180 + i * 90}ms` }}
+                key={tool.file}
+                className="workflow-node group flex flex-col items-center gap-2.5 text-center"
+                style={{ animationDelay: `${160 + i * 45}ms` }}
               >
-                <div className="flex flex-col items-center">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface-elevated text-xs font-semibold text-ink">
-                    {i + 1}
-                  </span>
-                  {i < steps.length - 1 && (
-                    <span className="my-1 h-5 w-px bg-border" aria-hidden />
-                  )}
-                </div>
-                <div className="mb-2 flex-1 rounded-lg border border-border bg-surface px-3 py-2">
-                  <p className="text-sm font-medium text-ink">{step}</p>
-                </div>
+                <Image
+                  src={`/tech/${tool.file}.svg`}
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="h-8 w-8 opacity-75 brightness-0 invert transition duration-200 group-hover:opacity-100"
+                  unoptimized
+                />
+                <span className="text-[11px] font-medium leading-tight text-slate">
+                  {tool.label}
+                </span>
+                <span className="sr-only">{tool.name}</span>
               </li>
             ))}
-          </ol>
-          <button
-            type="button"
-            className="mt-4 w-full text-left text-xs text-slate hover:text-accent"
-            onClick={() => openContact("hero_workflow")}
-          >
-            Want something like this for your business? →
-          </button>
+          </ul>
+          <p className="mt-7 max-w-sm text-xs leading-relaxed text-slate-muted">
+            Connected to the AI models and business tools your team already
+            relies on.
+          </p>
         </div>
       </div>
     </section>

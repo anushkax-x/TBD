@@ -18,25 +18,25 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: `Business Automation & Technology Solutions | ${BUSINESS_NAME}`,
+  title: `Workflow Automation, Integrations & Custom Software | ${BUSINESS_NAME}`,
   description:
-    "We help growing businesses automate workflows, improve sales processes and connect their existing technology with practical automation, AI and custom software.",
+    "Practical workflow automation, system integrations, applied AI and custom software for growing businesses with manual or disconnected operations.",
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: `Business Automation & Technology Solutions | ${BUSINESS_NAME}`,
+    title: `Workflow Automation, Integrations & Custom Software | ${BUSINESS_NAME}`,
     description:
-      "We help growing businesses automate workflows, improve sales processes and connect their existing technology with practical automation, AI and custom software.",
+      "Turn repetitive, disconnected business processes into reliable systems with practical automation, integrations, AI and custom software.",
     type: "website",
     locale: "en_GB",
     siteName: BUSINESS_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: `Business Automation & Technology Solutions | ${BUSINESS_NAME}`,
+    title: `Workflow Automation, Integrations & Custom Software | ${BUSINESS_NAME}`,
     description:
-      "We help growing businesses automate workflows, improve sales processes and connect their existing technology.",
+      "Practical automation, integrations, AI and custom software for growing businesses.",
   },
   robots: {
     index: true,

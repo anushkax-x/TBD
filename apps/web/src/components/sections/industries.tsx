@@ -19,8 +19,12 @@ export function IndustriesSection() {
   return (
     <section id="solutions" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+          Who this is for
+        </p>
         <h2 className="font-display text-3xl text-ink sm:text-4xl">
-          Built for growing businesses.
+          Growing teams whose operations have outgrown spreadsheets and manual
+          handoffs.
         </h2>
       </Reveal>
       <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -35,8 +39,9 @@ export function IndustriesSection() {
       </div>
       <Reveal>
         <p className="mt-8 max-w-2xl text-base text-slate">
-          If your business relies on leads, customers and repetitive workflows,
-          there&apos;s probably something we can improve.
+          The strongest fit is a business with a repeatable process, a clear
+          operational bottleneck and a team ready to adopt a better way of
+          working.
         </p>
       </Reveal>
     </section>

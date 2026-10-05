@@ -3,9 +3,11 @@
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { useContact } from "@/components/contact/contact-provider";
+import { useChat } from "@/components/chat/chat-provider";
 
 export function FinalCtaSection() {
-  const { handlePrimaryCta, openContact } = useContact();
+  const { handlePrimaryCta } = useContact();
+  const { openChat } = useChat();
 
   return (
     <section className="relative overflow-hidden">
@@ -20,21 +22,22 @@ export function FinalCtaSection() {
       <div className="relative mx-auto max-w-3xl px-4 py-24 text-center sm:px-6 lg:px-8">
         <Reveal>
           <h2 className="font-display text-3xl text-ink sm:text-4xl lg:text-5xl">
-            Think your business could be running more efficiently?
+            You do not need to know the technical solution to start.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base text-slate sm:text-lg">
-            Tell us what you&apos;re currently doing manually. We&apos;ll help
-            you figure out what can be automated.
+            Tell us what is slow, repetitive or disconnected. We&apos;ll help
+            determine whether automation, an integration or custom software is
+            the right next step.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button onClick={() => handlePrimaryCta("final_primary")}>
-              Book a Free Discovery Call →
+            <Button onClick={() => openChat("final_primary")}>
+              Check Your Idea With Our AI
             </Button>
             <Button
               variant="secondary"
-              onClick={() => openContact("final_secondary")}
+              onClick={() => handlePrimaryCta("final_secondary")}
             >
-              Tell Us What You Want To Improve
+              Book a Free Discovery Call
             </Button>
           </div>
           <p className="mt-4 text-xs text-slate-muted">

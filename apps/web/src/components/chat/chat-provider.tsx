@@ -21,7 +21,7 @@ export const CHAT_PROMPT_DELAY_MS = 1500;
 
 export const CHAT_GREETING: ChatMessage = {
   role: "model",
-  text: "Hi! I'm the AI assistant. Tell me a little about your business and what you'd like to improve, automate or build, and I'll let you know whether it's something we can help with.",
+  text: "Hi! Tell me what your business does and which process is slow, repetitive or disconnected. I'll ask a few questions, assess whether we can help and suggest a practical next step.",
 };
 
 type ChatView = "intro" | "chat";

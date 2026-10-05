@@ -8,11 +8,15 @@ export function Footer() {
       className="border-t border-border text-ink"
       style={{ background: "#070b10" }}
     >
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4 lg:px-8">
-        <div className="md:col-span-1">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.6fr_1fr_1fr] lg:px-8">
+        <div>
           <p className="text-lg font-semibold">{BUSINESS_NAME}</p>
           <p className="mt-3 text-sm leading-relaxed text-slate">
             {BUSINESS_TAGLINE}
+          </p>
+          <p className="mt-4 text-xs leading-relaxed text-slate-muted">
+            Led by Anushka, a full-stack software engineer working across
+            frontend, backend, data, cloud and AI integrations.
           </p>
         </div>
 
@@ -21,24 +25,24 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-sm text-slate">
             <li>
               <a href="#services" className="hover:text-ink">
-                Automate
+                Workflow automation
               </a>
             </li>
             <li>
               <a href="#services" className="hover:text-ink">
-                Convert
+                Sales systems
               </a>
             </li>
             <li>
               <a href="#services" className="hover:text-ink">
-                Connect
+                Integrations & custom software
               </a>
             </li>
           </ul>
         </div>
 
         <div>
-          <p className="text-sm font-medium text-ink-soft">Company</p>
+          <p className="text-sm font-medium text-ink-soft">Explore</p>
           <ul className="mt-3 space-y-2 text-sm text-slate">
             <li>
               <a href="#about" className="hover:text-ink">
@@ -55,25 +59,9 @@ export function Footer() {
                 FAQ
               </a>
             </li>
-          </ul>
-        </div>
-
-        <div>
-          <p className="text-sm font-medium text-ink-soft">Contact</p>
-          <ul className="mt-3 space-y-2 text-sm text-slate">
             <li>
-              <a href="mailto:hello@example.com" className="hover:text-ink">
-                hello@example.com
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-ink"
-              >
-                LinkedIn
+              <a href="#audit" className="hover:text-ink">
+                Free discovery call
               </a>
             </li>
           </ul>
