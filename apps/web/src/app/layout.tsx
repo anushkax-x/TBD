@@ -1,6 +1,7 @@
 import { BUSINESS_NAME } from "@consultancy/shared";
 import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
+import { ChatProvider } from "@/components/chat/chat-provider";
 import { ContactProvider } from "@/components/contact/contact-provider";
 import { AnalyticsProvider } from "@/lib/analytics";
 import "./globals.css";
@@ -52,7 +53,9 @@ export default function RootLayout({
     <html lang="en" className={ibmPlexSans.variable}>
       <body className="min-h-screen bg-surface font-sans text-ink antialiased">
         <AnalyticsProvider>
-          <ContactProvider>{children}</ContactProvider>
+          <ContactProvider>
+            <ChatProvider>{children}</ChatProvider>
+          </ContactProvider>
         </AnalyticsProvider>
       </body>
     </html>

@@ -17,6 +17,11 @@ const envSchema = z.object({
   SMTP_PORT: z.coerce.number().optional(),
   SMTP_USER: z.string().optional(),
   SMTP_PASSWORD: z.string().optional(),
+  EMAIL_SMTP_SERVER: z.string().optional(),
+  EMAIL_APP_PASSWORD: z.string().optional(),
+  EMAIL_ADDRESS: z.string().optional(),
+  GEMINI_API_KEY: z.string().optional(),
+  GEMINI_MODEL: z.string().default("gemini-3.1-flash-lite"),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;

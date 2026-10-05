@@ -68,3 +68,37 @@ export const leadQuerySchema = z.object({
 });
 
 export type LeadQueryInput = z.infer<typeof leadQuerySchema>;
+
+export const CHAT_MAX_MESSAGES = 40;
+export const CHAT_MAX_MESSAGE_LENGTH = 2000;
+
+export const chatMessageSchema = z.object({
+  role: z.enum(["user", "model"]),
+  text: z.string().trim().min(1).max(CHAT_MAX_MESSAGE_LENGTH),
+});
+
+export type ChatMessage = z.infer<typeof chatMessageSchema>;
+
+const chatSessionId = z.string().trim().min(8).max(100);
+const chatMessages = z.array(chatMessageSchema).min(1).max(CHAT_MAX_MESSAGES);
+
+export const chatTurnSchema = z.object({
+  sessionId: chatSessionId,
+  messages: chatMessages.refine(
+    (m) => m[m.length - 1]?.role === "user",
+    "The last message must be from the user",
+  ),
+});
+
+export type ChatTurnInput = z.infer<typeof chatTurnSchema>;
+
+export const chatEndSchema = z.object({
+  sessionId: chatSessionId,
+  messages: chatMessages.refine(
+    (m) => m.some((msg) => msg.role === "user"),
+    "At least one user message is required",
+  ),
+  meetingRequested: z.boolean().optional().default(false),
+});
+
+export type ChatEndInput = z.infer<typeof chatEndSchema>;
