@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { BUSINESS_NAME } from "@consultancy/shared";
 import { Button } from "@/components/ui/button";
-import { useContact } from "@/components/contact/contact-provider";
+import { useChat } from "@/components/chat/chat-provider";
 
 const links = [
-  { href: "#services", label: "Services" },
-  { href: "#solutions", label: "Solutions" },
-  { href: "#examples", label: "Examples" },
+  { href: "#services", label: "What We Build" },
+  { href: "#workflows", label: "How It Works" },
+  { href: "#examples", label: "Example Solutions" },
   { href: "#about", label: "About" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -17,7 +17,7 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { handlePrimaryCta } = useContact();
+  const { openChat } = useChat();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -42,7 +42,7 @@ export function Navbar() {
           {BUSINESS_NAME}
         </a>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-6 lg:flex">
           {links.map((link) => (
             <li key={link.href}>
               <a
@@ -55,15 +55,15 @@ export function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden md:block">
-          <Button onClick={() => handlePrimaryCta("navbar")}>
-            Book a Consultation
+        <div className="hidden lg:block">
+          <Button onClick={() => openChat("navbar")}>
+            Check Your Idea
           </Button>
         </div>
 
         <button
           type="button"
-          className="rounded-md p-2 text-ink md:hidden"
+          className="rounded-md p-2 text-ink lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -76,7 +76,7 @@ export function Navbar() {
       {open && (
         <div
           id="mobile-menu"
-          className="border-t border-border bg-surface-elevated px-4 py-4 md:hidden"
+          className="border-t border-border bg-surface-elevated px-4 py-4 lg:hidden"
         >
           <ul className="space-y-3">
             {links.map((link) => (
@@ -95,10 +95,10 @@ export function Navbar() {
             className="mt-4 w-full"
             onClick={() => {
               setOpen(false);
-              handlePrimaryCta("navbar_mobile");
+              openChat("navbar_mobile");
             }}
           >
-            Book a Consultation
+            Check Your Idea With Our AI
           </Button>
         </div>
       )}

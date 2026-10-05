@@ -1,5 +1,8 @@
-/** Replace this string globally when the final business name is chosen. */
-export const BUSINESS_NAME = "BUSINESS_NAME";
+/**
+ * Personal-brand label used until a final company name is chosen.
+ * Keeping this descriptive is more credible than exposing a placeholder.
+ */
+export const BUSINESS_NAME = "Anushka — Automation & Software";
 
 export const BUSINESS_TAGLINE =
-  "We help growing businesses automate repetitive work, improve their sales workflows, and connect the technology they already use — without the cost of hiring an in-house engineering team.";
+  "Practical automation, integrations, AI and custom software for growing businesses that need better systems without building an in-house engineering team.";

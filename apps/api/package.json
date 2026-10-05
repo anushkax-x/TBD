@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@consultancy/shared": "*",
+    "@google/genai": "^2.27.0",
     "@nestjs/common": "^11.0.12",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.12",

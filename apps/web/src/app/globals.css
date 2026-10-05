@@ -109,6 +109,85 @@ body {
   animation: node-in 0.45s ease-out forwards;
 }
 
+@keyframes chat-pop {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes chat-backdrop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes chat-typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes chat-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.chat-panel {
+  animation: chat-pop 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.chat-backdrop {
+  animation: chat-backdrop 0.2s ease-out both;
+}
+
+.chat-bubble {
+  animation: node-in 0.25s ease-out both;
+}
+
+.chat-typing-dot {
+  animation: chat-typing 1.2s ease-in-out infinite;
+}
+
+.chat-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: currentColor;
+  animation: chat-caret 0.9s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-panel,
+  .chat-backdrop,
+  .chat-bubble,
+  .chat-typing-dot,
+  .chat-caret {
+    animation: none;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

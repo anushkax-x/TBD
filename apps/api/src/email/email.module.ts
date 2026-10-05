@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { EMAIL_SERVICE } from "./email.types";
 import { NoopEmailService } from "./noop-email.service";
+import { resolveSmtpConfig } from "./smtp-config";
 import { SmtpEmailService } from "./smtp-email.service";
 
 @Module({
@@ -10,9 +11,7 @@ import { SmtpEmailService } from "./smtp-email.service";
       provide: EMAIL_SERVICE,
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        const host = config.get<string>("SMTP_HOST");
-        const user = config.get<string>("SMTP_USER");
-        const pass = config.get<string>("SMTP_PASSWORD");
+        const { host, user, pass } = resolveSmtpConfig(config);
         if (host && user && pass) {
           return new SmtpEmailService(config);
         }

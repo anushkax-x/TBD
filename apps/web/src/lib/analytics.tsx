@@ -15,7 +15,11 @@ type AnalyticsEvent =
   | "contact_form_started"
   | "contact_form_submitted"
   | "booking_clicked"
-  | "example_project_viewed";
+  | "example_project_viewed"
+  | "chat_prompt_shown"
+  | "chat_started"
+  | "chat_ended"
+  | "chat_meeting_requested";
 
 type AnalyticsContextValue = {
   track: (event: AnalyticsEvent, props?: Record<string, string>) => void;

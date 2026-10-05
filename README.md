@@ -88,6 +88,8 @@ Company name is centralized in `packages/shared/src/brand.ts` as `BUSINESS_NAME`
 | GET | `/api/health` | Public |
 | POST | `/api/leads` | Public (rate limited + honeypot) |
 | GET/PATCH/DELETE | `/api/leads` | JWT cookie |
+| POST | `/api/chat/stream` | Public (rate limited, Server-Sent Events) |
+| POST | `/api/chat/end` | Public (rate limited) |
 | POST | `/api/auth/login` | Public |
 | POST | `/api/auth/logout` | Auth |
 | GET | `/api/auth/me` | Auth |
@@ -99,7 +101,16 @@ Default seeded admin (from `.env`):
 
 ## Email
 
-If `SMTP_HOST`, `SMTP_USER`, and `SMTP_PASSWORD` are set, lead notifications are sent via SMTP. Otherwise the email service logs and continues (no-op).
+If `SMTP_HOST`, `SMTP_USER`, and `SMTP_PASSWORD` are set (or their aliases `EMAIL_SMTP_SERVER`, `EMAIL_ADDRESS`, `EMAIL_APP_PASSWORD`), lead notifications and AI chat summaries are sent via SMTP. Otherwise the email service logs and continues (no-op). Port 465 uses implicit TLS; other ports use STARTTLS.
+
+## AI chat
+
+- A welcome modal opens once per browser session (`sessionStorage["chat_prompt_seen"]`) and leads into an AI chat. A floating button reopens it later.
+- Replies come from Gemini (`GEMINI_API_KEY`, `GEMINI_MODEL`, default `gemini-3.1-flash-lite`) and are streamed to the browser over Server-Sent Events from `POST /api/chat/stream`.
+- The assistant checks feasibility, collects name, email and business, and always asks whether the visitor wants a meeting.
+- When the chat ends ("End chat & send", closing the modal, or leaving the page), `POST /api/chat/end` summarises the conversation with Gemini and emails the summary plus the full transcript to `EMAIL_TO`. If summarising fails, the transcript is still sent.
+- Business knowledge and assistant rules live in `apps/api/src/chat/knowledge.ts`. Edit that file to add real projects, clients or offerings.
+- If `NEXT_PUBLIC_BOOKING_URL` is set, a "Book a time" link appears in the chat once the visitor asks for a meeting.
 
 ## Booking & analytics
 

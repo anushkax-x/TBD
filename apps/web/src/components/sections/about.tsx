@@ -18,18 +18,24 @@ export function AboutSection() {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Built by an engineer who understands how software actually works.
+              Work directly with the engineer responsible for your solution.
             </h2>
             <div className="mt-6 space-y-4 text-base leading-relaxed text-slate">
               <p>
                 I&apos;m Anushka, a full-stack software engineer with 4+ years of
-                experience building production applications and business systems.
+                experience building production applications across frontend,
+                backend, APIs, databases and cloud infrastructure.
               </p>
               <p>
-                I&apos;ve worked across frontend, backend, APIs, databases, cloud
-                infrastructure and integrations — and I&apos;m now applying that
-                experience to helping growing businesses build better internal
-                systems without the cost of maintaining a full engineering team.
+                You won&apos;t be passed between salespeople and developers. I
+                first understand how the business works, then recommend and
+                build the smallest reliable solution that can create meaningful
+                operational value.
+              </p>
+              <p>
+                When a project needs additional specialist support, it can be
+                brought in without forcing you to maintain a full in-house
+                engineering team.
               </p>
             </div>
           </Reveal>

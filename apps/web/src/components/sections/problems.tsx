@@ -31,9 +31,17 @@ export function ProblemSection() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+          Where we create value
+        </p>
         <h2 className="font-display text-3xl text-ink sm:text-4xl">
-          Where is your business losing time?
+          If work depends on someone remembering the next step, the process is
+          costing you.
         </h2>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
+          We look for the repeated tasks, handoffs and disconnected tools that
+          create delays, mistakes and missed opportunities.
+        </p>
       </Reveal>
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {problems.map((p, i) => (
@@ -46,8 +54,9 @@ export function ProblemSection() {
         ))}
       </div>
       <Reveal>
-        <p className="mt-10 font-display text-2xl text-accent sm:text-3xl">
-          We can automate it.
+        <p className="mt-10 max-w-3xl font-display text-2xl text-accent sm:text-3xl">
+          The goal is not more software. It is fewer manual steps and a clearer
+          way of working.
         </p>
       </Reveal>
     </section>

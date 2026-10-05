@@ -5,10 +5,10 @@ import { Reveal } from "@/components/ui/reveal";
 const services = [
   {
     id: "automate",
-    eyebrow: "AUTOMATE",
-    title: "Eliminate repetitive work.",
+    eyebrow: "01 · AUTOMATE OPERATIONS",
+    title: "Make recurring work happen automatically.",
     description:
-      "We design workflows that automatically move information, trigger actions and keep your team updated.",
+      "We map the process, remove unnecessary handoffs and automate the steps that do not need human judgement.",
     examples: [
       "Lead routing",
       "CRM updates",
@@ -18,15 +18,15 @@ const services = [
       "Notifications",
       "Reporting",
     ],
-    cta: "Explore Automation →",
+    cta: "See automation workflows →",
     href: "#workflows",
   },
   {
     id: "convert",
-    eyebrow: "CONVERT",
-    title: "Turn more enquiries into customers.",
+    eyebrow: "02 · IMPROVE SALES",
+    title: "Respond faster and lose fewer opportunities.",
     description:
-      "Build systems around your sales process so fewer leads are lost and your team spends more time closing.",
+      "We build a reliable path from enquiry to follow-up, qualification and booking so every lead has a clear next step.",
     examples: [
       "Lead capture",
       "Lead qualification",
@@ -36,15 +36,15 @@ const services = [
       "Lead scoring",
       "Sales dashboards",
     ],
-    cta: "Explore Sales Systems →",
+    cta: "Explore a business systems audit →",
     href: "#audit",
   },
   {
     id: "connect",
-    eyebrow: "CONNECT",
-    title: "Make your existing tools work together.",
+    eyebrow: "03 · CONNECT & BUILD",
+    title: "Connect what you have—or build what is missing.",
     description:
-      "Connect the software you already pay for instead of replacing everything.",
+      "We integrate the software you already use and build focused internal tools when off-the-shelf products cannot fit the workflow.",
     examples: [
       "Website ↔ CRM",
       "CRM ↔ Email",
@@ -53,7 +53,7 @@ const services = [
       "Calendly ↔ CRM",
       "AI ↔ Internal systems",
     ],
-    cta: "Explore Integrations →",
+    cta: "See our technology approach →",
     href: "#technology",
   },
 ];
@@ -63,9 +63,16 @@ export function ServicesSection() {
     <section id="services" className="border-y border-border bg-surface-elevated">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+            What we build
+          </p>
           <h2 className="font-display text-3xl text-ink sm:text-4xl">
-            Three ways we improve your business
+            Better operations, from first enquiry to everyday delivery.
           </h2>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
+            We start with the business problem, then choose the smallest
+            automation, integration or custom build that can solve it properly.
+          </p>
         </Reveal>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {services.map((s, i) => (

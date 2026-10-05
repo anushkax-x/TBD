@@ -46,6 +46,17 @@ export interface AuthUserDto {
   role: string;
 }
 
+/** Server-sent events emitted by POST /api/chat/stream. */
+export type ChatStreamEvent =
+  | { type: "delta"; text: string }
+  | { type: "done"; meetingRequested: boolean; conversationComplete: boolean }
+  | { type: "error"; message: string };
+
+export interface ChatEndDto {
+  emailed: boolean;
+  alreadyEnded: boolean;
+}
+
 export interface HealthDto {
   status: "ok";
   timestamp: string;

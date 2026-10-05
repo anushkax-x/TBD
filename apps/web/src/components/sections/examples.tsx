@@ -42,13 +42,15 @@ export function ExamplesSection() {
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-            Example Solutions
+            What we can build
           </p>
           <h2 className="mt-3 font-display text-3xl text-ink sm:text-4xl">
-            Concept systems we design and build
+            Practical systems built around real business workflows.
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-slate">
-            These are illustrative solution concepts — not client case studies.
+            These examples show the types of problems we can solve. Every
+            implementation is scoped around the tools, team and process you
+            already have.
           </p>
         </Reveal>
 
@@ -62,7 +64,7 @@ export function ExamplesSection() {
                 }
               >
                 <span className="inline-flex rounded-md border border-border bg-surface-elevated px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-slate-muted">
-                  Example Solution · Concept
+                  Example capability
                 </span>
                 <h3 className="mt-4 text-lg font-semibold text-ink">{p.title}</h3>
                 <p className="mt-4 text-sm">

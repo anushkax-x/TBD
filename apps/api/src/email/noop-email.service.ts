@@ -1,5 +1,9 @@
 import { Injectable, Logger } from "@nestjs/common";
-import type { EmailService, LeadNotificationPayload } from "./email.types";
+import type {
+  ChatSummaryPayload,
+  EmailService,
+  LeadNotificationPayload,
+} from "./email.types";
 
 @Injectable()
 export class NoopEmailService implements EmailService {
@@ -8,6 +12,12 @@ export class NoopEmailService implements EmailService {
   async sendLeadNotification(payload: LeadNotificationPayload): Promise<void> {
     this.logger.log(
       `Email skipped (no SMTP) — lead from ${payload.email} (${payload.businessName})`,
+    );
+  }
+
+  async sendChatSummary(payload: ChatSummaryPayload): Promise<void> {
+    this.logger.log(
+      `Email skipped (no SMTP) — chat summary for session ${payload.sessionId} (${payload.businessName ?? "unknown business"})`,
     );
   }
 }

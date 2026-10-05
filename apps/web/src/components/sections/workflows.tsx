@@ -80,14 +80,14 @@ export function WorkflowsSection() {
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-slate-muted">
-                  Product demo
+                  Example workflow
                 </p>
                 <h3 className="mt-1 text-lg font-semibold text-ink">
                   {current.title}
                 </h3>
               </div>
               <span className="hidden rounded-md border border-border bg-surface-elevated px-2 py-1 text-xs text-slate sm:inline">
-                Automated pipeline
+                Connected steps
               </span>
             </div>
             <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-0">

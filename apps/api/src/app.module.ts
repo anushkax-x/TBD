@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { AuthModule } from "./auth/auth.module";
+import { ChatModule } from "./chat/chat.module";
 import { validateEnv } from "./config/env.validation";
 import { EmailModule } from "./email/email.module";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
@@ -29,6 +30,7 @@ import { PrismaModule } from "./prisma/prisma.module";
     HealthModule,
     AuthModule,
     LeadsModule,
+    ChatModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
