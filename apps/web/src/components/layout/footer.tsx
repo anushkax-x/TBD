@@ -1,90 +1,88 @@
-import { BUSINESS_NAME, BUSINESS_TAGLINE } from "@consultancy/shared";
-import { Logo } from "@/components/layout/logo";
+import { BUSINESS_NAME } from "@consultancy/shared";
+
+const services = [
+  { href: "#services", label: "Workflow automation" },
+  { href: "#services", label: "Sales & retention" },
+  { href: "#services", label: "Integrations" },
+  { href: "#services", label: "UI & UX redesign" },
+];
+
+const explore = [
+  { href: "#workflows", label: "Workflows" },
+  { href: "#about", label: "About" },
+  { href: "#services", label: "What we build" },
+  { href: "#faq", label: "FAQ" },
+];
+
+const legal = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
+
+const linkClass =
+  "text-sm text-slate transition-colors hover:text-ink";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      className="border-t border-border text-ink"
-      style={{ background: "#070b10" }}
-    >
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.6fr_1fr_1fr] lg:px-8">
-        <div>
-          <Logo size={32} />
-          <p className="mt-3 text-sm leading-relaxed text-slate">
-            {BUSINESS_TAGLINE}
-          </p>
-          <p className="mt-4 text-xs leading-relaxed text-slate-muted">
-            Led by Anushka, a full-stack software engineer working across
-            frontend, backend, data, cloud and AI integrations.
-          </p>
-        </div>
+    <footer className="border-t border-border bg-surface text-ink">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-muted">
+              Services
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              {services.map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className={linkClass}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div>
-          <p className="text-sm font-medium text-ink-soft">Services</p>
-          <ul className="mt-3 space-y-2 text-sm text-slate">
-            <li>
-              <a href="#services" className="hover:text-ink">
-                Workflow automation
-              </a>
-            </li>
-            <li>
-              <a href="#services" className="hover:text-ink">
-                Sales systems
-              </a>
-            </li>
-            <li>
-              <a href="#services" className="hover:text-ink">
-                Integrations & custom software
-              </a>
-            </li>
-          </ul>
-        </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-muted">
+              Explore
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              {explore.map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className={linkClass}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div>
-          <p className="text-sm font-medium text-ink-soft">Explore</p>
-          <ul className="mt-3 space-y-2 text-sm text-slate">
-            <li>
-              <a href="#about" className="hover:text-ink">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#examples" className="hover:text-ink">
-                Examples
-              </a>
-            </li>
-            <li>
-              <a href="#faq" className="hover:text-ink">
-                FAQ
-              </a>
-            </li>
-            <li>
-              <a href="#cta" className="hover:text-ink">
-                Free discovery call
-              </a>
-            </li>
-          </ul>
-          <p className="mt-6 text-sm font-medium text-ink-soft">Legal</p>
-          <ul className="mt-3 space-y-2 text-sm text-slate">
-            <li>
-              <a href="/privacy" className="hover:text-ink">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="/terms" className="hover:text-ink">
-                Terms
-              </a>
-            </li>
-          </ul>
+          <div className="col-span-2 sm:col-span-1">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-muted">
+              Legal
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              {legal.map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className={linkClass}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
+
       <div className="border-t border-border">
-        <p className="mx-auto max-w-6xl px-4 py-6 text-xs text-slate-muted sm:px-6 lg:px-8">
-          © {year} {BUSINESS_NAME}. All rights reserved.
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-xs text-slate-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <p>
+            © {year} {BUSINESS_NAME}. All rights reserved.
+          </p>
+          <p>Automation · Integrations · UI/UX · Custom software</p>
+        </div>
       </div>
     </footer>
   );

@@ -22,16 +22,15 @@ export function HeroSection() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-14 lg:px-8 lg:py-24">
         <div className="animate-fade-up">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-            Shopify · Automation · Integrations · Custom Software
+            AI · Automation · Integrations · UI &amp; UX
           </p>
           <h1 className="mt-4 font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
             Turn the manual work slowing your store down into a system that runs
             reliably.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-slate sm:text-lg">
-            FlowMint helps Shopify businesses automate carts, orders, inventory
-            and support—and connect the apps you already use—so your team spends
-            less time on admin and more time on customers.
+            We automate busywork, connect the tools you already use, and
+            modernise the interfaces your team and customers rely on.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button onClick={() => openChat("hero_primary")}>
@@ -41,7 +40,7 @@ export function HeroSection() {
               variant="secondary"
               onClick={() => handlePrimaryCta("hero_secondary")}
             >
-              Book a 30-Minute Discovery Call
+              Book a Free Discovery Call
             </Button>
           </div>
           <p className="mt-5 max-w-lg text-xs leading-relaxed text-slate-muted">

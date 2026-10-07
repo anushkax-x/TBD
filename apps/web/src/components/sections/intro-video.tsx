@@ -37,8 +37,8 @@ export function IntroVideoSection() {
             See how FlowMint turns disconnected work into a system.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Thirty seconds on how FlowMint approaches store operations—so you
-            can see the tone before you book a call.
+            Thirty seconds on how FlowMint approaches systems and product
+            experience—so you can see the tone before you book a call.
           </p>
         </Reveal>
 

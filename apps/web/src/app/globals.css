@@ -261,6 +261,263 @@ body {
   animation: mesh-draw 2.8s ease-in-out infinite;
 }
 
+/* Problem card illustrations — animate only on the highlighted card */
+.problem-card .pa-fill,
+.problem-card .pa-bar,
+.problem-card .pa-stamp,
+.problem-card .pa-pulse-soft {
+  transform-box: fill-box;
+}
+
+.problem-card .pa-fill {
+  transform-origin: left center;
+}
+
+.problem-card .pa-bar {
+  transform-origin: center bottom;
+}
+
+.problem-card .pa-stamp {
+  transform-origin: center;
+}
+
+.problem-card .pa-spin {
+  transform-box: view-box;
+}
+
+.problem-card[data-active="true"] .pa-travel {
+  animation: pa-travel 1.6s ease-in-out infinite;
+}
+
+.problem-card[data-active="true"] .pa-fill {
+  animation: pa-fill 1.6s ease-out infinite both;
+}
+
+.problem-card[data-active="true"] .pa-spin {
+  animation: pa-spin 2.4s linear infinite;
+}
+
+.problem-card[data-active="true"] .pa-spin-slow {
+  animation-duration: 4s;
+}
+
+.problem-card[data-active="true"] .pa-missed {
+  animation: pa-missed 2.4s ease-in-out infinite;
+}
+
+.problem-card[data-active="true"] .pa-stamp {
+  animation: pa-stamp 1.4s ease-in-out infinite both;
+}
+
+.problem-card[data-active="true"] .pa-dash {
+  animation: pa-dash 0.9s linear infinite;
+}
+
+.problem-card[data-active="true"] .pa-pulse {
+  animation: pa-pulse 1.1s ease-in-out infinite;
+}
+
+.problem-card[data-active="true"] .pa-pulse-soft {
+  animation: pa-pulse 2.2s ease-in-out infinite;
+}
+
+.problem-card[data-active="true"] .pa-bar {
+  animation: pa-bar 1.8s ease-in-out infinite both;
+}
+
+.problem-card[data-active="true"] .pa-check {
+  animation: pa-check 2.4s ease-out infinite both;
+}
+
+.problem-card[data-active="true"] .pa-ring {
+  animation: pa-ring 2.4s ease-out infinite;
+}
+
+.pa-progress {
+  transform-origin: left center;
+  animation: pa-progress linear both;
+}
+
+@keyframes pa-travel {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes pa-fill {
+  0%,
+  35% {
+    transform: scaleX(0);
+  }
+  70%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pa-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pa-missed {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  55% {
+    opacity: 0.12;
+    transform: translateX(6px);
+  }
+}
+
+@keyframes pa-stamp {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pa-dash {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+@keyframes pa-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes pa-bar {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.45);
+  }
+}
+
+@keyframes pa-check {
+  0% {
+    stroke-dashoffset: 10;
+  }
+  25%,
+  85% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 10;
+  }
+}
+
+@keyframes pa-ring {
+  0% {
+    stroke-dashoffset: 75.4;
+  }
+  85%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pa-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .problem-card [class*="pa-"],
+  .pa-progress {
+    animation: none !important;
+  }
+}
+
+/* About section — handoff vs direct path */
+.about-visual .about-dash {
+  animation: pa-dash 1.2s linear infinite;
+}
+
+.about-visual .about-strike {
+  stroke-dasharray: 240;
+  animation: about-strike 2.8s ease-in-out infinite;
+}
+
+.about-visual .about-link {
+  animation: pa-dash 1.4s linear infinite;
+}
+
+.about-visual .about-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mesh-pulse 2s ease-in-out infinite;
+}
+
+.about-visual .about-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: about-node 2.6s ease-in-out infinite;
+}
+
+@keyframes about-strike {
+  0%,
+  100% {
+    stroke-dashoffset: 240;
+    opacity: 0.2;
+  }
+  40%,
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 0.7;
+  }
+}
+
+@keyframes about-node {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-visual .about-dash,
+  .about-visual .about-strike,
+  .about-visual .about-link,
+  .about-visual .about-pulse,
+  .about-visual .about-node {
+    animation: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chat-panel,
   .chat-backdrop,

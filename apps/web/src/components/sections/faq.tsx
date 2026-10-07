@@ -7,11 +7,15 @@ import { Reveal } from "@/components/ui/reveal";
 const faqs = [
   {
     q: "What kinds of problems are a good fit?",
-    a: "Processes that are repetitive, rule-based or spread across Shopify and other tools. Common fits: abandoned carts, fulfilment updates, inventory alerts, support replies and anything your team still copy-pastes between apps.",
+    a: "Repetitive or disconnected processes across Shopify and other tools, and product surfaces that feel dated or hard to use. Common fits: abandoned carts, fulfilment updates, inventory alerts, support replies, and storefront or admin UI that needs a clearer experience.",
   },
   {
     q: "Do I need to replace the software we already use?",
     a: "Usually not. We first look for a reliable way to connect and improve the tools you already pay for. We only recommend replacing software when it is the real constraint.",
+  },
+  {
+    q: "Do you redesign existing websites and product interfaces?",
+    a: "Yes. We modernise storefronts, checkout flows, dashboards and internal tools so they are clearer, more trustworthy and easier to use—without a full rebuild unless the underlying system truly needs it.",
   },
   {
     q: "When do you recommend custom software?",

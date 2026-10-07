@@ -6,11 +6,7 @@ import { IntroVideoSection } from "@/components/sections/intro-video";
 import { ProblemSection } from "@/components/sections/problems";
 import { ServicesSection } from "@/components/sections/services";
 import { WorkflowsSection } from "@/components/sections/workflows";
-import { HowItWorksSection } from "@/components/sections/how-it-works";
-import { ExamplesSection } from "@/components/sections/examples";
-import { IndustriesSection } from "@/components/sections/industries";
 import { AboutSection } from "@/components/sections/about";
-import { TechnologySection } from "@/components/sections/technology";
 import { FaqSection } from "@/components/sections/faq";
 import { FinalCtaSection } from "@/components/sections/final-cta";
 
@@ -24,11 +20,7 @@ export default function HomePage() {
         <ProblemSection />
         <ServicesSection />
         <WorkflowsSection />
-        <HowItWorksSection />
-        <ExamplesSection />
-        <IndustriesSection />
         <AboutSection />
-        <TechnologySection />
         <FaqSection />
         <FinalCtaSection />
       </main>

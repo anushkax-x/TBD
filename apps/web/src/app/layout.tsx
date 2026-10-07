@@ -18,26 +18,26 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: `Workflow Automation, Integrations & Custom Software | ${BUSINESS_NAME}`,
+  title: `Automation, Integrations, UI/UX & Custom Software | ${BUSINESS_NAME}`,
   description:
-    "Practical workflow automation, system integrations, applied AI and custom software for growing businesses with manual or disconnected operations.",
+    "Practical workflow automation, system integrations, applied AI, UI/UX redesign and custom software for growing businesses with manual or disconnected operations.",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     apple: "/favicon.svg",
   },
   openGraph: {
-    title: `Workflow Automation, Integrations & Custom Software | ${BUSINESS_NAME}`,
+    title: `Automation, Integrations, UI/UX & Custom Software | ${BUSINESS_NAME}`,
     description:
-      "Turn repetitive, disconnected business processes into reliable systems with practical automation, integrations, AI and custom software.",
+      "Turn repetitive, disconnected business processes into reliable systems with practical automation, integrations, AI, interface redesign and custom software.",
     type: "website",
     locale: "en_GB",
     siteName: BUSINESS_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: `Workflow Automation, Integrations & Custom Software | ${BUSINESS_NAME}`,
+    title: `Automation, Integrations, UI/UX & Custom Software | ${BUSINESS_NAME}`,
     description:
-      "Practical automation, integrations, AI and custom software for growing businesses.",
+      "Practical automation, integrations, AI, UI/UX redesign and custom software for growing businesses.",
   },
   robots: {
     index: true,
