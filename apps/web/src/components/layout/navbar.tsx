@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { BUSINESS_NAME } from "@consultancy/shared";
 import { Button } from "@/components/ui/button";
 import { useChat } from "@/components/chat/chat-provider";
+import { Logo } from "@/components/layout/logo";
 
 const links = [
   { href: "#services", label: "What We Build" },
@@ -38,11 +38,8 @@ export function Navbar() {
         className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         aria-label="Primary"
       >
-        <a
-          href="#top"
-          className="text-xl font-semibold tracking-tight text-ink sm:text-2xl"
-        >
-          {BUSINESS_NAME}
+        <a href="#top" className="inline-flex items-center" aria-label="FlowMint home">
+          <Logo size={34} priority />
         </a>
 
         <ul className="hidden items-center gap-6 lg:flex">

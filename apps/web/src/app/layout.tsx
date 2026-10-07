@@ -22,7 +22,8 @@ export const metadata: Metadata = {
   description:
     "Practical workflow automation, system integrations, applied AI and custom software for growing businesses with manual or disconnected operations.",
   icons: {
-    icon: "/favicon.svg",
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    apple: "/favicon.svg",
   },
   openGraph: {
     title: `Workflow Automation, Integrations & Custom Software | ${BUSINESS_NAME}`,

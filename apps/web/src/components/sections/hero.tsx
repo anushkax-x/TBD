@@ -1,26 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useContact } from "@/components/contact/contact-provider";
 import { useChat } from "@/components/chat/chat-provider";
-
-const tools = [
-  { name: "OpenAI", file: "openai", label: "ChatGPT" },
-  { name: "Anthropic", file: "anthropic", label: "Claude" },
-  { name: "Google Gemini", file: "googlegemini", label: "Gemini" },
-  { name: "LangChain", file: "langchain", label: "LangGraph" },
-  { name: "ElevenLabs", file: "elevenlabs", label: "ElevenLabs" },
-  { name: "Shopify", file: "shopify", label: "Shopify" },
-  { name: "HubSpot", file: "hubspot", label: "HubSpot" },
-  { name: "Stripe", file: "stripe", label: "Stripe" },
-  { name: "Slack", file: "slack", label: "Slack" },
-  { name: "Notion", file: "notion", label: "Notion" },
-  { name: "Zapier", file: "zapier", label: "Zapier" },
-  { name: "Make", file: "make", label: "Make" },
-  { name: "Airtable", file: "airtable", label: "Airtable" },
-  { name: "Google Sheets", file: "googlesheets", label: "Sheets" },
-] as const;
+import { HeroMeshRotator } from "./hero-mesh-rotator";
 
 export function HeroSection() {
   const { handlePrimaryCta } = useContact();
@@ -71,36 +54,12 @@ export function HeroSection() {
         <div
           className="animate-fade-up"
           style={{ animationDelay: "120ms" }}
-          aria-label="Technologies and business tools we work with"
+          aria-label="Business systems visualization"
         >
-          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.14em] text-slate-muted">
-            AI · CRM · commerce · operations
-          </p>
-          <ul className="grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-x-5 sm:gap-y-7">
-            {tools.map((tool, i) => (
-              <li
-                key={tool.file}
-                className="workflow-node group flex flex-col items-center gap-2.5 text-center"
-                style={{ animationDelay: `${160 + i * 45}ms` }}
-              >
-                <Image
-                  src={`/tech/${tool.file}.svg`}
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 opacity-75 brightness-0 invert transition duration-200 group-hover:opacity-100"
-                  unoptimized
-                />
-                <span className="text-[11px] font-medium leading-tight text-slate">
-                  {tool.label}
-                </span>
-                <span className="sr-only">{tool.name}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-7 max-w-sm text-xs leading-relaxed text-slate-muted">
-            Connected to the AI models and business tools your team already
-            relies on.
+          <HeroMeshRotator />
+          <p className="mt-4 max-w-sm text-xs leading-relaxed text-slate-muted">
+            Systems designed around how your business actually runs — not
+            another tool to manage.
           </p>
         </div>
       </div>

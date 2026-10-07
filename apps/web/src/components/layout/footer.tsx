@@ -1,4 +1,5 @@
 import { BUSINESS_NAME, BUSINESS_TAGLINE } from "@consultancy/shared";
+import { Logo } from "@/components/layout/logo";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -10,7 +11,7 @@ export function Footer() {
     >
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.6fr_1fr_1fr] lg:px-8">
         <div>
-          <p className="text-lg font-semibold">{BUSINESS_NAME}</p>
+          <Logo size={32} />
           <p className="mt-3 text-sm leading-relaxed text-slate">
             {BUSINESS_TAGLINE}
           </p>

@@ -178,12 +178,46 @@ body {
   animation: chat-caret 0.9s steps(1) infinite;
 }
 
+@keyframes mesh-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes mesh-draw {
+  0%,
+  100% {
+    stroke-opacity: 0.25;
+  }
+  50% {
+    stroke-opacity: 0.8;
+  }
+}
+
+.mesh-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mesh-pulse 2.4s ease-in-out infinite;
+}
+
+.mesh-edge {
+  animation: mesh-draw 2.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chat-panel,
   .chat-backdrop,
   .chat-bubble,
   .chat-typing-dot,
-  .chat-caret {
+  .chat-caret,
+  .mesh-node,
+  .mesh-edge {
     animation: none;
   }
 }
