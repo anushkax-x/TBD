@@ -50,6 +50,7 @@ model Lead {
   industry     String?
   improvement  String?
   message      String?
+  preferredAt  DateTime?
   source       LeadSource @default(WEBSITE)
   status       LeadStatus @default(NEW)
   createdAt    DateTime   @default(now())
@@ -60,4 +61,5 @@ model Lead {
   @@index([country])
   @@index([createdAt])
   @@index([email])
+  @@index([preferredAt])
 }

@@ -1,29 +1,27 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
+import { CalendarClock } from "lucide-react";
 import { createLeadSchema } from "@consultancy/shared";
 import { submitLead } from "@/lib/api";
 import { useAnalytics } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 
-const industries = [
-  "Professional services",
-  "Recruitment",
-  "Real estate",
-  "Accounting / bookkeeping",
-  "Marketing agency",
-  "Insurance",
-  "Home services",
-  "Ecommerce",
-  "Consulting",
-  "Other",
-];
-
-const countries = ["United States", "United Kingdom", "Other"];
-
 type Props = {
   onSuccess?: () => void;
 };
+
+function minDateValue() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(0, 0, 0, 0);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function buildPreferredAt(date: string, time: string): string {
+  return new Date(`${date}T${time}:00`).toISOString();
+}
 
 export function ContactForm({ onSuccess }: Props) {
   const { track } = useAnalytics();
@@ -32,6 +30,10 @@ export function ContactForm({ onSuccess }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+
+  const minDate = useMemo(() => minDateValue(), []);
 
   const markStarted = () => {
     if (!started) {
@@ -46,41 +48,47 @@ export function ContactForm({ onSuccess }: Props) {
     setFieldErrors({});
 
     const form = new FormData(e.currentTarget);
+    const nextErrors: Record<string, string> = {};
+    if (!date) nextErrors.preferredAt = "Pick a date";
+    else if (!time) nextErrors.preferredAt = "Pick a time";
+    if (Object.keys(nextErrors).length) {
+      setFieldErrors(nextErrors);
+      return;
+    }
+
     const raw = {
       name: String(form.get("name") ?? ""),
-      businessName: String(form.get("businessName") ?? ""),
       email: String(form.get("email") ?? ""),
-      website: String(form.get("website") ?? ""),
-      country: String(form.get("country") ?? ""),
-      industry: String(form.get("industry") ?? ""),
-      improvement: String(form.get("improvement") ?? ""),
-      message: String(form.get("message") ?? ""),
+      note: String(form.get("note") ?? ""),
+      preferredAt: buildPreferredAt(date, time),
       companyWebsite: String(form.get("companyWebsite") ?? ""),
     };
 
     const parsed = createLeadSchema.safeParse(raw);
     if (!parsed.success) {
-      const next: Record<string, string> = {};
       for (const issue of parsed.error.issues) {
         const key = String(issue.path[0] ?? "form");
-        if (!next[key]) next[key] = issue.message;
+        if (!nextErrors[key]) nextErrors[key] = issue.message;
       }
-      setFieldErrors(next);
+      setFieldErrors(nextErrors);
       return;
     }
 
     setSubmitting(true);
     try {
-      const result = await submitLead(parsed.data);
+      const result = await submitLead({
+        ...parsed.data,
+        improvement: parsed.data.note,
+      });
       if (!result.success) {
         setError(result.error.message);
         return;
       }
       track("contact_form_submitted");
       setSuccess(true);
-      window.setTimeout(() => onSuccess?.(), 1800);
+      window.setTimeout(() => onSuccess?.(), 2000);
     } catch {
-      setError("Unable to submit your enquiry. Please try again.");
+      setError("Unable to book your call. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -89,141 +97,150 @@ export function ContactForm({ onSuccess }: Props) {
   if (success) {
     return (
       <div
-        className="rounded-lg border border-border bg-accent-soft/50 p-6 text-center"
+        className="rounded-xl border border-accent/30 bg-accent-soft/40 px-6 py-8 text-center"
         role="status"
       >
-        <p className="font-medium text-ink">Thank you — we&apos;ve received your enquiry.</p>
+        <p className="font-display text-xl text-ink">You&apos;re on the list.</p>
         <p className="mt-2 text-sm text-slate">
-          We&apos;ll be in touch shortly to schedule a discovery call.
+          We&apos;ll confirm your discovery call shortly.
         </p>
       </div>
     );
   }
 
   const fieldClass =
-    "mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-slate-muted focus:border-accent";
+    "mt-1.5 w-full rounded-lg border border-border bg-surface px-3.5 py-3 text-sm text-ink placeholder:text-slate-muted transition-colors focus:border-accent focus:outline-none";
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-4" onFocus={markStarted}>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="name" className="text-sm font-medium text-ink">
-            Name
-          </label>
-          <input id="name" name="name" required className={fieldClass} autoComplete="name" />
-          {fieldErrors.name && (
-            <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.name}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="businessName" className="text-sm font-medium text-ink">
-            Business name
-          </label>
-          <input
-            id="businessName"
-            name="businessName"
-            required
-            className={fieldClass}
-            autoComplete="organization"
-          />
-          {fieldErrors.businessName && (
-            <p className="mt-1 text-xs text-[var(--danger)]">
-              {fieldErrors.businessName}
-            </p>
-          )}
-        </div>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="email" className="text-sm font-medium text-ink">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className={fieldClass}
-            autoComplete="email"
-          />
-          {fieldErrors.email && (
-            <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.email}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="website" className="text-sm font-medium text-ink">
-            Website
-          </label>
-          <input
-            id="website"
-            name="website"
-            className={fieldClass}
-            placeholder="https://"
-            autoComplete="url"
-          />
-        </div>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="country" className="text-sm font-medium text-ink">
-            Country
-          </label>
-          <select id="country" name="country" required className={fieldClass} defaultValue="">
-            <option value="" disabled>
-              Select country
-            </option>
-            {countries.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-          {fieldErrors.country && (
-            <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.country}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="industry" className="text-sm font-medium text-ink">
-            Industry
-          </label>
-          <select id="industry" name="industry" className={fieldClass} defaultValue="">
-            <option value="">Select industry</option>
-            {industries.map((i) => (
-              <option key={i} value={i}>
-                {i}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className="space-y-5"
+      onFocus={markStarted}
+    >
       <div>
-        <label htmlFor="improvement" className="text-sm font-medium text-ink">
-          What would you like to improve?
+        <label htmlFor="name" className="text-sm font-medium text-ink">
+          Name
         </label>
-        <textarea
-          id="improvement"
-          name="improvement"
+        <input
+          id="name"
+          name="name"
           required
-          rows={3}
           className={fieldClass}
-          placeholder="e.g. Lead follow-ups, onboarding, reporting…"
+          autoComplete="name"
+          placeholder="Alex"
         />
-        {fieldErrors.improvement && (
-          <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.improvement}</p>
+        {fieldErrors.name && (
+          <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.name}</p>
         )}
       </div>
 
       <div>
-        <label htmlFor="message" className="text-sm font-medium text-ink">
-          Optional message
+        <label htmlFor="email" className="text-sm font-medium text-ink">
+          Work email
         </label>
-        <textarea id="message" name="message" rows={2} className={fieldClass} />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          className={fieldClass}
+          autoComplete="email"
+          placeholder="alex@company.com"
+        />
+        {fieldErrors.email && (
+          <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.email}</p>
+        )}
       </div>
 
-      {/* Honeypot */}
+      <div>
+        <div className="mb-1.5 flex items-center justify-between gap-2">
+          <label htmlFor="preferred-date" className="text-sm font-medium text-ink">
+            Date &amp; time
+          </label>
+          <span className="text-xs text-slate-muted">30 min · local time</span>
+        </div>
+
+        <div className="overflow-hidden rounded-xl border border-border bg-surface">
+          <div className="flex items-center gap-3 border-b border-border px-3.5 py-3">
+            <CalendarClock
+              className="h-4 w-4 shrink-0 text-accent"
+              aria-hidden
+            />
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-slate-muted">
+                {date ? "1 · Date selected" : "1 · Choose a date"}
+              </p>
+              <input
+                id="preferred-date"
+                type="date"
+                required
+                min={minDate}
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                  setTime("");
+                }}
+                className="datetime-theme mt-1 w-full border-0 bg-transparent p-0 text-sm text-ink focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div
+            className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+              date ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="flex items-center gap-3 px-3.5 py-3">
+                <span
+                  className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-accent/50 text-[9px] font-bold text-accent"
+                  aria-hidden
+                >
+                  2
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-medium uppercase tracking-wide text-slate-muted">
+                    2 · Choose a time
+                  </p>
+                  <input
+                    id="preferred-time"
+                    type="time"
+                    aria-label="Choose a time"
+                    required={Boolean(date)}
+                    step={900}
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    disabled={!date}
+                    className="datetime-theme mt-1 w-full border-0 bg-transparent p-0 text-sm text-ink focus:outline-none disabled:opacity-40"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {fieldErrors.preferredAt && (
+          <p className="mt-1.5 text-xs text-[var(--danger)]">
+            {fieldErrors.preferredAt}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="note" className="text-sm font-medium text-ink">
+          What should we cover?{" "}
+          <span className="font-normal text-slate-muted">(optional)</span>
+        </label>
+        <input
+          id="note"
+          name="note"
+          className={fieldClass}
+          placeholder="e.g. cart recovery, inventory alerts…"
+          maxLength={500}
+        />
+      </div>
+
       <div className="absolute -left-[9999px] opacity-0" aria-hidden="true">
         <label htmlFor="companyWebsite">Company website</label>
         <input
@@ -240,11 +257,11 @@ export function ContactForm({ onSuccess }: Props) {
         </p>
       )}
 
-      <Button type="submit" disabled={submitting} className="w-full sm:w-auto">
-        {submitting ? "Sending…" : "Book a Discovery Call →"}
+      <Button type="submit" disabled={submitting} className="w-full">
+        {submitting ? "Booking…" : "Reserve my call →"}
       </Button>
-      <p className="text-xs text-slate-muted">
-        30 minutes · No obligation · No technical knowledge required
+      <p className="text-center text-xs text-slate-muted">
+        Free · 30 minutes · No pitch deck required
       </p>
     </form>
   );

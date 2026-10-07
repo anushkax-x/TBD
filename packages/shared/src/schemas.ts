@@ -3,8 +3,25 @@ import { LeadSource, LeadStatus } from "./enums";
 
 export const createLeadSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(120),
-  businessName: z.string().trim().min(1, "Business name is required").max(160),
   email: z.string().trim().email("Valid email is required").max(255),
+  /** Preferred call slot as ISO-8601 datetime */
+  preferredAt: z
+    .string()
+    .datetime({ message: "Pick a date and time for the call" }),
+  note: z
+    .string()
+    .trim()
+    .max(500)
+    .optional()
+    .or(z.literal(""))
+    .transform((v) => (v === "" ? undefined : v)),
+  businessName: z
+    .string()
+    .trim()
+    .max(160)
+    .optional()
+    .or(z.literal(""))
+    .transform((v) => (v === "" || v === undefined ? "Not provided" : v)),
   website: z
     .string()
     .trim()
@@ -12,7 +29,13 @@ export const createLeadSchema = z.object({
     .optional()
     .or(z.literal(""))
     .transform((v) => (v === "" ? undefined : v)),
-  country: z.string().trim().min(1, "Country is required").max(80),
+  country: z
+    .string()
+    .trim()
+    .max(80)
+    .optional()
+    .or(z.literal(""))
+    .transform((v) => (v === "" || v === undefined ? "Other" : v)),
   industry: z
     .string()
     .trim()
@@ -23,8 +46,10 @@ export const createLeadSchema = z.object({
   improvement: z
     .string()
     .trim()
-    .min(1, "Please tell us what you would like to improve")
-    .max(2000),
+    .max(2000)
+    .optional()
+    .or(z.literal(""))
+    .transform((v) => (v === "" ? undefined : v)),
   message: z
     .string()
     .trim()

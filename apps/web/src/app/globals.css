@@ -42,6 +42,57 @@ html {
   color-scheme: dark;
 }
 
+/* Native datetime-local aligned to FlowMint dark theme */
+.datetime-theme {
+  color-scheme: dark;
+  accent-color: var(--accent);
+}
+
+.datetime-theme::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.75;
+  filter: invert(0.85) sepia(0.35) saturate(4) hue-rotate(120deg);
+}
+
+.datetime-theme:hover::-webkit-calendar-picker-indicator {
+  opacity: 1;
+}
+
+.datetime-theme::-webkit-datetime-edit {
+  color: var(--ink);
+}
+
+.datetime-theme::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+.datetime-theme::-webkit-datetime-edit-text {
+  color: var(--slate-muted);
+  padding: 0 0.2rem;
+}
+
+.datetime-theme::-webkit-datetime-edit-month-field,
+.datetime-theme::-webkit-datetime-edit-day-field,
+.datetime-theme::-webkit-datetime-edit-year-field,
+.datetime-theme::-webkit-datetime-edit-hour-field,
+.datetime-theme::-webkit-datetime-edit-minute-field,
+.datetime-theme::-webkit-datetime-edit-ampm-field {
+  color: var(--ink);
+  padding: 0.1rem 0.15rem;
+  border-radius: 0.25rem;
+}
+
+.datetime-theme::-webkit-datetime-edit-month-field:focus,
+.datetime-theme::-webkit-datetime-edit-day-field:focus,
+.datetime-theme::-webkit-datetime-edit-year-field:focus,
+.datetime-theme::-webkit-datetime-edit-hour-field:focus,
+.datetime-theme::-webkit-datetime-edit-minute-field:focus,
+.datetime-theme::-webkit-datetime-edit-ampm-field:focus {
+  background: var(--accent-soft);
+  color: var(--ink);
+  outline: none;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

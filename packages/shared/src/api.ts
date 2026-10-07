@@ -26,6 +26,7 @@ export interface LeadDto {
   industry: string | null;
   improvement: string | null;
   message: string | null;
+  preferredAt: string | null;
   source: string;
   status: string;
   createdAt: string;

@@ -61,7 +61,7 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href="#audit" className="hover:text-ink">
+              <a href="#cta" className="hover:text-ink">
                 Free discovery call
               </a>
             </li>

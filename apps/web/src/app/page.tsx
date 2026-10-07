@@ -6,7 +6,6 @@ import { IntroVideoSection } from "@/components/sections/intro-video";
 import { ProblemSection } from "@/components/sections/problems";
 import { ServicesSection } from "@/components/sections/services";
 import { WorkflowsSection } from "@/components/sections/workflows";
-import { AuditSection } from "@/components/sections/audit";
 import { HowItWorksSection } from "@/components/sections/how-it-works";
 import { ExamplesSection } from "@/components/sections/examples";
 import { IndustriesSection } from "@/components/sections/industries";
@@ -25,11 +24,10 @@ export default function HomePage() {
         <ProblemSection />
         <ServicesSection />
         <WorkflowsSection />
-        <AuditSection />
         <HowItWorksSection />
-        <AboutSection />
         <ExamplesSection />
         <IndustriesSection />
+        <AboutSection />
         <TechnologySection />
         <FaqSection />
         <FinalCtaSection />

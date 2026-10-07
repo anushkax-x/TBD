@@ -36,6 +36,7 @@ export class LeadsService {
       industry: lead.industry,
       improvement: lead.improvement,
       message: lead.message,
+      preferredAt: lead.preferredAt?.toISOString() ?? null,
       source: lead.source,
       status: lead.status,
       createdAt: lead.createdAt.toISOString(),
@@ -51,16 +52,27 @@ export class LeadsService {
       });
     }
 
+    const preferredAt = new Date(input.preferredAt);
+    if (Number.isNaN(preferredAt.getTime()) || preferredAt.getTime() < Date.now()) {
+      throw new BadRequestException({
+        code: "VALIDATION_ERROR",
+        message: "Pick a future date and time for the call",
+      });
+    }
+
+    const note = input.note ?? input.improvement ?? input.message;
+
     const lead = await this.prisma.lead.create({
       data: {
         name: input.name,
-        businessName: input.businessName,
+        businessName: input.businessName ?? "Not provided",
         email: input.email.toLowerCase(),
         website: input.website,
-        country: input.country,
+        country: input.country ?? "Other",
         industry: input.industry,
-        improvement: input.improvement,
+        improvement: note,
         message: input.message,
+        preferredAt,
         source: (input.source as LeadSource) ?? LeadSource.WEBSITE,
         status: LeadStatus.NEW,
       },
@@ -78,6 +90,7 @@ export class LeadsService {
         industry: lead.industry,
         improvement: lead.improvement,
         message: lead.message,
+        preferredAt: lead.preferredAt?.toISOString() ?? null,
       })
       .catch((err: unknown) => {
         this.logger.error(

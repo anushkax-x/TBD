@@ -1,14 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" role="img" aria-label="FlowMint">
-  <rect width="40" height="40" rx="10" fill="#2BB3A3"/>
-  <path
-    d="M11 12.5h12.5c3.2 0 5.5 2.2 5.5 5.2 0 2.8-2 5-4.8 5.2H18.5v4.6H11V12.5Zm7.5 6.8h4.2c1.15 0 1.95-.75 1.95-1.75s-.8-1.75-1.95-1.75H18.5v3.5Z"
-    fill="#0B1118"
-  />
-  <circle cx="29.5" cy="28.5" r="2.2" fill="#0B1118"/>
-  <path
-    d="M22.5 27.2c2.1 0 3.9.55 5.1 1.35"
-    stroke="#0B1118"
-    stroke-width="1.8"
-    stroke-linecap="round"
-  />
+  <rect x="5" y="8" width="20" height="6.5" rx="3.25" fill="#1A6B63"/>
+  <rect x="5" y="16.75" width="24" height="6.5" rx="3.25" fill="#2BB3A3"/>
+  <rect x="5" y="25.5" width="20" height="6.5" rx="3.25" fill="#1A6B63"/>
+  <circle cx="33.5" cy="20" r="3.1" fill="#8BE8DB"/>
 </svg>

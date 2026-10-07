@@ -7,6 +7,7 @@ export interface LeadNotificationPayload {
   industry?: string | null;
   improvement?: string | null;
   message?: string | null;
+  preferredAt?: string | null;
 }
 
 export type Feasibility = "yes" | "partly" | "no" | "unclear";

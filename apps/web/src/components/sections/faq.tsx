@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/reveal";
 const faqs = [
   {
     q: "What kinds of problems are a good fit?",
-    a: "Processes that are repetitive, rule-based or spread across several tools are usually strong candidates. Common examples include lead follow-up, customer onboarding, document handling, reporting and moving data between systems.",
+    a: "Processes that are repetitive, rule-based or spread across Shopify and other tools. Common fits: abandoned carts, fulfilment updates, inventory alerts, support replies and anything your team still copy-pastes between apps.",
   },
   {
     q: "Do I need to replace the software we already use?",

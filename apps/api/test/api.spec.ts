@@ -30,6 +30,7 @@ const mockLead = {
   industry: "Recruitment",
   improvement: "Lead follow-up",
   message: "Need help with CRM",
+  preferredAt: new Date("2026-12-01T10:00:00.000Z"),
   source: LeadSource.WEBSITE,
   status: LeadStatus.NEW,
   createdAt: new Date("2026-01-01T00:00:00.000Z"),
@@ -148,17 +149,14 @@ describe("API", () => {
   });
 
   it("POST /api/leads creates a lead", async () => {
+    const preferredAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
     const res = await request(app.getHttpServer())
       .post("/api/leads")
       .send({
         name: "Jane Doe",
-        businessName: "Acme Ltd",
         email: "jane@acme.com",
-        website: "https://acme.com",
-        country: "United Kingdom",
-        industry: "Recruitment",
-        improvement: "Lead follow-up",
-        message: "Need help with CRM",
+        preferredAt,
+        note: "Lead follow-up",
         companyWebsite: "",
       })
       .expect(201);
@@ -170,14 +168,13 @@ describe("API", () => {
   });
 
   it("POST /api/leads rejects invalid email", async () => {
+    const preferredAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
     const res = await request(app.getHttpServer())
       .post("/api/leads")
       .send({
         name: "Jane",
-        businessName: "Acme",
         email: "not-an-email",
-        country: "US",
-        improvement: "Automation",
+        preferredAt,
         companyWebsite: "",
       })
       .expect(400);

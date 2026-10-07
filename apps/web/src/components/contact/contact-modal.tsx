@@ -36,18 +36,20 @@ export function ContactModal() {
         aria-label="Close dialog"
         onClick={closeContact}
       />
-      <div className="relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-2xl border border-border bg-surface-elevated p-6 shadow-xl sm:max-w-xl sm:rounded-2xl sm:p-8">
-        <div className="mb-6 flex items-start justify-between gap-4">
+      <div className="relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-2xl border border-border bg-surface-elevated p-6 shadow-xl sm:max-w-md sm:rounded-2xl sm:p-7">
+        <div className="mb-5 flex items-start justify-between gap-3">
           <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
+              Discovery call
+            </p>
             <h2
               id="contact-modal-title"
-              className="font-display text-2xl text-ink"
+              className="mt-1 font-display text-2xl text-ink"
             >
-              Book a Discovery Call
+              Pick a time. We&apos;ll do the rest.
             </h2>
             <p className="mt-2 text-sm text-slate">
-              Tell us what you&apos;re currently doing manually. We&apos;ll help
-              you figure out what can be automated.
+              Three fields. Thirty minutes. Clear next steps for your business.
             </p>
           </div>
           <button

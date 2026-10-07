@@ -45,14 +45,14 @@ export class SmtpEmailService implements EmailService {
       `Website: ${payload.website ?? "—"}`,
       `Country: ${payload.country}`,
       `Industry: ${payload.industry ?? "—"}`,
-      `Improvement: ${payload.improvement ?? "—"}`,
-      `Message: ${payload.message ?? "—"}`,
+      `Preferred call: ${payload.preferredAt ?? "—"}`,
+      `Note: ${payload.improvement ?? payload.message ?? "—"}`,
     ].join("\n");
 
     await this.transporter.sendMail({
       from: this.from,
       to: this.to,
-      subject: `New enquiry: ${payload.businessName}`,
+      subject: `Discovery call request: ${payload.name}`,
       text,
     });
 

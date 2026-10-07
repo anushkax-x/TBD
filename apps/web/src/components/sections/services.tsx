@@ -5,55 +5,50 @@ import { Reveal } from "@/components/ui/reveal";
 const services = [
   {
     id: "automate",
-    eyebrow: "01 · AUTOMATE OPERATIONS",
-    title: "Make recurring work happen automatically.",
+    eyebrow: "01 · STORE OPERATIONS",
+    title: "Take repetitive store work off your plate.",
     description:
-      "We map the process, remove unnecessary handoffs and automate the steps that do not need human judgement.",
+      "Cart recovery, fulfilment updates, restock alerts and the admin tasks that eat evenings.",
     examples: [
-      "Lead routing",
-      "CRM updates",
-      "Email sequences",
-      "Customer onboarding",
-      "Document processing",
-      "Notifications",
-      "Reporting",
+      "Abandoned cart sequences",
+      "Order status updates",
+      "Low-stock alerts",
+      "Review requests",
+      "Internal notifications",
     ],
-    cta: "See automation workflows →",
+    cta: "See store workflows →",
     href: "#workflows",
   },
   {
     id: "convert",
-    eyebrow: "02 · IMPROVE SALES",
-    title: "Respond faster and lose fewer opportunities.",
+    eyebrow: "02 · SALES & RETENTION",
+    title: "Turn more browsers into repeat buyers.",
     description:
-      "We build a reliable path from enquiry to follow-up, qualification and booking so every lead has a clear next step.",
+      "Tighten the path from product view to purchase—and keep customers coming back without manual chasing.",
     examples: [
-      "Lead capture",
-      "Lead qualification",
-      "Automated follow-ups",
-      "Appointment booking",
-      "Quote follow-ups",
-      "Lead scoring",
-      "Sales dashboards",
+      "Checkout recovery",
+      "Post-purchase follow-up",
+      "Win-back campaigns",
+      "VIP / repeat-buyer flows",
+      "Sales performance views",
     ],
-    cta: "Explore a business systems audit →",
-    href: "#audit",
+    cta: "Book a discovery call →",
+    href: "#cta",
   },
   {
     id: "connect",
-    eyebrow: "03 · CONNECT & BUILD",
-    title: "Connect what you have—or build what is missing.",
+    eyebrow: "03 · CONNECT YOUR STACK",
+    title: "Make Shopify talk to the rest of your tools.",
     description:
-      "We integrate the software you already use and build focused internal tools when off-the-shelf products cannot fit the workflow.",
+      "Connect the apps you already pay for—or build a small custom piece when nothing fits.",
     examples: [
-      "Website ↔ CRM",
-      "CRM ↔ Email",
-      "Stripe ↔ Accounting",
-      "Forms ↔ Database",
-      "Calendly ↔ CRM",
-      "AI ↔ Internal systems",
+      "Shopify ↔ email / SMS",
+      "Shopify ↔ accounting",
+      "Orders ↔ warehouse",
+      "Support ↔ order data",
+      "Sheets ↔ live inventory",
     ],
-    cta: "See our technology approach →",
+    cta: "See tools we work with →",
     href: "#technology",
   },
 ];
@@ -67,11 +62,11 @@ export function ServicesSection() {
             What we build
           </p>
           <h2 className="font-display text-3xl text-ink sm:text-4xl">
-            Better operations, from first enquiry to everyday delivery.
+            Three ways we help businesses run smoother.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            We start with the business problem, then choose the smallest
-            automation, integration or custom build that can solve it properly.
+            Start with the bottleneck in your store—then automate, connect or
+            build only what you need.
           </p>
         </Reveal>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
