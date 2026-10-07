@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MobileStickyCta } from "@/components/layout/mobile-sticky-cta";
 import { HeroSection } from "@/components/sections/hero";
+import { IntroVideoSection } from "@/components/sections/intro-video";
 import { ProblemSection } from "@/components/sections/problems";
 import { ServicesSection } from "@/components/sections/services";
 import { WorkflowsSection } from "@/components/sections/workflows";
@@ -21,6 +22,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
+        <IntroVideoSection />
         <ProblemSection />
         <ServicesSection />
         <WorkflowsSection />
