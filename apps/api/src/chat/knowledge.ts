@@ -7,7 +7,7 @@ export const CHAT_META_MARKER = "<<META>>";
 
 const KNOWLEDGE = `
 ## Who we are
-- A small technology consultancy led by Anushka, a full-stack software engineer with 4+ years of experience building production applications and business systems.
+- FlowMint — a small technology consultancy led by Anushka, a full-stack software engineer with 4+ years of experience building production applications and business systems.
 - Experience across frontend, backend, APIs, databases, cloud infrastructure and integrations.
 - We help growing businesses build better internal systems without the cost of maintaining a full engineering team.
 - We work with businesses in the US, UK and internationally, remotely.
