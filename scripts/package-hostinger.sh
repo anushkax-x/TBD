@@ -15,6 +15,7 @@ zip -r "$out" . \
   -x "*.env.*.local" \
   -x "*apps/web/.next/*" \
   -x "*apps/web/.swc/*" \
+  -x "dist/*" \
   -x "*apps/api/dist/*" \
   -x "*packages/shared/dist/*" \
   -x "*coverage/*" \
