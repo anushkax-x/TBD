@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { ExternalLink, Instagram, Linkedin, Play, Quote } from "lucide-react";
+import { ExternalLink, Instagram, Linkedin, Quote } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 
 type Story = {
   id: string;
-  type: "Build" | "Customer" | "Review";
+  type: "Project" | "Customer" | "Review";
   client: string;
   title: string;
   result: string;
@@ -30,7 +30,7 @@ function LinkIcon({ href }: { href: string }) {
   return <ExternalLink className="h-3.5 w-3.5" aria-hidden />;
 }
 
-const stories: Story[] = [
+const customers: Story[] = [
   {
     id: "anika",
     type: "Customer",
@@ -42,17 +42,6 @@ const stories: Story[] = [
     image: "/customers/itsaniiikaa/profile.jpg",
     href: "https://www.instagram.com/itsaniiikaa/",
     handle: "@itsaniiikaa",
-  },
-  {
-    id: "review-meera",
-    type: "Review",
-    client: "Meera Kapoor",
-    title:
-      "ok honestly I was drowning in WhatsApp orders. they sorted it. not magic, just finally works and I’m not answering msgs at 11pm anymore",
-    result: "skincare brand, Mumbai",
-    role: "founder",
-    tone: "from-[#1f2e2a] to-[#0e1614]",
-    handle: "Meera",
   },
   {
     id: "copperheads",
@@ -78,6 +67,20 @@ const stories: Story[] = [
     href: "https://anoree.in/",
     handle: "Anoree",
   },
+];
+
+const reviews: Story[] = [
+  {
+    id: "review-meera",
+    type: "Review",
+    client: "Meera Kapoor",
+    title:
+      "ok honestly I was drowning in WhatsApp orders. they sorted it. not magic, just finally works and I’m not answering msgs at 11pm anymore",
+    result: "skincare brand, Mumbai",
+    role: "founder",
+    tone: "from-[#1f2e2a] to-[#0e1614]",
+    handle: "Meera",
+  },
   {
     id: "review-arjun",
     type: "Review",
@@ -90,22 +93,6 @@ const stories: Story[] = [
     handle: "Arjun",
   },
   {
-    id: "cart",
-    type: "Build",
-    client: "DTC skincare",
-    title: "Cart recovery sequence",
-    result: "Recovered checkouts without manual follow-up.",
-    tone: "from-[#1a3330] to-[#0d1c1a]",
-  },
-  {
-    id: "wh",
-    type: "Customer",
-    client: "Home goods brand",
-    title: "Warehouse sync",
-    result: "Stock and storefront finally stayed in lockstep.",
-    tone: "from-[#1e2a3a] to-[#0f1520]",
-  },
-  {
     id: "review-sana",
     type: "Review",
     client: "Sana Rahman",
@@ -116,63 +103,91 @@ const stories: Story[] = [
     tone: "from-[#2a2430] to-[#141018]",
     handle: "Sana",
   },
+];
+
+const projects: Story[] = [
+  {
+    id: "cart",
+    type: "Project",
+    client: "DTC skincare",
+    title: "Cart recovery sequence",
+    result: "Recovered checkouts without manual follow-up.",
+    tone: "from-[#1a3330] to-[#0d1c1a]",
+    image: "/work/checkout.jpg",
+  },
   {
     id: "dash",
-    type: "Build",
+    type: "Project",
     client: "Founder-led SaaS",
     title: "Ops dashboard",
     result: "One view for leads, revenue and pipeline.",
     tone: "from-[#2a2438] to-[#14101c]",
+    image: "/work/dashboard.jpg",
+  },
+  {
+    id: "wh",
+    type: "Project",
+    client: "Home goods brand",
+    title: "Warehouse sync",
+    result: "Stock and storefront finally stayed in lockstep.",
+    tone: "from-[#1e2a3a] to-[#0f1520]",
+    image: "/work/automation.jpg",
   },
   {
     id: "ui",
-    type: "Customer",
+    type: "Project",
     client: "B2B marketplace",
     title: "Checkout UI redesign",
     result: "Fewer drop-offs at the payment step.",
     tone: "from-[#1a2e2c] to-[#0c1816]",
+    image: "/work/design.jpg",
   },
   {
     id: "onboard",
-    type: "Build",
+    type: "Project",
     client: "Agency studio",
     title: "Client onboarding",
     result: "Payment to kickoff without chasing docs.",
     tone: "from-[#243040] to-[#101820]",
-  },
-  {
-    id: "support",
-    type: "Customer",
-    client: "Specialty retail",
-    title: "Support triage",
-    result: "“Where’s my order?” answered in seconds.",
-    tone: "from-[#302820] to-[#181410]",
+    image: "/work/laptop.jpg",
   },
   {
     id: "portal",
-    type: "Build",
+    type: "Project",
     client: "Field services",
     title: "Technician portal",
     result: "Jobs, notes and photos in one custom tool.",
     tone: "from-[#1c2834] to-[#0e141c]",
-  },
-  {
-    id: "site",
-    type: "Customer",
-    client: "Wellness brand",
-    title: "Marketing site rebuild",
-    result: "Clearer offer. More qualified enquiries.",
-    tone: "from-[#203028] to-[#101810]",
-  },
-  {
-    id: "invoice",
-    type: "Build",
-    client: "Wholesale distributor",
-    title: "Invoice automation",
-    result: "Orders to accounting without copy-paste.",
-    tone: "from-[#282430] to-[#141018]",
+    image: "/work/mobile.jpg",
   },
 ];
+
+/** Build two marquee rows with a Customer / Project / Review rhythm. */
+function buildRows(
+  customerList: Story[],
+  projectList: Story[],
+  reviewList: Story[],
+): [Story[], Story[]] {
+  const p = projectList;
+  // Both rows: C → P → R → P → C/P → R/P so types stay mixed while scrolling
+  const rowA: Story[] = [
+    customerList[0],
+    p[0],
+    reviewList[0],
+    p[1],
+    customerList[1],
+    reviewList[1],
+  ];
+  const rowB: Story[] = [
+    customerList[2],
+    p[2],
+    reviewList[2],
+    p[3],
+    p[4],
+    p[5],
+  ];
+  return [rowA.filter(Boolean), rowB.filter(Boolean)];
+}
 
 function ReviewCard({ story }: { story: Story }) {
   return (
@@ -222,17 +237,7 @@ function StoryCard({ story }: { story: Story }) {
           sizes="300px"
           unoptimized
         />
-      ) : (
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, transparent 0%, rgba(43,179,163,0.5) 50%, transparent 100%)",
-            backgroundSize: "200% 100%",
-          }}
-          aria-hidden
-        />
-      )}
+      ) : null}
 
       <div className="absolute left-3 top-3 z-10 flex items-center gap-2">
         <span className="rounded border border-white/10 bg-black/40 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-accent backdrop-blur-sm">
@@ -242,14 +247,6 @@ function StoryCard({ story }: { story: Story }) {
           {story.handle ?? story.client}
         </span>
       </div>
-
-      {!story.image && (
-        <div className="absolute inset-0 z-[1] flex items-center justify-center opacity-40 transition group-hover:opacity-70">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-accent/40 bg-accent/20 text-accent backdrop-blur-sm">
-            <Play className="ml-0.5 h-3.5 w-3.5 fill-current" />
-          </span>
-        </div>
-      )}
 
       {story.href && (
         <div className="absolute right-3 top-3 z-10 rounded-full border border-white/10 bg-black/40 p-1.5 text-ink backdrop-blur-sm">
@@ -311,8 +308,7 @@ function MarqueeRow({
 }
 
 export function WorkVideosSection() {
-  const rowA = stories.filter((_, i) => i % 2 === 0);
-  const rowB = stories.filter((_, i) => i % 2 === 1);
+  const [rowA, rowB] = buildRows(customers, projects, reviews);
 
   return (
     <section
