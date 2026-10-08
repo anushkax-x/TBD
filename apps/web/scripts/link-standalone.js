@@ -14,4 +14,14 @@ if (!fs.existsSync(entry)) {
   fs.writeFileSync(entry, "require('./apps/web/server.js');\n");
 }
 
+const appDir = path.join(standaloneDir, "apps/web");
+copyInto(path.join(__dirname, "../public"), path.join(appDir, "public"));
+copyInto(path.join(__dirname, "../.next/static"), path.join(appDir, ".next/static"));
+
 console.log("Standalone entry ready:", entry);
+
+function copyInto(from, to) {
+  if (!fs.existsSync(from)) return;
+  fs.mkdirSync(path.dirname(to), { recursive: true });
+  fs.cpSync(from, to, { recursive: true });
+}

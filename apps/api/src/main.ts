@@ -11,16 +11,25 @@ async function bootstrap() {
   const config = app.get(ConfigService);
   const corsOrigin = config.get<string>("CORS_ORIGIN", "http://localhost:3000");
   const port = config.get<number>("PORT", 3001);
+  const allowedOrigins = [
+    ...new Set(
+      [
+        ...corsOrigin.split(",").map((origin) => origin.trim()),
+        "https://flowmint.works",
+        "https://www.flowmint.works",
+      ].filter(Boolean),
+    ),
+  ];
 
   app.setGlobalPrefix("api");
   app.use(helmet());
   app.use(cookieParser());
   app.enableCors({
-    origin: corsOrigin.split(",").map((o) => o.trim()),
+    origin: allowedOrigins,
     credentials: true,
   });
 
-  await app.listen(port);
+  await app.listen(port, "0.0.0.0");
   logger.log(`API listening on http://localhost:${port}/api`);
 }
 
