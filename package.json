@@ -15,7 +15,8 @@
     "db:down": "docker compose down",
     "db:migrate": "npm run prisma:migrate -w @consultancy/api",
     "db:seed": "npm run prisma:seed -w @consultancy/api",
-    "db:generate": "npm run prisma:generate -w @consultancy/api"
+    "db:generate": "npm run prisma:generate -w @consultancy/api",
+    "zip": "sh scripts/package-hostinger.sh"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",

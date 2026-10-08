@@ -9,6 +9,7 @@ coverage
 .env.*.local
 *.tsbuildinfo
 .DS_Store
+flowmint-hostinger.zip
 apps/api/prisma/*.db
 apps/api/prisma/*.db-journal
 apps/web/test-results
