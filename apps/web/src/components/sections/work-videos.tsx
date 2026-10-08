@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { ExternalLink, Instagram, Linkedin, Play } from "lucide-react";
+import { ExternalLink, Instagram, Linkedin, Play, Quote } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 
 type Story = {
   id: string;
-  type: "Build" | "Customer";
+  type: "Build" | "Customer" | "Review";
   client: string;
   title: string;
   result: string;
@@ -16,6 +16,8 @@ type Story = {
   /** Optional external profile (e.g. Instagram) */
   href?: string;
   handle?: string;
+  /** Review author role / company line */
+  role?: string;
 };
 
 function LinkIcon({ href }: { href: string }) {
@@ -42,6 +44,17 @@ const stories: Story[] = [
     handle: "@itsaniiikaa",
   },
   {
+    id: "review-meera",
+    type: "Review",
+    client: "Meera Kapoor",
+    title:
+      "ok honestly I was drowning in WhatsApp orders. they sorted it. not magic, just finally works and I’m not answering msgs at 11pm anymore",
+    result: "skincare brand, Mumbai",
+    role: "founder",
+    tone: "from-[#1f2e2a] to-[#0e1614]",
+    handle: "Meera",
+  },
+  {
     id: "copperheads",
     type: "Customer",
     client: "Copperheads",
@@ -66,6 +79,17 @@ const stories: Story[] = [
     handle: "Anoree",
   },
   {
+    id: "review-arjun",
+    type: "Review",
+    client: "Arjun Desai",
+    title:
+      "we had sheets everywhere. the dashboard isn’t fancy but I can actually see what’s going on now which is all I wanted lol",
+    result: "apparel, Bangalore",
+    role: "ops",
+    tone: "from-[#1a2834] to-[#0c141c]",
+    handle: "Arjun",
+  },
+  {
     id: "cart",
     type: "Build",
     client: "DTC skincare",
@@ -80,6 +104,17 @@ const stories: Story[] = [
     title: "Warehouse sync",
     result: "Stock and storefront finally stayed in lockstep.",
     tone: "from-[#1e2a3a] to-[#0f1520]",
+  },
+  {
+    id: "review-sana",
+    type: "Review",
+    client: "Sana Rahman",
+    title:
+      "site looked like every other clinic before. now people actually book instead of dm-ing me ‘are you free saturday?’ so yeah, happy",
+    result: "wellness studio, Gurgaon",
+    role: "owner",
+    tone: "from-[#2a2430] to-[#141018]",
+    handle: "Sana",
   },
   {
     id: "dash",
@@ -139,7 +174,43 @@ const stories: Story[] = [
   },
 ];
 
+function ReviewCard({ story }: { story: Story }) {
+  return (
+    <article
+      className={`group relative flex h-[132px] w-[280px] shrink-0 flex-col justify-between overflow-hidden rounded-lg border border-accent/25 bg-gradient-to-br ${story.tone} px-3 py-3 sm:h-[140px] sm:w-[300px]`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-accent">
+          Review
+        </span>
+        <Quote
+          className="h-4 w-4 shrink-0 text-accent/40 transition group-hover:text-accent/70"
+          aria-hidden
+        />
+      </div>
+      <p className="line-clamp-3 text-[12px] font-medium leading-snug text-ink">
+        “{story.title}”
+      </p>
+      <div className="flex items-baseline justify-between gap-2 border-t border-white/10 pt-2">
+        <div>
+          <p className="text-[11px] font-semibold text-ink">
+            {story.handle ?? story.client}
+          </p>
+          <p className="text-[10px] text-slate-muted">
+            {story.role ? `${story.role} · ` : ""}
+            {story.result}
+          </p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function StoryCard({ story }: { story: Story }) {
+  if (story.type === "Review") {
+    return <ReviewCard story={story} />;
+  }
+
   const inner = (
     <>
       {story.image ? (
