@@ -100,6 +100,38 @@ const workflows = [
       "Ship & iterate",
     ],
   },
+  {
+    id: "custom",
+    label: "ops team",
+    title: "Custom internal tool",
+    summary:
+      "Replace spreadsheet workarounds with a focused app built around your process.",
+    steps: [
+      "Map the process",
+      "Define the core job",
+      "Design the workflow",
+      "Build the first version",
+      "Connect existing tools",
+      "Train the team",
+      "Iterate from feedback",
+    ],
+  },
+  {
+    id: "presence",
+    label: "growing brand",
+    title: "Online presence",
+    summary:
+      "A clearer site and funnel so the right visitors find you and take the next step.",
+    steps: [
+      "Clarify the offer",
+      "Structure the site",
+      "Design key pages",
+      "Improve conversion paths",
+      "Make it search-ready",
+      "Launch",
+      "Measure & refine",
+    ],
+  },
 ];
 
 const ROTATE_MS = 5000;
@@ -146,11 +178,11 @@ export function WorkflowsSection() {
                 {current.label}
               </span>
             </span>{" "}
-            can automate
+            can improve
           </h2>
           <p className="mt-4 max-w-2xl text-base text-slate">
-            Most busywork sits between the tools you already use. These are the
-            workflows owners ask us to fix first — pick one or watch them rotate.
+            From operations and UI to custom tools and online presence—these are
+            the paths owners ask us to fix first. Pick one or watch them rotate.
           </p>
         </Reveal>
 

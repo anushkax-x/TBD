@@ -2,13 +2,13 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MobileStickyCta } from "@/components/layout/mobile-sticky-cta";
 import { HeroSection } from "@/components/sections/hero";
-import { IntroVideoSection } from "@/components/sections/intro-video";
+import { WorkVideosSection } from "@/components/sections/work-videos";
 import { ProblemSection } from "@/components/sections/problems";
 import { ServicesSection } from "@/components/sections/services";
 import { WorkflowsSection } from "@/components/sections/workflows";
 import { AboutSection } from "@/components/sections/about";
+import { TechnologySection } from "@/components/sections/technology";
 import { FaqSection } from "@/components/sections/faq";
-import { FinalCtaSection } from "@/components/sections/final-cta";
 
 export default function HomePage() {
   return (
@@ -16,13 +16,13 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-        <IntroVideoSection />
-        <ProblemSection />
         <ServicesSection />
+        <ProblemSection />
         <WorkflowsSection />
+        <WorkVideosSection />
         <AboutSection />
+        <TechnologySection />
         <FaqSection />
-        <FinalCtaSection />
       </main>
       <Footer />
       <MobileStickyCta />

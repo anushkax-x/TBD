@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/reveal";
 const faqs = [
   {
     q: "What kinds of problems are a good fit?",
-    a: "Repetitive or disconnected processes across Shopify and other tools, and product surfaces that feel dated or hard to use. Common fits: abandoned carts, fulfilment updates, inventory alerts, support replies, and storefront or admin UI that needs a clearer experience.",
+    a: "Repetitive or disconnected processes, dated or confusing product UI, gaps that need a custom build, and a weak or outdated online presence. Common fits: abandoned carts, fulfilment updates, support replies, storefront or admin redesigns, internal tools, and marketing sites that need to convert better.",
   },
   {
     q: "Do I need to replace the software we already use?",
@@ -18,8 +18,12 @@ const faqs = [
     a: "Yes. We modernise storefronts, checkout flows, dashboards and internal tools so they are clearer, more trustworthy and easier to use—without a full rebuild unless the underlying system truly needs it.",
   },
   {
-    q: "When do you recommend custom software?",
+    q: "When do you recommend a custom solution?",
     a: "When the workflow is important to your business and existing products create too many workarounds. Even then, we focus the first version on the smallest useful scope.",
+  },
+  {
+    q: "Can you help grow our online presence?",
+    a: "Yes. That can include marketing sites, landing pages and a clearer content structure so visitors understand what you offer and are more likely to enquire or buy.",
   },
   {
     q: "What happens on the first call?",
@@ -43,7 +47,7 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="border-y border-border bg-surface-elevated">
+    <section id="faq" className="scroll-mt-24 border-y border-border bg-surface-elevated">
       <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal>
           <h2 className="font-display text-3xl text-ink sm:text-4xl">

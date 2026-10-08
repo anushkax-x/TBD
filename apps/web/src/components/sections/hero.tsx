@@ -22,15 +22,14 @@ export function HeroSection() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-14 lg:px-8 lg:py-24">
         <div className="animate-fade-up">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-            AI · Automation · Integrations · UI &amp; UX
+            Automation · UI/UX · Custom solutions · Online presence
           </p>
           <h1 className="mt-4 font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
-            Turn the manual work slowing your store down into a system that runs
-            reliably.
+            Manual work is costing you. Automate what shouldn&apos;t need a
+            person.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-slate sm:text-lg">
-            We automate busywork, connect the tools you already use, and
-            modernise the interfaces your team and customers rely on.
+            Less admin. More customers. Systems that keep up.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button onClick={() => openChat("hero_primary")}>

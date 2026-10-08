@@ -1,6 +1,10 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState, type ReactNode } from "react";
 import { Reveal } from "@/components/ui/reveal";
-import type { ReactNode } from "react";
+
+const ROTATE_MS = 5000;
+const VISIBLE = 3;
 
 const svgProps = {
   viewBox: "0 0 120 56",
@@ -9,7 +13,7 @@ const svgProps = {
   strokeWidth: 1.5,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
-  className: "h-12 w-full max-w-[140px]",
+  className: "h-11 w-full max-w-[120px]",
   "aria-hidden": true,
 };
 
@@ -65,6 +69,29 @@ function ExperienceArt() {
   );
 }
 
+function CustomArt() {
+  return (
+    <svg {...svgProps}>
+      <rect x="18" y="10" width="84" height="36" rx="4" />
+      <path d="M34 28 H54 M66 22 V34 M78 28 H98" />
+      <circle cx="60" cy="28" r="5" />
+    </svg>
+  );
+}
+
+function PresenceArt() {
+  return (
+    <svg {...svgProps}>
+      <circle cx="60" cy="28" r="18" opacity="0.35" />
+      <circle cx="60" cy="28" r="10" />
+      <path d="M60 10 V18 M60 38 V46 M42 28 H50 M70 28 H78" />
+      <circle cx="88" cy="14" r="3" fill="currentColor" stroke="none" />
+      <circle cx="96" cy="36" r="2.5" fill="currentColor" stroke="none" />
+      <circle cx="28" cy="40" r="2.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 const services: {
   id: string;
   eyebrow: string;
@@ -77,10 +104,9 @@ const services: {
 }[] = [
   {
     id: "automate",
-    eyebrow: "01 · Operations",
-    title: "Take repetitive work off your plate.",
-    description:
-      "Cart recovery, fulfilment updates, restock alerts and the admin that eats evenings.",
+    eyebrow: "01",
+    title: "Workflow automation",
+    description: "Cart recovery, fulfilment updates, restock alerts and admin.",
     items: [
       "Abandoned cart sequences",
       "Order & stock alerts",
@@ -91,70 +117,103 @@ const services: {
     art: <AutomateArt />,
   },
   {
-    id: "convert",
-    eyebrow: "02 · Sales",
-    title: "Turn more browsers into buyers.",
-    description:
-      "Tighten the path from browse to purchase—and keep customers coming back.",
+    id: "experience",
+    eyebrow: "02",
+    title: "UI / UX",
+    description: "Clearer screens that build trust and reduce drop-off.",
     items: [
-      "Checkout recovery",
-      "Post-purchase follow-up",
-      "Win-back campaigns",
+      "UI audits & redesigns",
+      "Checkout & funnel clarity",
+      "On-brand dashboards",
     ],
-    cta: "Book a discovery call →",
-    href: "#cta",
-    art: <ConvertArt />,
+    cta: "Discuss UI →",
+    href: "#faq",
+    art: <ExperienceArt />,
   },
   {
     id: "connect",
-    eyebrow: "03 · Integrations",
-    title: "Make your tools talk to each other.",
-    description:
-      "Connect the apps you already pay for—or build a small piece when nothing fits.",
+    eyebrow: "03",
+    title: "Manage your tech",
+    description: "Link apps you pay for—or build a small piece when nothing fits.",
     items: [
       "Store ↔ email / SMS",
       "Orders ↔ warehouse",
       "Support ↔ order data",
     ],
-    cta: "See tools below →",
+    cta: "See tools →",
     href: "#technology",
     art: <ConnectArt />,
   },
   {
-    id: "experience",
-    eyebrow: "04 · Experience",
-    title: "Modernise the product people use.",
-    description:
-      "Clear, polished interfaces that build trust and reduce drop-off.",
+    id: "presence",
+    eyebrow: "04",
+    title: "Grow online presence",
+    description: "A stronger digital presence that brings customers in.",
     items: [
-      "UI audits & redesigns",
-      "Checkout & funnel clarity",
-      "Dashboards that feel on-brand",
+      "Marketing sites & landings",
+      "Conversion-focused structure",
+      "Search-ready web presence",
     ],
-    cta: "Discuss a UI revamp →",
-    href: "#cta",
-    art: <ExperienceArt />,
+    cta: "Grow online →",
+    href: "#faq",
+    art: <PresenceArt />,
+  },
+  {
+    id: "convert",
+    eyebrow: "05",
+    title: "Improve sales",
+    description: "From browse to purchase—and back again without manual chasing.",
+    items: [
+      "Checkout recovery",
+      "Post-purchase follow-up",
+      "Win-back campaigns",
+    ],
+    cta: "Book a call →",
+    href: "#faq",
+    art: <ConvertArt />,
+  },
+  {
+    id: "custom",
+    eyebrow: "06",
+    title: "Build custom tools",
+    description: "Focused custom tools when off-the-shelf forces workarounds.",
+    items: [
+      "Internal tools & portals",
+      "Workflow-specific apps",
+      "APIs and data layers",
+    ],
+    cta: "Custom build →",
+    href: "#faq",
+    art: <CustomArt />,
   },
 ];
 
-const tools = [
-  { name: "OpenAI", file: "openai", label: "ChatGPT" },
-  { name: "Anthropic", file: "anthropic", label: "Claude" },
-  { name: "Google Gemini", file: "googlegemini", label: "Gemini" },
-  { name: "LangChain", file: "langchain", label: "LangGraph" },
-  { name: "ElevenLabs", file: "elevenlabs", label: "ElevenLabs" },
-  { name: "Shopify", file: "shopify", label: "Shopify" },
-  { name: "HubSpot", file: "hubspot", label: "HubSpot" },
-  { name: "Stripe", file: "stripe", label: "Stripe" },
-  { name: "Slack", file: "slack", label: "Slack" },
-  { name: "Notion", file: "notion", label: "Notion" },
-  { name: "Zapier", file: "zapier", label: "Zapier" },
-  { name: "Make", file: "make", label: "Make" },
-  { name: "Airtable", file: "airtable", label: "Airtable" },
-  { name: "Google Sheets", file: "googlesheets", label: "Sheets" },
-] as const;
+/** Two pages of three: 0 = first trio, 1 = second trio */
+const PAGES = Math.ceil(services.length / VISIBLE);
 
 export function ServicesSection() {
+  const [page, setPage] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduceMotion(mq.matches);
+    const onChange = () => setReduceMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (paused || reduceMotion) return;
+    const id = window.setInterval(() => {
+      setPage((p) => (p + 1) % PAGES);
+    }, ROTATE_MS);
+    return () => window.clearInterval(id);
+  }, [paused, reduceMotion]);
+
+  const visible = services.slice(page * VISIBLE, page * VISIBLE + VISIBLE);
+
   return (
     <section id="services" className="border-y border-border bg-surface-elevated">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
@@ -166,73 +225,74 @@ export function ServicesSection() {
             Built for teams that have outgrown spreadsheets and inbox chasing.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Four ways in: automate busywork, tighten sales, connect your stack,
-            or refresh the interface people use every day.
+            Automate busywork, connect your stack, refresh the interface, ship
+            custom solutions, and grow a stronger online presence.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {services.map((s, i) => (
-            <Reveal key={s.id} delayMs={i * 60}>
-              <article className="flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-colors hover:border-border-strong">
-                <div className="mb-4 text-accent">{s.art}</div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+        <div
+          className="mt-10"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <div
+            key={page}
+            className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${
+              reduceMotion ? "" : "animate-fade-up"
+            }`}
+          >
+            {visible.map((s) => (
+              <article
+                key={s.id}
+                className="flex h-full flex-col rounded-xl border border-border bg-surface p-5 transition-colors hover:border-border-strong"
+              >
+                <div className="mb-3 text-accent">{s.art}</div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-accent">
                   {s.eyebrow}
                 </p>
-                <h3 className="mt-3 text-xl font-semibold text-ink">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate">
+                <h3 className="mt-2 text-base font-semibold leading-snug text-ink">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate">
                   {s.description}
                 </p>
-                <ul className="mt-5 flex-1 space-y-1.5">
+                <ul className="mt-4 flex-1 space-y-1.5">
                   {s.items.map((item) => (
-                    <li key={item} className="text-sm text-ink-soft">
-                      <span className="mr-2 text-accent">·</span>
+                    <li key={item} className="text-sm leading-snug text-ink-soft">
+                      <span className="mr-1.5 text-accent">·</span>
                       {item}
                     </li>
                   ))}
                 </ul>
                 <a
                   href={s.href}
-                  className="mt-6 inline-flex text-sm font-medium text-accent hover:text-accent-hover"
+                  className="mt-5 inline-flex text-sm font-medium text-accent hover:text-accent-hover"
                 >
                   {s.cta}
                 </a>
               </article>
-            </Reveal>
-          ))}
-        </div>
-
-        <div id="technology" className="mt-16 scroll-mt-24">
-          <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-muted">
-              Tools we connect
-            </p>
-            <p className="mt-2 max-w-lg text-sm text-slate">
-              We work with the AI models and business tools your team already
-              relies on.
-            </p>
-          </Reveal>
-          <ul className="mt-8 grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-x-5 sm:gap-y-7 lg:grid-cols-7">
-            {tools.map((tool) => (
-              <li
-                key={tool.file}
-                className="group flex flex-col items-center gap-2.5 text-center"
-              >
-                <Image
-                  src={`/tech/${tool.file}.svg`}
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 opacity-75 brightness-0 invert transition duration-200 group-hover:opacity-100"
-                  unoptimized
-                />
-                <span className="text-[11px] font-medium leading-tight text-slate">
-                  {tool.label}
-                </span>
-                <span className="sr-only">{tool.name}</span>
-              </li>
             ))}
-          </ul>
+          </div>
+
+          <div className="mt-8 flex items-center justify-center gap-3">
+            {Array.from({ length: PAGES }, (_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Show services ${i * VISIBLE + 1}–${Math.min((i + 1) * VISIBLE, services.length)}`}
+                aria-current={page === i ? "true" : undefined}
+                onClick={() => {
+                  setPage(i);
+                  setPaused(true);
+                }}
+                className={`h-1.5 rounded-full transition-all ${
+                  page === i
+                    ? "w-7 bg-accent"
+                    : "w-1.5 bg-border hover:bg-border-strong"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

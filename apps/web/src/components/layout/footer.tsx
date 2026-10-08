@@ -2,9 +2,9 @@ import { BUSINESS_NAME } from "@consultancy/shared";
 
 const services = [
   { href: "#services", label: "Workflow automation" },
-  { href: "#services", label: "Sales & retention" },
-  { href: "#services", label: "Integrations" },
-  { href: "#services", label: "UI & UX redesign" },
+  { href: "#services", label: "UI / UX" },
+  { href: "#services", label: "Manage your tech" },
+  { href: "#services", label: "Grow online presence" },
 ];
 
 const explore = [
@@ -81,7 +81,7 @@ export function Footer() {
           <p>
             © {year} {BUSINESS_NAME}. All rights reserved.
           </p>
-          <p>Automation · Integrations · UI/UX · Custom software</p>
+          <p>Automation · UI/UX · Custom solutions · Online presence</p>
         </div>
       </div>
     </footer>

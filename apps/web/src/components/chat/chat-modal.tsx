@@ -88,8 +88,8 @@ function IntroView() {
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-slate">
         Describe a slow, repetitive or disconnected business process. Our AI
-        will help you assess whether automation, an integration, applied AI or
-        custom software is a practical fit.
+        will help you assess whether automation, UI/UX work, a custom solution
+        or stronger online presence is a practical fit.
       </p>
       <p className="mt-3 text-sm leading-relaxed text-slate">
         It takes a couple of minutes. If there is a good fit, you can ask for a

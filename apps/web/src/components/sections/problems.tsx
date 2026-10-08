@@ -12,7 +12,7 @@ const svgProps = {
   strokeWidth: 1.5,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
-  className: "h-12 w-full max-w-[150px]",
+  className: "h-9 w-full max-w-[110px]",
   "aria-hidden": true,
 };
 
@@ -257,13 +257,13 @@ export function ProblemSection() {
           costing you.
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-          We look for the repeated tasks, handoffs, disconnected tools and
-          unclear interfaces that create delays, mistakes and missed
+          We look for repeated tasks, unclear interfaces, missing custom tools
+          and a weak online presence that create delays, mistakes and missed
           opportunities.
         </p>
       </Reveal>
       <div
-        className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
         onMouseLeave={() => setPaused(false)}
       >
         {problems.map((p, i) => {
@@ -276,25 +276,29 @@ export function ProblemSection() {
                   setActive(i);
                   setPaused(true);
                 }}
-                className={`problem-card relative h-full overflow-hidden rounded-xl border p-5 transition duration-500 ${
+                className={`problem-card relative h-full overflow-hidden rounded-lg border p-4 transition duration-500 ${
                   isActive
-                    ? "-translate-y-0.5 border-accent/40 bg-accent-soft/20 shadow-[0_12px_40px_-12px_rgba(43,179,163,0.25)]"
+                    ? "-translate-y-0.5 border-[var(--danger)]/45 bg-[var(--danger)]/[0.08] shadow-[0_10px_32px_-12px_rgba(240,112,112,0.35)]"
                     : "border-border bg-surface-elevated"
                 }`}
               >
                 <div
-                  className={`mb-4 transition-colors duration-500 ${
-                    isActive ? "text-accent" : "text-slate-muted/60"
+                  className={`mb-3 transition-colors duration-500 ${
+                    isActive
+                      ? "text-[var(--danger)]"
+                      : "text-slate-muted/55"
                   }`}
                 >
                   {p.art}
                 </div>
-                <h3 className="text-base font-semibold text-ink">{p.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate">{p.body}</p>
+                <h3 className="text-sm font-semibold text-ink">{p.title}</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-slate">
+                  {p.body}
+                </p>
                 {isActive && !paused && !reduceMotion && (
                   <span
                     key={`progress-${active}`}
-                    className="pa-progress absolute bottom-0 left-0 h-px w-full bg-accent"
+                    className="pa-progress absolute bottom-0 left-0 h-px w-full bg-[var(--danger)]"
                     style={{ animationDuration: `${ROTATE_MS}ms` }}
                     aria-hidden
                   />

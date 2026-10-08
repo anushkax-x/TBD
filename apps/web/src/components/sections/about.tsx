@@ -86,12 +86,10 @@ function HandoffVisual() {
             )}
           </g>
         ))}
-        <path
-          d="M28 40 L252 72"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          className="stroke-slate-muted about-strike"
-        />
+        <g className="about-strike" stroke="currentColor" strokeWidth="1.75">
+          <path d="M40 28 L220 84" className="stroke-slate-muted" />
+          <path d="M220 28 L40 84" className="stroke-slate-muted" />
+        </g>
       </g>
 
       {/* Direct path */}
@@ -207,8 +205,9 @@ export function AboutSection() {
               Work directly with the engineers responsible for your solution.
             </h2>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-slate">
-              A small engineering team — not a sales funnel with builders
-              somewhere downstream.
+              A small engineering team for automation, UI/UX, custom solutions
+              and online presence — not a sales funnel with builders somewhere
+              downstream.
             </p>
           </Reveal>
 

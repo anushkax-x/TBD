@@ -3,20 +3,20 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useChat } from "@/components/chat/chat-provider";
+import { useContact } from "@/components/contact/contact-provider";
 import { Logo } from "@/components/layout/logo";
 
 const links = [
   { href: "#services", label: "What We Build" },
   { href: "#workflows", label: "Workflows" },
-  { href: "#about", label: "About" },
+  { href: "#about", label: "Why Us" },
   { href: "#faq", label: "FAQ" },
 ];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { openChat } = useChat();
+  const { handlePrimaryCta } = useContact();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -55,8 +55,8 @@ export function Navbar() {
         </ul>
 
         <div className="hidden lg:block">
-          <Button onClick={() => openChat("navbar")}>
-            Check Your Idea
+          <Button onClick={() => handlePrimaryCta("navbar")}>
+            Book a Discovery Call
           </Button>
         </div>
 
@@ -94,10 +94,10 @@ export function Navbar() {
             className="mt-4 w-full"
             onClick={() => {
               setOpen(false);
-              openChat("navbar_mobile");
+              handlePrimaryCta("navbar_mobile");
             }}
           >
-            Check Your Idea With Our AI
+            Book a Discovery Call
           </Button>
         </div>
       )}
