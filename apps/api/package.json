@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nest start --watch",
-    "build": "prisma generate && nest build && rm -rf ../../dist && cp -R dist ../../dist",
+    "build": "prisma generate && nest build && node scripts/bundle-shared.js && rm -rf ../../dist && cp -R dist ../../dist",
     "start": "node dist/main.js",
     "lint": "eslint \"{src,test}/**/*.ts\" --max-warnings 0",
     "test": "jest --config ./jest.config.js --runInBand",
