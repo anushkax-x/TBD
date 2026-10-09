@@ -1,6 +1,7 @@
 import {
   Injectable,
   Logger,
+  ServiceUnavailableException,
   UnauthorizedException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
@@ -18,6 +19,13 @@ export class AuthService {
   ) {}
 
   async validateUser(input: LoginInput) {
+    if (this.prisma.available === false) {
+      throw new ServiceUnavailableException({
+        code: "DATABASE_UNAVAILABLE",
+        message: "Admin login needs a database, which is not configured.",
+      });
+    }
+
     const user = await this.prisma.user.findUnique({
       where: { email: input.email.toLowerCase() },
     });

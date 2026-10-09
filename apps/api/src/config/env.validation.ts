@@ -5,7 +5,13 @@ const envSchema = z.object({
     .enum(["development", "test", "production"])
     .default("development"),
   PORT: z.coerce.number().int().positive().default(3001),
-  DATABASE_URL: z.string().min(1),
+  DATABASE_URL: z
+    .string()
+    .optional()
+    .transform((value) => {
+      const trimmed = value?.trim();
+      return trimmed ? trimmed : undefined;
+    }),
   JWT_SECRET: z.string().min(16),
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
   ADMIN_EMAIL: z.string().email().optional(),

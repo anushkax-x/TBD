@@ -4,6 +4,7 @@ import {
   Injectable,
   Logger,
   NotFoundException,
+  ServiceUnavailableException,
 } from "@nestjs/common";
 import {
   type CreateLeadInput,
@@ -44,7 +45,17 @@ export class LeadsService {
     };
   }
 
+  private requireDatabase() {
+    if (this.prisma.available === false) {
+      throw new ServiceUnavailableException({
+        code: "DATABASE_UNAVAILABLE",
+        message: "Saving enquiries needs a database, which is not configured.",
+      });
+    }
+  }
+
   async create(input: CreateLeadInput): Promise<LeadDto> {
+    this.requireDatabase();
     if (input.companyWebsite && input.companyWebsite.length > 0) {
       throw new BadRequestException({
         code: "SPAM_DETECTED",
@@ -103,6 +114,7 @@ export class LeadsService {
   }
 
   async findAll(query: LeadQueryInput): Promise<LeadListDto> {
+    this.requireDatabase();
     const where: Prisma.LeadWhereInput = {};
     if (query.status) where.status = query.status as LeadStatus;
     if (query.industry)
@@ -138,6 +150,7 @@ export class LeadsService {
   }
 
   async findOne(id: string): Promise<LeadDto> {
+    this.requireDatabase();
     const lead = await this.prisma.lead.findUnique({ where: { id } });
     if (!lead) {
       throw new NotFoundException({
