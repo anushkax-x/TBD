@@ -22,15 +22,24 @@ async function bootstrap() {
   ];
 
   app.setGlobalPrefix("api");
-  app.use(helmet());
+  app.use(
+    helmet({
+      // Default same-origin policy makes browsers report a CORS failure
+      // when flowmint.works calls api.flowmint.works.
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+    }),
+  );
   app.use(cookieParser());
   app.enableCors({
     origin: allowedOrigins,
     credentials: true,
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Accept", "Authorization"],
   });
 
   await app.listen(port, "0.0.0.0");
   logger.log(`API listening on http://localhost:${port}/api`);
+  logger.log(`CORS origins: ${allowedOrigins.join(", ")}`);
 }
 
 bootstrap();
