@@ -29,6 +29,8 @@ type EndStatus = "idle" | "sending" | "sent" | "error";
 
 type ChatContextValue = {
   isOpen: boolean;
+  /** Small welcome toast next to the launcher, shown once per session */
+  promptVisible: boolean;
   view: ChatView;
   messages: ChatMessage[];
   isSending: boolean;
@@ -39,6 +41,7 @@ type ChatContextValue = {
   endStatus: EndStatus;
   hasUserMessages: boolean;
   openChat: (source?: string) => void;
+  dismissPrompt: () => void;
   closeChat: () => void;
   startChat: () => void;
   sendMessage: (text: string) => Promise<void>;
@@ -58,6 +61,7 @@ function newSessionId(): string {
 export function ChatProvider({ children }: { children: ReactNode }) {
   const { track } = useAnalytics();
   const [isOpen, setIsOpen] = useState(false);
+  const [promptVisible, setPromptVisible] = useState(false);
   const [view, setView] = useState<ChatView>("intro");
   const [messages, setMessages] = useState<ChatMessage[]>([CHAT_GREETING]);
   const [isSending, setIsSending] = useState(false);
@@ -87,10 +91,15 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       return;
     }
     const timer = window.setTimeout(() => {
-      setIsOpen(true);
+      setPromptVisible(true);
       track("chat_prompt_shown");
     }, CHAT_PROMPT_DELAY_MS);
     return () => window.clearTimeout(timer);
+  }, [track]);
+
+  const dismissPrompt = useCallback(() => {
+    setPromptVisible(false);
+    track("chat_prompt_dismissed");
   }, [track]);
 
   const submitEnd = useCallback(async () => {
@@ -122,6 +131,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
   const openChat = useCallback((source = "unknown") => {
     track("CTA_clicked", { source, action: "open_chat" });
+    setPromptVisible(false);
     setIsOpen(true);
   }, [track]);
 
@@ -200,6 +210,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       isOpen,
+      promptVisible,
       view,
       messages,
       isSending,
@@ -209,6 +220,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       endStatus,
       hasUserMessages,
       openChat,
+      dismissPrompt,
       closeChat,
       startChat,
       sendMessage,
@@ -217,6 +229,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     }),
     [
       isOpen,
+      promptVisible,
       view,
       messages,
       isSending,
@@ -226,6 +239,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       endStatus,
       hasUserMessages,
       openChat,
+      dismissPrompt,
       closeChat,
       startChat,
       sendMessage,

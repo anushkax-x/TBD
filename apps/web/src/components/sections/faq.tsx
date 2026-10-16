@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
+import { GlowOrb } from "@/components/motion/glow-orb";
+import { SplitText } from "@/components/motion/split-text";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { EASE_OUT } from "@/components/motion/easing";
 
 const faqs = [
   {
@@ -47,39 +52,74 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="scroll-mt-24 border-y border-border bg-surface-elevated">
-      <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <Reveal>
-          <h2 className="font-display text-3xl text-ink sm:text-4xl">
-            Frequently asked questions
+    <section
+      id="faq"
+      className="relative scroll-mt-24 overflow-hidden border-y border-hairline bg-surface-elevated/40"
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <GlowOrb className="-left-48 bottom-0" size={520} opacity={0.14} />
+      </div>
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-28 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:px-8">
+        <div className="lg:sticky lg:top-32 lg:self-start">
+          <Reveal>
+            <p className="eyebrow">FAQ</p>
+          </Reveal>
+          <h2 className="mt-5 font-display text-4xl leading-[1.08] text-ink sm:text-5xl">
+            <SplitText text="Frequently asked questions" />
           </h2>
-        </Reveal>
-        <div className="mt-10 divide-y divide-border border-y border-border">
+        </div>
+        <Stagger className="space-y-3" stagger={0.06}>
           {faqs.map((item, i) => {
             const isOpen = open === i;
             return (
-              <div key={item.q}>
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left"
-                  aria-expanded={isOpen}
-                  onClick={() => setOpen(isOpen ? null : i)}
+              <StaggerItem key={item.q}>
+                <div
+                  className={`rounded-2xl border transition-colors duration-300 ${
+                    isOpen
+                      ? "border-accent/35 bg-accent-soft/20"
+                      : "border-hairline bg-white/[0.02] hover:border-border-strong"
+                  }`}
                 >
-                  <span className="text-base font-medium text-ink">{item.q}</span>
-                  <ChevronDown
-                    className={`h-4 w-4 shrink-0 text-slate transition-transform ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                    aria-hidden
-                  />
-                </button>
-                {isOpen && (
-                  <p className="pb-5 text-sm leading-relaxed text-slate">{item.a}</p>
-                )}
-              </div>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpen(isOpen ? null : i)}
+                  >
+                    <span className="text-base font-medium text-ink">{item.q}</span>
+                    <motion.span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${
+                        isOpen
+                          ? "border-accent/50 bg-accent text-surface"
+                          : "border-hairline text-slate"
+                      }`}
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                    >
+                      <ChevronDown className="h-4 w-4" aria-hidden />
+                    </motion.span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="answer"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.45, ease: EASE_OUT }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-6 pb-6 text-sm leading-relaxed text-slate">
+                          {item.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </StaggerItem>
             );
           })}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

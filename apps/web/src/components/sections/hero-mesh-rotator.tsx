@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 type MeshScene = {
   id: string;
@@ -119,19 +120,11 @@ const scenes: MeshScene[] = [
   },
 ];
 
-const ROTATE_MS = 3800;
+const ROTATE_MS = 4200;
 
 export function HeroMeshRotator() {
   const [active, setActive] = useState(0);
-  const [reduceMotion, setReduceMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -144,75 +137,87 @@ export function HeroMeshRotator() {
   const scene = scenes[active];
 
   return (
-    <div
-      className="relative mb-2 overflow-hidden"
-      aria-live="polite"
-      aria-label={`Animation: ${scene.label}`}
-    >
-      <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.12em] text-accent">
-        {scene.label}
-      </p>
-
-      <div className="relative mx-auto aspect-[16/10] w-full max-w-[320px]">
-        {scenes.map((s, sceneIndex) => {
-          const isActive = sceneIndex === active;
-          return (
-            <svg
+    <div className="relative" aria-live="polite" aria-label={`Animation: ${scene.label}`}>
+      <div className="flex items-center justify-between">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={scene.id}
+            className="eyebrow"
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+            transition={{ duration: 0.4 }}
+          >
+            {scene.label}
+          </motion.p>
+        </AnimatePresence>
+        <div className="flex gap-1.5" aria-hidden>
+          {scenes.map((s, i) => (
+            <span
               key={s.id}
-              viewBox="0 0 100 100"
-              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${
-                isActive ? "opacity-100" : "pointer-events-none opacity-0"
+              className={`h-1 rounded-full transition-all duration-500 ${
+                i === active ? "w-5 bg-accent" : "w-1.5 bg-border-strong"
               }`}
-              aria-hidden={!isActive}
-            >
-              <defs>
-                <radialGradient id={`glow-${s.id}`} cx="50%" cy="45%" r="55%">
-                  <stop offset="0%" stopColor="rgba(43, 179, 163, 0.22)" />
-                  <stop offset="100%" stopColor="rgba(43, 179, 163, 0)" />
-                </radialGradient>
-              </defs>
-              <rect width="100" height="100" fill={`url(#glow-${s.id})`} />
+            />
+          ))}
+        </div>
+      </div>
 
-              {s.edges.map(([a, b], i) => {
-                const n1 = s.nodes[a];
-                const n2 = s.nodes[b];
-                return (
-                  <line
-                    key={`${s.id}-e-${i}`}
-                    x1={n1.x}
-                    y1={n1.y}
-                    x2={n2.x}
-                    y2={n2.y}
-                    stroke="rgba(43, 179, 163, 0.45)"
-                    strokeWidth="0.6"
-                    className={isActive && !reduceMotion ? "mesh-edge" : undefined}
-                    style={
-                      isActive && !reduceMotion
-                        ? { animationDelay: `${i * 0.12}s` }
-                        : undefined
-                    }
-                  />
-                );
-              })}
+      <div className="relative mx-auto mt-4 aspect-[16/11] w-full">
+        <AnimatePresence>
+          <motion.svg
+            key={scene.id}
+            viewBox="0 0 100 100"
+            className="absolute inset-0 h-full w-full"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.04 }}
+            transition={{ duration: 0.8 }}
+            aria-hidden
+          >
+            <defs>
+              <radialGradient id={`glow-${scene.id}`} cx="50%" cy="50%" r="55%">
+                <stop offset="0%" stopColor="rgba(43, 179, 163, 0.22)" />
+                <stop offset="100%" stopColor="rgba(43, 179, 163, 0)" />
+              </radialGradient>
+            </defs>
+            <rect width="100" height="100" fill={`url(#glow-${scene.id})`} />
 
-              {s.nodes.map((n, i) => (
-                <circle
-                  key={`${s.id}-n-${i}`}
-                  cx={n.x}
-                  cy={n.y}
-                  r={n.r ?? 1.8}
-                  fill="#2bb3a3"
-                  className={isActive && !reduceMotion ? "mesh-node" : undefined}
-                  style={
-                    isActive && !reduceMotion
-                      ? { animationDelay: `${i * 0.15}s` }
-                      : undefined
-                  }
+            {scene.edges.map(([a, b], i) => {
+              const n1 = scene.nodes[a];
+              const n2 = scene.nodes[b];
+              return (
+                <motion.line
+                  key={`${scene.id}-e-${i}`}
+                  x1={n1.x}
+                  y1={n1.y}
+                  x2={n2.x}
+                  y2={n2.y}
+                  stroke="rgba(43, 179, 163, 0.5)"
+                  strokeWidth="0.5"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 0.9, delay: 0.1 + i * 0.06, ease: "easeOut" }}
                 />
-              ))}
-            </svg>
-          );
-        })}
+              );
+            })}
+
+            {scene.nodes.map((n, i) => (
+              <motion.circle
+                key={`${scene.id}-n-${i}`}
+                cx={n.x}
+                cy={n.y}
+                r={n.r ?? 1.7}
+                fill="#2bb3a3"
+                className={reduceMotion ? undefined : "mesh-node"}
+                style={{ animationDelay: `${i * 0.15}s` }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+              />
+            ))}
+          </motion.svg>
+        </AnimatePresence>
       </div>
     </div>
   );

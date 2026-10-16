@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
+import { LightWave } from "@/components/motion/light-wave";
+import { GlowOrb } from "@/components/motion/glow-orb";
+import { EASE_OUT } from "@/components/motion/easing";
 
 const workflows = [
   {
@@ -134,20 +138,32 @@ const workflows = [
   },
 ];
 
-const ROTATE_MS = 5000;
+const ROTATE_MS = 5500;
+
+const stepList: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+};
+
+const stepItem: Variants = {
+  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.6, ease: EASE_OUT },
+  },
+};
+
+const connector: Variants = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.5, ease: EASE_OUT, delay: 0.1 } },
+};
 
 export function WorkflowsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (paused || reduceMotion) return;
@@ -160,157 +176,210 @@ export function WorkflowsSection() {
   const current = workflows[activeIndex];
 
   return (
-    <section id="workflows" className="border-y border-border bg-surface-elevated">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+    <section
+      id="workflows"
+      className="relative overflow-hidden border-y border-hairline bg-surface-elevated/40"
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <GlowOrb className="-right-48 top-10" size={560} opacity={0.16} />
+      </div>
+      <div className="relative mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8">
         <Reveal>
-          <h2 className="font-display text-3xl text-ink sm:text-4xl">
+          <h2 className="font-display text-4xl leading-[1.08] text-ink sm:text-5xl">
             What a{" "}
-            <span
-              className="relative inline-block text-accent"
-              aria-live="polite"
-            >
-              <span
-                key={current.id}
-                className={
-                  reduceMotion ? undefined : "inline-block animate-fade-up"
-                }
-              >
-                {current.label}
-              </span>
+            <span className="relative inline-grid align-bottom text-accent" aria-live="polite">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={current.id}
+                  className="inline-block"
+                  initial={{ opacity: 0, y: "40%", filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: "0%", filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: "-40%", filter: "blur(8px)" }}
+                  transition={{ duration: 0.45, ease: EASE_OUT }}
+                >
+                  {current.label}
+                </motion.span>
+              </AnimatePresence>
             </span>{" "}
             can improve
           </h2>
-          <p className="mt-4 max-w-2xl text-base text-slate">
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate">
             From operations and UI to custom tools and online presence—these are
             the paths owners ask us to fix first. Pick one or watch them rotate.
           </p>
         </Reveal>
 
-        <div
-          className="mt-8 flex flex-wrap gap-2"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocusCapture={() => setPaused(true)}
-          onBlurCapture={(e) => {
-            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-              setPaused(false);
-            }
-          }}
-        >
-          {workflows.map((w, i) => (
-            <button
-              key={w.id}
-              type="button"
-              onClick={() => {
-                setActiveIndex(i);
-                setPaused(true);
-              }}
-              className={`rounded-md border px-4 py-2 text-sm transition-colors ${
-                activeIndex === i
-                  ? "border-accent bg-accent-soft text-accent"
-                  : "border-border bg-surface text-slate hover:border-border-strong hover:text-ink"
-              }`}
-              aria-pressed={activeIndex === i}
-            >
-              {w.title}
-            </button>
-          ))}
-        </div>
+        <Reveal delayMs={100}>
+          <div
+            className="mt-10 flex flex-wrap gap-2"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocusCapture={() => setPaused(true)}
+            onBlurCapture={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                setPaused(false);
+              }
+            }}
+          >
+            {workflows.map((w, i) => {
+              const isActive = activeIndex === i;
+              return (
+                <button
+                  key={w.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveIndex(i);
+                    setPaused(true);
+                  }}
+                  className={`relative rounded-full border px-4 py-2 text-sm transition-colors duration-300 ${
+                    isActive
+                      ? "border-accent/50 text-surface"
+                      : "border-hairline bg-white/[0.02] text-slate hover:border-border-strong hover:text-ink"
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="wf-tab"
+                      className="absolute inset-0 rounded-full bg-accent shadow-[0_8px_28px_-8px_var(--accent-glow)]"
+                      transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                    />
+                  )}
+                  <span className="relative z-10">{w.title}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
 
         <div
+          className="mt-10"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          <Reveal key={current.id}>
-            <div className="mt-8 overflow-hidden rounded-xl border border-border bg-surface p-5 sm:p-8">
-              <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-slate-muted">
-                    Example · {current.label}
-                  </p>
-                  <h3 className="mt-1 text-lg font-semibold text-ink">
-                    {current.title}
-                  </h3>
-                  <p className="mt-2 max-w-xl text-sm text-slate">
-                    {current.summary}
-                  </p>
-                </div>
-                <span className="hidden shrink-0 rounded-md border border-border bg-surface-elevated px-2 py-1 text-xs text-slate sm:inline">
-                  Connected steps
-                </span>
-              </div>
-
-              {/* Mobile: clean vertical timeline */}
-              <ol className="space-y-0 md:hidden">
-                {current.steps.map((step, i) => (
-                  <li key={`${current.id}-${i}`} className="flex gap-3">
-                    <div className="flex flex-col items-center">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated text-[11px] font-semibold text-accent">
-                        {i + 1}
-                      </span>
-                      {i < current.steps.length - 1 && (
-                        <span className="my-1 w-px min-h-[12px] flex-1 bg-border" />
-                      )}
-                    </div>
-                    <p
-                      className="workflow-node mb-3 rounded-lg border border-border bg-surface-elevated px-3 py-2.5 text-sm font-medium text-ink"
-                      style={{ animationDelay: `${i * 70}ms` }}
-                    >
-                      {step}
-                    </p>
-                  </li>
-                ))}
-              </ol>
-
-              {/* Desktop: single-row flow that wraps with real gaps */}
-              <ol className="hidden flex-wrap items-stretch gap-x-2 gap-y-4 md:flex">
-                {current.steps.map((step, i) => (
-                  <li
-                    key={`${current.id}-d-${i}`}
-                    className="flex items-center gap-2"
+          <LightWave className="rounded-3xl">
+            <div className="card-glass overflow-hidden rounded-3xl p-6 sm:p-10">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={current.id}
+                  initial="hidden"
+                  animate="show"
+                  exit={{ opacity: 0, y: -12, transition: { duration: 0.25 } }}
+                >
+                  <motion.div
+                    className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+                    variants={stepItem}
                   >
-                    <div
-                      className="workflow-node inline-flex min-h-[44px] max-w-[11rem] items-center rounded-lg border border-border bg-surface-elevated px-3.5 py-2.5 text-sm font-medium leading-snug text-ink"
-                      style={{ animationDelay: `${i * 70}ms` }}
-                    >
-                      {step}
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.16em] text-slate-muted">
+                        Example · {current.label}
+                      </p>
+                      <h3 className="mt-2 text-2xl font-medium text-ink">
+                        {current.title}
+                      </h3>
+                      <p className="mt-2 max-w-xl text-base text-slate">
+                        {current.summary}
+                      </p>
                     </div>
-                    {i < current.steps.length - 1 && (
-                      <span className="shrink-0 text-accent" aria-hidden>
-                        →
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ol>
+                    <span className="hidden shrink-0 rounded-full border border-hairline bg-white/[0.03] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-slate sm:inline">
+                      Connected steps
+                    </span>
+                  </motion.div>
+
+                  {/* Mobile: vertical timeline */}
+                  <motion.ol className="space-y-0 md:hidden" variants={stepList}>
+                    {current.steps.map((step, i) => (
+                      <motion.li
+                        key={`${current.id}-${i}`}
+                        className="flex gap-3"
+                        variants={stepItem}
+                      >
+                        <div className="flex flex-col items-center">
+                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent-soft/50 font-mono text-[11px] font-medium text-accent">
+                            {i + 1}
+                          </span>
+                          {i < current.steps.length - 1 && (
+                            <span className="my-1 min-h-3 w-px flex-1 bg-gradient-to-b from-accent/50 to-border" />
+                          )}
+                        </div>
+                        <p className="mb-3 flex-1 rounded-2xl border border-hairline bg-white/[0.03] px-4 py-3 text-sm font-medium text-ink">
+                          {step}
+                        </p>
+                      </motion.li>
+                    ))}
+                  </motion.ol>
+
+                  {/* Desktop: flowing chain with drawn connectors */}
+                  <motion.ol
+                    className="hidden flex-wrap items-center gap-y-5 md:flex"
+                    variants={stepList}
+                  >
+                    {current.steps.map((step, i) => (
+                      <motion.li
+                        key={`${current.id}-d-${i}`}
+                        className="flex items-center"
+                        variants={stepItem}
+                      >
+                        <div className="inline-flex min-h-12 max-w-44 items-center gap-2.5 rounded-2xl border border-hairline bg-white/[0.03] px-4 py-3 text-sm font-medium leading-snug text-ink transition-colors duration-300 hover:border-accent/50 hover:bg-accent-soft/30">
+                          <span className="font-mono text-[10px] text-accent">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          {step}
+                        </div>
+                        {i < current.steps.length - 1 && (
+                          <motion.span
+                            aria-hidden
+                            className="mx-2 block h-px w-6 origin-left bg-gradient-to-r from-accent to-accent/20"
+                            variants={connector}
+                          />
+                        )}
+                      </motion.li>
+                    ))}
+                  </motion.ol>
+                </motion.div>
+              </AnimatePresence>
 
               {/* Progress dots for rotation */}
               <div
-                className="mt-8 flex justify-center gap-1.5"
+                className="mt-10 flex justify-center gap-1.5"
                 role="tablist"
                 aria-label="Workflow examples"
               >
-                {workflows.map((w, i) => (
-                  <button
-                    key={w.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={activeIndex === i}
-                    aria-label={w.label}
-                    onClick={() => {
-                      setActiveIndex(i);
-                      setPaused(true);
-                    }}
-                    className={`h-1.5 rounded-full transition-all ${
-                      activeIndex === i
-                        ? "w-6 bg-accent"
-                        : "w-1.5 bg-border hover:bg-border-strong"
-                    }`}
-                  />
-                ))}
+                {workflows.map((w, i) => {
+                  const isActive = activeIndex === i;
+                  return (
+                    <button
+                      key={w.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-label={w.label}
+                      onClick={() => {
+                        setActiveIndex(i);
+                        setPaused(true);
+                      }}
+                      className={`relative h-1.5 overflow-hidden rounded-full transition-all duration-500 ${
+                        isActive
+                          ? "w-8 bg-accent/25"
+                          : "w-1.5 bg-border-strong hover:bg-slate-muted"
+                      }`}
+                    >
+                      {isActive &&
+                        (paused || reduceMotion ? (
+                          <span className="absolute inset-0 bg-accent" />
+                        ) : (
+                          <span
+                            key={`wf-progress-${activeIndex}`}
+                            className="pa-progress absolute inset-0 bg-accent"
+                            style={{ animationDuration: `${ROTATE_MS}ms` }}
+                          />
+                        ))}
+                    </button>
+                  );
+                })}
               </div>
             </div>
-          </Reveal>
+          </LightWave>
         </div>
       </div>
     </section>

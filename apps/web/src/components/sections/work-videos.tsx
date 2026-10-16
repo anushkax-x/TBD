@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { ExternalLink, Instagram, Linkedin, Quote } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
+import { Marquee } from "@/components/motion/marquee";
+import { SplitText } from "@/components/motion/split-text";
 
 type Story = {
   id: string;
@@ -192,7 +194,7 @@ function buildRows(
 function ReviewCard({ story }: { story: Story }) {
   return (
     <article
-      className={`group relative flex h-[132px] w-[280px] shrink-0 flex-col justify-between overflow-hidden rounded-lg border border-accent/25 bg-gradient-to-br ${story.tone} px-3 py-3 sm:h-[140px] sm:w-[300px]`}
+      className={`group relative flex h-[168px] w-[300px] shrink-0 flex-col justify-between overflow-hidden rounded-3xl border border-accent/25 bg-gradient-to-br ${story.tone} px-5 py-4 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/50 sm:w-[340px]`}
     >
       <div className="flex items-start justify-between gap-2">
         <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-accent">
@@ -265,7 +267,7 @@ function StoryCard({ story }: { story: Story }) {
     </>
   );
 
-  const className = `group relative flex h-[132px] w-[280px] shrink-0 overflow-hidden rounded-lg border border-border bg-gradient-to-br ${story.tone} sm:h-[140px] sm:w-[300px]`;
+  const className = `group relative flex h-[168px] w-[300px] shrink-0 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-br ${story.tone} transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/40 sm:w-[340px]`;
 
   if (story.href) {
     return (
@@ -291,19 +293,12 @@ function MarqueeRow({
   items: Story[];
   reverse?: boolean;
 }) {
-  const loop = [...items, ...items];
   return (
-    <div className="work-marquee relative overflow-hidden">
-      <div
-        className={`work-marquee-track flex w-max gap-3 ${
-          reverse ? "work-marquee-track-reverse" : ""
-        }`}
-      >
-        {loop.map((story, i) => (
-          <StoryCard key={`${story.id}-${i}`} story={story} />
-        ))}
-      </div>
-    </div>
+    <Marquee speed={reverse ? 32 : 38} reverse={reverse} gapClass="gap-4" className="py-2">
+      {items.map((story) => (
+        <StoryCard key={story.id} story={story} />
+      ))}
+    </Marquee>
   );
 }
 
@@ -313,31 +308,25 @@ export function WorkVideosSection() {
   return (
     <section
       id="stories"
-      className="overflow-hidden border-b border-border bg-surface"
+      className="relative overflow-hidden bg-surface"
       aria-labelledby="work-videos-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div className="mx-auto max-w-6xl px-4 pb-14 pt-28 text-center sm:px-6 lg:px-8">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-            Work &amp; customers
-          </p>
-          <h2
-            id="work-videos-heading"
-            className="mt-3 font-display text-3xl text-ink sm:text-4xl"
-          >
-            Recent builds and the teams behind them.
-          </h2>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Automation, UI, custom tools and online presence—across brands and
-            creators who needed to grow cleaner.
-          </p>
+          <p className="eyebrow eyebrow-pill">Work &amp; customers</p>
         </Reveal>
+        <h2
+          id="work-videos-heading"
+          className="mx-auto mt-6 max-w-3xl font-display text-4xl leading-[1.08] text-ink sm:text-5xl"
+        >
+          <SplitText text="Recent builds and the teams behind them." />
+        </h2>
       </div>
 
-      <div className="space-y-3 pb-16 sm:pb-20">
+      <Reveal variant="fade" className="space-y-4 pb-28">
         <MarqueeRow items={rowA} />
         <MarqueeRow items={rowB} reverse />
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -7,11 +7,14 @@
   --slate-muted: #6b7c8f;
   --border: #243041;
   --border-strong: #334155;
-  --surface: #0b1118;
-  --surface-elevated: #121a24;
+  --surface: #070d13;
+  --surface-elevated: #0e1620;
   --accent: #2bb3a3;
   --accent-hover: #3fc4b4;
   --accent-soft: #14352f;
+  --accent-glow: rgba(43, 179, 163, 0.35);
+  --card: rgba(18, 26, 36, 0.6);
+  --hairline: rgba(255, 255, 255, 0.08);
   --before: #5a6b7c;
   --after: #2bb3a3;
   --danger: #f07070;
@@ -34,12 +37,104 @@
   --color-accent-soft: var(--accent-soft);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-ibm-plex-sans);
+  --color-hairline: var(--hairline);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 html {
-  scroll-behavior: smooth;
   color-scheme: dark;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Orchid-style surfaces — in the components layer so Tailwind utilities override them */
+@layer components {
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .eyebrow-pill {
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(43, 179, 163, 0.35);
+    background: rgba(20, 53, 47, 0.35);
+    backdrop-filter: blur(12px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 24px -8px var(--accent-glow);
+  }
+
+  .card-glass {
+    position: relative;
+    border: 1px solid var(--hairline);
+    background:
+      radial-gradient(
+        120% 80% at 20% 0%,
+        rgba(43, 179, 163, 0.08),
+        transparent 55%
+      ),
+      linear-gradient(180deg, rgba(22, 32, 44, 0.72), rgba(10, 16, 23, 0.72));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 24px 60px -30px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(
+      ellipse 70% 60% at 50% 40%,
+      #000 30%,
+      transparent 75%
+    );
+  }
+
+  .text-gradient {
+    background: linear-gradient(180deg, #ffffff 0%, #b9c6d3 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 /* Native datetime-local aligned to FlowMint dark theme */
@@ -112,19 +207,8 @@ body {
 
 .font-display {
   font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-}
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  font-weight: 500;
+  letter-spacing: -0.035em;
 }
 
 @keyframes node-in {
@@ -135,48 +219,6 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-.animate-fade-up {
-  animation: fade-up 0.6s ease-out both;
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.55s ease,
-    transform 0.55s ease;
-}
-
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.workflow-node {
-  opacity: 0;
-  animation: node-in 0.45s ease-out forwards;
-}
-
-@keyframes chat-pop {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes chat-backdrop {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 
@@ -201,14 +243,6 @@ body {
   50% {
     opacity: 0;
   }
-}
-
-.chat-panel {
-  animation: chat-pop 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.chat-backdrop {
-  animation: chat-backdrop 0.2s ease-out both;
 }
 
 .chat-bubble {
@@ -459,55 +493,6 @@ body {
   }
 }
 
-/* Work stories — infinite moving banner */
-.work-marquee {
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 6%,
-    #000 94%,
-    transparent
-  );
-}
-
-.work-marquee-track {
-  animation: work-marquee 42s linear infinite;
-}
-
-.work-marquee-track-reverse {
-  animation-name: work-marquee-reverse;
-  animation-duration: 48s;
-}
-
-.work-marquee:hover .work-marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes work-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes work-marquee-reverse {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .work-marquee-track,
-  .work-marquee-track-reverse {
-    animation: none;
-  }
-}
-
 /* About section — handoff vs direct path */
 .about-visual .about-dash {
   animation: pa-dash 1.2s linear infinite;
@@ -572,8 +557,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chat-panel,
-  .chat-backdrop,
   .chat-bubble,
   .chat-typing-dot,
   .chat-caret,

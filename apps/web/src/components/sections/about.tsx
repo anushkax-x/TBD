@@ -1,6 +1,10 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useScroll } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
+import { GlowOrb } from "@/components/motion/glow-orb";
+import { TextScrub } from "@/components/motion/text-scrub";
 
 const proofs = [
   {
@@ -182,58 +186,63 @@ function HandoffVisual() {
 }
 
 export function AboutSection() {
+  const listRef = useRef<HTMLOListElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start 85%", "end 60%"],
+  });
+
   return (
     <section
       id="about"
-      className="relative overflow-hidden border-y border-border"
+      className="relative overflow-hidden border-y border-hairline bg-surface-elevated/40"
     >
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 50% 60% at 85% 40%, rgba(43, 179, 163, 0.1) 0%, transparent 55%), #0e1620",
-        }}
-        aria-hidden
-      />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <GlowOrb className="-right-32 top-1/4" size={560} opacity={0.2} />
+      </div>
+      <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-4 py-28 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 lg:px-8">
         <div>
           <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-              Why FlowMint
-            </p>
-            <h2 className="mt-3 font-display text-3xl text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
-              Work directly with the engineers responsible for your solution.
-            </h2>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-slate">
+            <p className="eyebrow">Why FlowMint</p>
+          </Reveal>
+          <h2 className="mt-5 font-display text-4xl leading-[1.08] text-ink sm:text-5xl">
+            <TextScrub text="Work directly with the engineers responsible for your solution." />
+          </h2>
+          <Reveal delayMs={100}>
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-slate">
               A small engineering team for automation, UI/UX, custom solutions
               and online presence — not a sales funnel with builders somewhere
               downstream.
             </p>
           </Reveal>
 
-          <ol className="mt-10 space-y-6">
+          <ol ref={listRef} className="relative mt-12 space-y-8 pl-10">
+            <span aria-hidden className="absolute bottom-2 left-[11px] top-2 w-px bg-hairline" />
+            <motion.span
+              aria-hidden
+              className="absolute bottom-2 left-[11px] top-2 w-px origin-top bg-gradient-to-b from-accent to-accent/30"
+              style={{ scaleY: scrollYProgress }}
+            />
             {proofs.map((item, i) => (
-              <Reveal key={item.n} delayMs={80 + i * 70}>
-                <li className="flex gap-4">
-                  <span className="mt-0.5 font-display text-sm font-semibold tabular-nums text-accent">
+              <Reveal key={item.n} delayMs={80 + i * 90}>
+                <li className="relative">
+                  <span className="absolute -left-10 top-0 flex h-6 w-6 items-center justify-center rounded-full border border-accent/40 bg-surface font-mono text-[10px] text-accent">
                     {item.n}
                   </span>
-                  <div>
-                    <h3 className="text-base font-semibold text-ink">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-slate">
-                      {item.body}
-                    </p>
-                  </div>
+                  <h3 className="text-lg font-medium text-ink">{item.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate">
+                    {item.body}
+                  </p>
                 </li>
               </Reveal>
             ))}
           </ol>
         </div>
 
-        <Reveal delayMs={120} className="about-visual">
-          <HandoffVisual />
+        <Reveal delayMs={120} variant="scale" className="about-visual">
+          <div className="card-glass rounded-3xl p-6 sm:p-8">
+            <HandoffVisual />
+          </div>
         </Reveal>
       </div>
     </section>

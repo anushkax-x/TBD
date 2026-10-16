@@ -17,6 +17,7 @@ type AnalyticsEvent =
   | "booking_clicked"
   | "example_project_viewed"
   | "chat_prompt_shown"
+  | "chat_prompt_dismissed"
   | "chat_started"
   | "chat_ended"
   | "chat_meeting_requested";

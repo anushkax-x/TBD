@@ -1,15 +1,21 @@
 import { BUSINESS_NAME } from "@consultancy/shared";
 import type { Metadata } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ChatProvider } from "@/components/chat/chat-provider";
 import { ContactProvider } from "@/components/contact/contact-provider";
+import { MotionProviders } from "@/components/motion/providers";
 import { AnalyticsProvider } from "@/lib/analytics";
 import "./globals.css";
 
-const ibmPlexSans = IBM_Plex_Sans({
+const geistSans = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-ibm-plex-sans",
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
@@ -51,13 +57,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={ibmPlexSans.variable}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen bg-surface font-sans text-ink antialiased">
-        <AnalyticsProvider>
-          <ContactProvider>
-            <ChatProvider>{children}</ChatProvider>
-          </ContactProvider>
-        </AnalyticsProvider>
+        <MotionProviders>
+          <AnalyticsProvider>
+            <ContactProvider>
+              <ChatProvider>{children}</ChatProvider>
+            </ContactProvider>
+          </AnalyticsProvider>
+        </MotionProviders>
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { CalendarCheck, Loader2, Send, Sparkles, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { CHAT_MAX_MESSAGE_LENGTH } from "@consultancy/shared";
 import { Button } from "@/components/ui/button";
 import { getBookingUrl } from "@/lib/config";
@@ -24,37 +25,51 @@ export function ChatModal() {
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [isOpen, closeChat]);
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-[110] flex items-end justify-center sm:items-center"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="chat-modal-title"
-    >
-      <button
-        type="button"
-        className="chat-backdrop absolute inset-0 bg-black/70 backdrop-blur-[2px]"
-        aria-label="Close dialog"
-        onClick={closeChat}
-      />
-      <div
-        className={`chat-panel relative z-10 flex w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface-elevated shadow-2xl sm:mx-6 sm:rounded-2xl ${
-          view === "intro"
-            ? "max-h-[92vh] sm:max-w-xl"
-            : "h-[92vh] sm:h-[min(840px,88vh)] sm:max-w-3xl"
-        }`}
-      >
-        {view === "intro" ? <IntroView /> : <ChatView />}
-      </div>
-    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-[110] flex items-end justify-center sm:items-center"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="chat-modal-title"
+          data-lenis-prevent
+        >
+          <motion.button
+            type="button"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            aria-label="Close dialog"
+            onClick={closeChat}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          />
+          <motion.div
+            layout
+            className={`relative z-10 flex w-full flex-col overflow-hidden rounded-t-3xl border border-hairline bg-surface-elevated shadow-2xl sm:mx-6 sm:rounded-3xl ${
+              view === "intro"
+                ? "max-h-[92vh] sm:max-w-xl"
+                : "h-[92vh] sm:h-[min(840px,88vh)] sm:max-w-3xl"
+            }`}
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 30, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 320, damping: 30 }}
+          >
+            {view === "intro" ? <IntroView /> : <ChatView />}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }
 

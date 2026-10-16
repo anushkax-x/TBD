@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { Check } from "lucide-react";
+import { useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
+import { SplitText } from "@/components/motion/split-text";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { TextScrub } from "@/components/motion/text-scrub";
 
-const ROTATE_MS = 2800;
+const ROTATE_MS = 3200;
 
 const svgProps = {
   viewBox: "0 0 120 48",
@@ -12,7 +17,7 @@ const svgProps = {
   strokeWidth: 1.5,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
-  className: "h-9 w-full max-w-[110px]",
+  className: "h-7 w-full",
   "aria-hidden": true,
 };
 
@@ -192,35 +197,41 @@ function InterfaceArt() {
   );
 }
 
-const problems: { title: string; body: string; art: ReactNode }[] = [
+const problems: { title: string; body: string; fix: string; art: ReactNode }[] = [
   {
     title: "Manual data entry",
-    body: "Your team spends hours moving information between spreadsheets, emails, CRMs and other tools.",
+    body: "Hours lost copying between sheets, inboxes and CRMs.",
+    fix: "Data syncs itself",
     art: <DataEntryArt />,
   },
   {
     title: "Missed follow-ups",
-    body: "Leads fall through the cracks because nobody has time to follow up consistently.",
+    body: "Leads go cold because nobody had time to reply.",
+    fix: "Every lead followed up, automatically",
     art: <FollowUpArt />,
   },
   {
     title: "Repetitive admin",
-    body: "Your team spends valuable time doing work software could handle automatically.",
+    body: "Skilled people stuck doing work software should do.",
+    fix: "Routine tasks run on autopilot",
     art: <RepetitiveArt />,
   },
   {
     title: "Disconnected tools",
-    body: "Your website, CRM, payments, email and internal systems don't communicate.",
+    body: "Your website, CRM, payments and email don't talk.",
+    fix: "One connected system",
     art: <DisconnectedArt />,
   },
   {
     title: "Manual reporting",
-    body: "Someone spends hours every week compiling reports and spreadsheets.",
+    body: "Someone rebuilds the same report every week.",
+    fix: "Live dashboards, zero compiling",
     art: <ReportingArt />,
   },
   {
     title: "Dated or confusing UI",
-    body: "Customers bounce and teams work around screens that feel cluttered, unclear or out of date.",
+    body: "Cluttered screens make customers bounce.",
+    fix: "Clear interfaces that convert",
     art: <InterfaceArt />,
   },
 ];
@@ -228,15 +239,7 @@ const problems: { title: string; body: string; art: ReactNode }[] = [
 export function ProblemSection() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (paused || reduceMotion) return;
@@ -247,73 +250,97 @@ export function ProblemSection() {
   }, [paused, reduceMotion]);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-      <Reveal>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-          Where we create value
-        </p>
-        <h2 className="font-display text-3xl text-ink sm:text-4xl">
-          If work depends on someone remembering the next step, the process is
-          costing you.
-        </h2>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-          We look for repeated tasks, unclear interfaces, missing custom tools
-          and a weak online presence that create delays, mistakes and missed
-          opportunities.
-        </p>
-      </Reveal>
-      <div
-        className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-        onMouseLeave={() => setPaused(false)}
-      >
-        {problems.map((p, i) => {
-          const isActive = active === i;
-          return (
-            <Reveal key={p.title} delayMs={i * 40} className="h-full">
-              <article
-                data-active={isActive}
-                onMouseEnter={() => {
-                  setActive(i);
-                  setPaused(true);
-                }}
-                className={`problem-card relative h-full overflow-hidden rounded-lg border p-4 transition duration-500 ${
-                  isActive
-                    ? "-translate-y-0.5 border-[var(--danger)]/45 bg-[var(--danger)]/[0.08] shadow-[0_10px_32px_-12px_rgba(240,112,112,0.35)]"
-                    : "border-border bg-surface-elevated"
-                }`}
-              >
-                <div
-                  className={`mb-3 transition-colors duration-500 ${
+    <section className="relative overflow-hidden">
+      <div className="relative mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div>
+            <Reveal>
+              <p className="eyebrow">Where we create value</p>
+            </Reveal>
+            <h2 className="mt-5 font-display text-4xl leading-[1.05] text-ink sm:text-5xl lg:text-6xl">
+              <SplitText text="If it relies on memory, it’s already broken." />
+            </h2>
+          </div>
+          <Reveal delayMs={150}>
+            <p className="text-base leading-relaxed text-slate lg:pb-2">
+              Repeated tasks, clunky screens and missing tools quietly cost you
+              time, leads and revenue. We find them and fix them.
+            </p>
+          </Reveal>
+        </div>
+
+        <Stagger
+          className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          stagger={0.1}
+        >
+          {problems.map((p, i) => {
+            const isActive = active === i;
+            return (
+              <StaggerItem key={p.title} className="h-full">
+                <article
+                  data-active={isActive}
+                  onMouseEnter={() => {
+                    setActive(i);
+                    setPaused(true);
+                  }}
+                  onMouseLeave={() => setPaused(false)}
+                  className={`problem-card card-glass relative flex h-full flex-col overflow-hidden rounded-3xl p-5 transition-[border-color,box-shadow,transform] duration-500 ${
                     isActive
-                      ? "text-[var(--danger)]"
-                      : "text-slate-muted/55"
+                      ? "-translate-y-1 !border-[var(--danger)]/40 shadow-[0_24px_60px_-24px_rgba(240,112,112,0.45)]"
+                      : ""
                   }`}
                 >
-                  {p.art}
-                </div>
-                <h3 className="text-sm font-semibold text-ink">{p.title}</h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-slate">
-                  {p.body}
-                </p>
-                {isActive && !paused && !reduceMotion && (
-                  <span
-                    key={`progress-${active}`}
-                    className="pa-progress absolute bottom-0 left-0 h-px w-full bg-[var(--danger)]"
-                    style={{ animationDuration: `${ROTATE_MS}ms` }}
+                  <div
                     aria-hidden
+                    className={`pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[var(--danger)] blur-3xl transition-opacity duration-700 ${
+                      isActive ? "opacity-[0.12]" : "opacity-0"
+                    }`}
                   />
-                )}
-              </article>
-            </Reveal>
-          );
-        })}
-      </div>
-      <Reveal>
-        <p className="mt-10 max-w-3xl font-display text-2xl text-accent sm:text-3xl">
-          The goal is not more software. It is fewer manual steps and a clearer
-          way of working.
+                  <div className="relative flex items-center gap-4">
+                    <div
+                      className={`flex h-12 w-20 shrink-0 items-center justify-center rounded-xl border px-2.5 transition-colors duration-500 ${
+                        isActive
+                          ? "border-[var(--danger)]/30 bg-[var(--danger)]/[0.06] text-[var(--danger)]"
+                          : "border-hairline bg-white/[0.02] text-slate-muted/60"
+                      }`}
+                    >
+                      {p.art}
+                    </div>
+                    <h3 className="text-base font-medium leading-snug text-ink">{p.title}</h3>
+                  </div>
+                  <p
+                    className={`relative mb-4 mt-4 text-sm leading-relaxed transition-colors duration-500 ${
+                      isActive ? "text-ink-soft" : "text-slate"
+                    }`}
+                  >
+                    {p.body}
+                  </p>
+                  <p
+                    className={`relative mt-auto flex items-center gap-2 border-t border-hairline pt-4 text-sm font-medium transition-colors duration-500 ${
+                      isActive ? "text-accent" : "text-accent/70"
+                    }`}
+                  >
+                    <Check className="h-4 w-4 shrink-0" aria-hidden />
+                    {p.fix}
+                  </p>
+                  {isActive && !paused && !reduceMotion && (
+                    <span
+                      key={`progress-${active}`}
+                      className="pa-progress absolute bottom-0 left-0 h-px w-full bg-[var(--danger)]"
+                      style={{ animationDuration: `${ROTATE_MS}ms` }}
+                      aria-hidden
+                    />
+                  )}
+                </article>
+              </StaggerItem>
+            );
+          })}
+        </Stagger>
+
+        <p className="mx-auto mt-28 max-w-4xl text-center font-display text-3xl leading-[1.15] text-accent sm:text-5xl">
+          <TextScrub text="The goal is not more software. It is fewer manual steps and a clearer way of working." />
         </p>
-      </Reveal>
+      </div>
     </section>
   );
 }

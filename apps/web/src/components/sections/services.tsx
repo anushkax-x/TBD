@@ -1,10 +1,19 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
-import { Reveal } from "@/components/ui/reveal";
-
-const ROTATE_MS = 5000;
-const VISIBLE = 3;
+import { useRef, type ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
+import { GlowOrb } from "@/components/motion/glow-orb";
+import { SplitText } from "@/components/motion/split-text";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { TextScrub } from "@/components/motion/text-scrub";
 
 const svgProps = {
   viewBox: "0 0 120 56",
@@ -13,7 +22,7 @@ const svgProps = {
   strokeWidth: 1.5,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
-  className: "h-11 w-full max-w-[120px]",
+  className: "h-14 w-full max-w-[150px]",
   "aria-hidden": true,
 };
 
@@ -92,7 +101,7 @@ function PresenceArt() {
   );
 }
 
-const services: {
+type Service = {
   id: string;
   eyebrow: string;
   title: string;
@@ -101,7 +110,11 @@ const services: {
   cta: string;
   href: string;
   art: ReactNode;
-}[] = [
+  /** Pinned-layout placement: left %, start/length of travel in section progress, tilt */
+  pos: { left: string; start: number; length: number; tilt: number };
+};
+
+const services: Service[] = [
   {
     id: "automate",
     eyebrow: "01",
@@ -115,6 +128,7 @@ const services: {
     cta: "See workflows →",
     href: "#workflows",
     art: <AutomateArt />,
+    pos: { left: "26%", start: 0.0, length: 0.52, tilt: -2 },
   },
   {
     id: "experience",
@@ -129,6 +143,7 @@ const services: {
     cta: "Discuss UI →",
     href: "#faq",
     art: <ExperienceArt />,
+    pos: { left: "68%", start: 0.06, length: 0.48, tilt: 2 },
   },
   {
     id: "connect",
@@ -143,6 +158,7 @@ const services: {
     cta: "See tools →",
     href: "#technology",
     art: <ConnectArt />,
+    pos: { left: "5%", start: 0.15, length: 0.56, tilt: 1.5 },
   },
   {
     id: "presence",
@@ -157,6 +173,7 @@ const services: {
     cta: "Grow online →",
     href: "#faq",
     art: <PresenceArt />,
+    pos: { left: "52%", start: 0.23, length: 0.5, tilt: -1.5 },
   },
   {
     id: "convert",
@@ -171,6 +188,7 @@ const services: {
     cta: "Book a call →",
     href: "#faq",
     art: <ConvertArt />,
+    pos: { left: "73%", start: 0.33, length: 0.54, tilt: 2 },
   },
   {
     id: "custom",
@@ -185,116 +203,146 @@ const services: {
     cta: "Custom build →",
     href: "#faq",
     art: <CustomArt />,
+    pos: { left: "22%", start: 0.42, length: 0.52, tilt: -2 },
   },
 ];
 
-/** Two pages of three: 0 = first trio, 1 = second trio */
-const PAGES = Math.ceil(services.length / VISIBLE);
+const EYEBROW = "What we build";
+const HEADING = "Built for teams that have outgrown spreadsheets and inbox chasing.";
+const INTRO =
+  "Automate busywork, connect your stack, refresh the interface, ship custom solutions, and grow a stronger online presence.";
 
-export function ServicesSection() {
-  const [page, setPage] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
+function ServiceCard({ s, className = "" }: { s: Service; className?: string }) {
+  const label = s.cta.replace(/\s*→$/, "");
+  return (
+    <article
+      className={`card-glass group flex h-full flex-col rounded-3xl p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] ${className}`}
+    >
+      <div className="flex items-start justify-between">
+        <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-accent/40 bg-accent-soft/60 font-mono text-sm font-medium text-accent shadow-[0_0_28px_-6px_var(--accent-glow)]">
+          {s.eyebrow}
+        </span>
+      </div>
+      <div className="my-8 text-accent/80 transition-colors duration-300 group-hover:text-accent">
+        {s.art}
+      </div>
+      <h3 className="text-lg font-medium leading-snug text-ink">{s.title}</h3>
+      <p className="mt-3 text-[15px] leading-relaxed">
+        <span className="text-ink">{s.description}</span>{" "}
+        <span className="text-slate">{s.items.join(" · ")}.</span>
+      </p>
+      <a
+        href={s.href}
+        className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-accent hover:text-accent-hover"
+      >
+        {label}
+        <ArrowRight
+          className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+          aria-hidden
+        />
+      </a>
+    </article>
+  );
+}
 
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
+function FloatingCard({ s, progress }: { s: Service; progress: MotionValue<number> }) {
+  const { start, length, tilt, left } = s.pos;
+  const range = [start, start + length];
+  const y = useTransform(progress, range, ["100vh", "-115vh"]);
+  const rotate = useTransform(progress, range, [tilt, -tilt]);
+  const scale = useTransform(
+    progress,
+    [start, start + length / 2, start + length],
+    [0.94, 1, 0.97],
+  );
+  return (
+    <motion.div
+      className="absolute top-0 w-[21rem] xl:w-[22rem]"
+      style={{ left, y, rotate, scale }}
+    >
+      <ServiceCard s={s} />
+    </motion.div>
+  );
+}
 
-  useEffect(() => {
-    if (paused || reduceMotion) return;
-    const id = window.setInterval(() => {
-      setPage((p) => (p + 1) % PAGES);
-    }, ROTATE_MS);
-    return () => window.clearInterval(id);
-  }, [paused, reduceMotion]);
-
-  const visible = services.slice(page * VISIBLE, page * VISIBLE + VISIBLE);
+function PinnedServices() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.4 });
+  const headingScale = useTransform(progress, [0, 0.9, 1], [1, 1, 0.96]);
 
   return (
-    <section id="services" className="border-y border-border bg-surface-elevated">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-            What we build
-          </p>
-          <h2 className="mt-3 font-display text-3xl text-ink sm:text-4xl">
-            Built for teams that have outgrown spreadsheets and inbox chasing.
-          </h2>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Automate busywork, connect your stack, refresh the interface, ship
-            custom solutions, and grow a stronger online presence.
-          </p>
-        </Reveal>
+    <div ref={ref} className="relative h-[360vh]">
+      <div className="sticky top-0 h-screen overflow-hidden">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <GlowOrb className="-left-48 top-1/4" size={620} opacity={0.22} parallax={0} />
+          <GlowOrb className="-right-40 bottom-0" size={520} opacity={0.16} parallax={0} duration={22} />
+        </div>
 
-        <div
-          className="mt-10"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
+        <motion.div
+          className="relative z-0 flex h-full flex-col items-center justify-center px-6 text-center"
+          style={{ scale: headingScale }}
         >
-          <div
-            key={page}
-            className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${
-              reduceMotion ? "" : "animate-fade-up"
-            }`}
-          >
-            {visible.map((s) => (
-              <article
-                key={s.id}
-                className="flex h-full flex-col rounded-xl border border-border bg-surface p-5 transition-colors hover:border-border-strong"
-              >
-                <div className="mb-3 text-accent">{s.art}</div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-accent">
-                  {s.eyebrow}
-                </p>
-                <h3 className="mt-2 text-base font-semibold leading-snug text-ink">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate">
-                  {s.description}
-                </p>
-                <ul className="mt-4 flex-1 space-y-1.5">
-                  {s.items.map((item) => (
-                    <li key={item} className="text-sm leading-snug text-ink-soft">
-                      <span className="mr-1.5 text-accent">·</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={s.href}
-                  className="mt-5 inline-flex text-sm font-medium text-accent hover:text-accent-hover"
-                >
-                  {s.cta}
-                </a>
-              </article>
-            ))}
-          </div>
+          <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
+          <h2 className="mt-8 max-w-5xl font-display text-5xl leading-[1.05] text-ink xl:text-[4.25rem]">
+            <TextScrub text={HEADING} progress={progress} range={[0, 0.32]} />
+          </h2>
+          <p className="mt-8 max-w-2xl text-xl leading-relaxed text-ink-soft">
+            <TextScrub text={INTRO} progress={progress} range={[0.18, 0.45]} dim={0.15} />
+          </p>
+        </motion.div>
 
-          <div className="mt-8 flex items-center justify-center gap-3">
-            {Array.from({ length: PAGES }, (_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Show services ${i * VISIBLE + 1}–${Math.min((i + 1) * VISIBLE, services.length)}`}
-                aria-current={page === i ? "true" : undefined}
-                onClick={() => {
-                  setPage(i);
-                  setPaused(true);
-                }}
-                className={`h-1.5 rounded-full transition-all ${
-                  page === i
-                    ? "w-7 bg-accent"
-                    : "w-1.5 bg-border hover:bg-border-strong"
-                }`}
-              />
-            ))}
-          </div>
+        <div className="absolute inset-0 z-10">
+          {services.map((s) => (
+            <FloatingCard key={s.id} s={s} progress={progress} />
+          ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function StackedServices({ className = "" }: { className?: string }) {
+  return (
+    <div className={`relative mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8 ${className}`}>
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <GlowOrb className="-left-40 top-0" size={420} opacity={0.18} parallax={0} />
+      </div>
+      <div className="relative text-center">
+        <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
+        <h2 className="mx-auto mt-6 max-w-3xl font-display text-4xl leading-[1.08] text-ink sm:text-5xl">
+          <SplitText text={HEADING} />
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate sm:text-lg">
+          {INTRO}
+        </p>
+      </div>
+      <Stagger className="relative mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => (
+          <StaggerItem key={s.id} className="h-full">
+            <ServiceCard s={s} />
+          </StaggerItem>
+        ))}
+      </Stagger>
+    </div>
+  );
+}
+
+export function ServicesSection() {
+  const reduce = useReducedMotion();
+
+  return (
+    <section id="services" className="relative scroll-mt-0 bg-surface">
+      {reduce ? (
+        <StackedServices />
+      ) : (
+        <>
+          <div className="hidden lg:block">
+            <PinnedServices />
+          </div>
+          <StackedServices className="lg:hidden" />
+        </>
+      )}
     </section>
   );
 }
