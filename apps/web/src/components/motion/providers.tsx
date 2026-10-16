@@ -31,7 +31,10 @@ function SmoothScroll({ children }: { children: ReactNode }) {
 
 export function MotionProviders({ children }: { children: ReactNode }) {
   return (
-    <MotionConfig reducedMotion="user" transition={{ duration: 0.8, ease: EASE }}>
+    <MotionConfig
+      reducedMotion="user"
+      transition={{ duration: 0.8, ease: EASE }}
+    >
       <SmoothScroll>{children}</SmoothScroll>
     </MotionConfig>
   );

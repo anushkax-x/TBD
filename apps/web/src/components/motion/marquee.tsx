@@ -55,7 +55,11 @@ export function Marquee({
       onPointerEnter={() => factorTarget.set(hoverSpeed)}
       onPointerLeave={() => factorTarget.set(1)}
     >
-      <motion.div ref={trackRef} className={`flex w-max ${gapClass}`} style={{ x }}>
+      <motion.div
+        ref={trackRef}
+        className={`flex w-max ${gapClass}`}
+        style={{ x }}
+      >
         <div className={`flex shrink-0 ${gapClass}`}>{children}</div>
         <div className={`flex shrink-0 ${gapClass}`} aria-hidden>
           {children}

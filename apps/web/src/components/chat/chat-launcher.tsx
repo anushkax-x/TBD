@@ -6,14 +6,15 @@ import { EASE_OUT } from "@/components/motion/easing";
 import { useChat } from "./chat-provider";
 
 export function ChatLauncher() {
-  const { isOpen, promptVisible, openChat, startChat, dismissPrompt } = useChat();
+  const { isOpen, promptVisible, openChat, startChat, dismissPrompt } =
+    useChat();
 
   return (
     <AnimatePresence>
       {!isOpen && (
         <motion.div
           key="launcher"
-          className="fixed bottom-24 right-4 z-50 flex flex-col items-end gap-3 md:bottom-6 md:right-6"
+          className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3 md:bottom-6 md:right-6"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}

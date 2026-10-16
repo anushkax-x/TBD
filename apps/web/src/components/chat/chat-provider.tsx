@@ -129,11 +129,14 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("pagehide", onPageHide);
   }, [submitEnd]);
 
-  const openChat = useCallback((source = "unknown") => {
-    track("CTA_clicked", { source, action: "open_chat" });
-    setPromptVisible(false);
-    setIsOpen(true);
-  }, [track]);
+  const openChat = useCallback(
+    (source = "unknown") => {
+      track("CTA_clicked", { source, action: "open_chat" });
+      setPromptVisible(false);
+      setIsOpen(true);
+    },
+    [track],
+  );
 
   const closeChat = useCallback(() => {
     setIsOpen(false);
@@ -186,7 +189,9 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       if (replyText && (finished || !failed)) {
         setMessages((prev) => [...prev, { role: "model", text: replyText }]);
       } else {
-        setError(failed ?? "Our AI assistant couldn't respond. Please try again.");
+        setError(
+          failed ?? "Our AI assistant couldn't respond. Please try again.",
+        );
       }
       setStreamingText(null);
       sendingRef.current = false;

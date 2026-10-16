@@ -62,12 +62,22 @@ export function TextScrub({
   }
 
   return (
-    <span ref={ref} aria-label={text} role="text" className={`block ${className}`}>
+    <span
+      ref={ref}
+      aria-label={text}
+      role="text"
+      className={`block ${className}`}
+    >
       {words.map((w, i) => {
         const start = range[0] + (i / words.length) * span;
         const end = range[0] + ((i + 1) / words.length) * span;
         return (
-          <Word key={`${w}-${i}`} progress={progress} range={[start, end]} dim={dim}>
+          <Word
+            key={`${w}-${i}`}
+            progress={progress}
+            range={[start, end]}
+            dim={dim}
+          >
             {w + (i < words.length - 1 ? " " : "")}
           </Word>
         );

@@ -167,7 +167,10 @@ function ChatView() {
             <Sparkles className="h-4 w-4" />
           </span>
           <div>
-            <h2 id="chat-modal-title" className="text-base font-semibold text-ink">
+            <h2
+              id="chat-modal-title"
+              className="text-base font-semibold text-ink"
+            >
               AI business assistant
             </h2>
             <p className="text-xs text-slate-muted">
@@ -205,7 +208,10 @@ function ChatView() {
             <MessageBubble role="model" text={streamingText} streaming />
           ))}
         {error && (
-          <p role="alert" className="self-center text-center text-xs text-red-400">
+          <p
+            role="alert"
+            className="self-center text-center text-xs text-red-400"
+          >
             {error}
           </p>
         )}
@@ -227,7 +233,10 @@ function ChatView() {
           )}
         </div>
       ) : (
-        <form onSubmit={onSubmit} className="border-t border-border px-5 py-4 sm:px-8 sm:py-5">
+        <form
+          onSubmit={onSubmit}
+          className="border-t border-border px-5 py-4 sm:px-8 sm:py-5"
+        >
           {endStatus === "error" && (
             <p role="alert" className="mb-2 text-xs text-red-400">
               We couldn&apos;t send your conversation. Please try again.
@@ -245,7 +254,11 @@ function ChatView() {
               maxLength={CHAT_MAX_MESSAGE_LENGTH}
               onChange={(e) => setDraft(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+                if (
+                  e.key === "Enter" &&
+                  !e.shiftKey &&
+                  !e.nativeEvent.isComposing
+                ) {
                   e.preventDefault();
                   submitDraft();
                 }
@@ -313,7 +326,9 @@ function MessageBubble({
     <AssistantRow>
       <div className="whitespace-pre-wrap rounded-2xl rounded-tl-sm border border-border bg-surface px-4 py-3 text-[15px] leading-relaxed text-ink-soft">
         {streaming ? text.trimStart() : text}
-        {streaming && <span className="chat-caret text-accent" aria-hidden="true" />}
+        {streaming && (
+          <span className="chat-caret text-accent" aria-hidden="true" />
+        )}
       </div>
     </AssistantRow>
   );

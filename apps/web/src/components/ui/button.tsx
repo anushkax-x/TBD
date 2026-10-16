@@ -8,7 +8,8 @@ const variants: Record<Variant, string> = {
     "bg-accent text-surface border border-transparent font-medium shadow-[0_0_0_0_var(--accent-glow)] hover:bg-accent-hover hover:shadow-[0_8px_32px_-6px_var(--accent-glow)]",
   secondary:
     "bg-white/[0.03] text-ink border border-hairline backdrop-blur-md hover:border-accent/50 hover:bg-accent-soft/30",
-  ghost: "bg-transparent text-ink hover:bg-accent-soft/60 border border-transparent",
+  ghost:
+    "bg-transparent text-ink hover:bg-accent-soft/60 border border-transparent",
 };
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -19,7 +20,14 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export const Button = forwardRef<HTMLButtonElement, Props>(
   (
-    { className = "", variant = "primary", type = "button", arrow = false, children, ...props },
+    {
+      className = "",
+      variant = "primary",
+      type = "button",
+      arrow = false,
+      children,
+      ...props
+    },
     ref,
   ) => (
     <button

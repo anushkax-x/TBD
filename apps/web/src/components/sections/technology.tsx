@@ -42,17 +42,17 @@ export function TechnologySection() {
             <div
               key={tool.file}
               aria-hidden
-              className="group flex h-16 shrink-0 items-center gap-3 rounded-full border border-hairline bg-white/[0.02] px-6 transition-colors duration-300 hover:border-accent/40 hover:bg-accent-soft/25"
+              className="group flex h-11 shrink-0 items-center gap-2 rounded-full border border-hairline bg-white/[0.02] px-4 sm:h-16 sm:gap-3 sm:px-6 transition-colors duration-300 hover:border-accent/40 hover:bg-accent-soft/25"
             >
               <Image
                 src={`/tech/${tool.file}.svg`}
                 alt=""
                 width={24}
                 height={24}
-                className="h-6 w-6 opacity-60 brightness-0 invert transition duration-300 group-hover:opacity-100"
+                className="h-4 w-4 opacity-60 sm:h-6 sm:w-6 brightness-0 invert transition duration-300 group-hover:opacity-100"
                 unoptimized
               />
-              <span className="text-sm font-medium text-slate transition-colors group-hover:text-ink">
+              <span className="text-[13px] font-medium text-slate sm:text-sm transition-colors group-hover:text-ink">
                 {tool.label}
               </span>
             </div>

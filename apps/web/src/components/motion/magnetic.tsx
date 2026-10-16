@@ -1,7 +1,12 @@
 "use client";
 
 import { useRef, type ReactNode, type PointerEvent } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "motion/react";
 
 /** Gentle spring pull toward the cursor, for primary CTAs. */
 export function Magnetic({

@@ -100,7 +100,9 @@ export function ContactForm({ onSuccess }: Props) {
         className="rounded-xl border border-accent/30 bg-accent-soft/40 px-6 py-8 text-center"
         role="status"
       >
-        <p className="font-display text-xl text-ink">You&apos;re on the list.</p>
+        <p className="font-display text-xl text-ink">
+          You&apos;re on the list.
+        </p>
         <p className="mt-2 text-sm text-slate">
           We&apos;ll confirm your discovery call shortly.
         </p>
@@ -131,7 +133,9 @@ export function ContactForm({ onSuccess }: Props) {
           placeholder="Alex"
         />
         {fieldErrors.name && (
-          <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.name}</p>
+          <p className="mt-1 text-xs text-[var(--danger)]">
+            {fieldErrors.name}
+          </p>
         )}
       </div>
 
@@ -149,13 +153,18 @@ export function ContactForm({ onSuccess }: Props) {
           placeholder="alex@company.com"
         />
         {fieldErrors.email && (
-          <p className="mt-1 text-xs text-[var(--danger)]">{fieldErrors.email}</p>
+          <p className="mt-1 text-xs text-[var(--danger)]">
+            {fieldErrors.email}
+          </p>
         )}
       </div>
 
       <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
-          <label htmlFor="preferred-date" className="text-sm font-medium text-ink">
+          <label
+            htmlFor="preferred-date"
+            className="text-sm font-medium text-ink"
+          >
             Date &amp; time
           </label>
           <span className="text-xs text-slate-muted">30 min · local time</span>

@@ -48,13 +48,30 @@ export function HeroSection() {
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-12 pt-10 sm:px-6 sm:pb-20 sm:pt-16 lg:gap-14 lg:min-h-[88vh] lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:px-8 lg:pb-28 lg:pt-20">
         <motion.div style={{ y: copyY, opacity: fade }}>
+          {/* Phones: compact chips. sm+: single pill */}
+          <motion.ul
+            className="flex flex-wrap gap-1.5 sm:hidden"
+            aria-label="Services"
+            {...rise(0)}
+          >
+            {["Automation", "UI/UX", "Custom solutions", "Online presence"].map(
+              (s) => (
+                <li
+                  key={s}
+                  className="rounded-full border border-accent/30 bg-accent-soft/30 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-accent"
+                >
+                  {s}
+                </li>
+              ),
+            )}
+          </motion.ul>
           <motion.p
-            className="eyebrow eyebrow-pill gap-2 rounded-2xl px-3.5 py-2 text-[10px] leading-relaxed tracking-[0.12em] text-balance sm:gap-[0.6rem] sm:rounded-full sm:px-4 sm:py-[0.45rem] sm:text-[0.72rem] sm:leading-normal sm:tracking-[0.18em]"
+            className="eyebrow eyebrow-pill hidden sm:inline-flex"
             {...rise(0)}
           >
             Automation · UI/UX · Custom solutions · Online presence
           </motion.p>
-          <h1 className="mt-7 font-display text-5xl leading-[1.02] text-ink sm:text-7xl lg:text-[5.5rem]">
+          <h1 className="mt-6 font-display text-[3.4rem] leading-[0.98] text-ink sm:mt-7 sm:text-7xl sm:leading-[1.02] lg:text-[5.5rem]">
             <SplitText
               onMount
               delay={0.2}
@@ -63,30 +80,40 @@ export function HeroSection() {
             />
           </h1>
           <motion.p
-            className="mt-7 max-w-xl text-lg leading-relaxed text-slate sm:text-xl"
+            className="mt-5 max-w-xl text-[17px] leading-relaxed text-slate sm:mt-7 sm:text-xl"
             {...rise(0.55)}
           >
             Less admin. More customers. Systems that keep up.
           </motion.p>
           <motion.div
-            className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
+            className="mt-8 flex flex-col items-center gap-4 sm:mt-9 sm:flex-row sm:gap-3"
             {...rise(0.7)}
           >
-            <Magnetic>
+            <Magnetic className="w-full sm:w-auto">
               <Button
                 arrow
-                className="w-full sm:w-auto"
+                className="w-full py-3.5 text-[15px] sm:w-auto sm:py-3 sm:text-sm"
                 onClick={() => openChat("hero_primary")}
               >
                 Check Your Idea With Our AI
               </Button>
             </Magnetic>
-            <Button
-              variant="secondary"
+            {/* Phones: quiet text link (navbar already has "Book a call") */}
+            <button
+              type="button"
               onClick={() => handlePrimaryCta("hero_secondary")}
+              className="text-sm font-medium text-ink-soft underline decoration-accent/50 underline-offset-4 sm:hidden"
             >
-              Book a Free Discovery Call
-            </Button>
+              or book a free discovery call
+            </button>
+            <span className="hidden sm:inline-flex">
+              <Button
+                variant="secondary"
+                onClick={() => handlePrimaryCta("hero_secondary")}
+              >
+                Book a Free Discovery Call
+              </Button>
+            </span>
           </motion.div>
         </motion.div>
 

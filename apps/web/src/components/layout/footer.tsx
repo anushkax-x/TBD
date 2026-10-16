@@ -30,8 +30,7 @@ const columns = [
   { title: "Legal", items: legal },
 ];
 
-const linkClass =
-  "text-sm text-slate transition-colors hover:text-accent";
+const linkClass = "text-sm text-slate transition-colors hover:text-accent";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -41,7 +40,10 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16 lg:px-8">
         <Stagger className="grid grid-cols-2 gap-10 sm:grid-cols-3">
           {columns.map((col, i) => (
-            <StaggerItem key={col.title} className={i === 2 ? "col-span-2 sm:col-span-1" : ""}>
+            <StaggerItem
+              key={col.title}
+              className={i === 2 ? "col-span-2 sm:col-span-1" : ""}
+            >
               <p className="eyebrow">{col.title}</p>
               <ul className="mt-5 space-y-3">
                 {col.items.map((item) => (
@@ -59,7 +61,7 @@ export function Footer() {
 
       <motion.p
         aria-hidden
-        className="pointer-events-none mt-16 select-none text-center font-display text-[22vw] font-semibold leading-[0.8] tracking-[-0.06em] lg:text-[16rem]"
+        className="pointer-events-none mt-12 select-none pb-2 text-center font-display text-[21vw] font-semibold leading-[0.9] tracking-[-0.06em] sm:mt-16 sm:pb-0 sm:leading-[0.8] lg:text-[16rem]"
         style={{
           background:
             "linear-gradient(180deg, rgba(43,179,163,0.22) 0%, rgba(43,179,163,0) 85%)",
@@ -80,7 +82,7 @@ export function Footer() {
           <p>
             © {year} {BUSINESS_NAME}. All rights reserved.
           </p>
-          <p className="font-mono uppercase tracking-[0.14em]">
+          <p className="hidden font-mono uppercase tracking-[0.14em] sm:block">
             Automation · UI/UX · Custom solutions · Online presence
           </p>
         </div>

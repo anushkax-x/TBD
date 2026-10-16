@@ -161,7 +161,9 @@ describe("CTA interactions", () => {
         <CtaProbe />
       </Wrapper>,
     );
-    await user.click(screen.getByRole("button", { name: /Book a Discovery Call/i }));
+    await user.click(
+      screen.getByRole("button", { name: /Book a Discovery Call/i }),
+    );
     expect(screen.getByText("Modal open")).toBeInTheDocument();
   });
 });

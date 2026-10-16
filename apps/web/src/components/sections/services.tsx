@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -17,8 +17,6 @@ import {
   motion,
   useReducedMotion,
   useScroll,
-  useSpring,
-  useMotionTemplate,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -32,7 +30,7 @@ import { TextScrub } from "@/components/motion/text-scrub";
 /* ------------------------------------------------------------------ */
 
 const glass =
-  "rounded-xl border border-white/10 bg-[#0b1219]/80 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md";
+  "rounded-xl border border-white/10 bg-[#0b1219]/90 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.9)]";
 
 function Chip({
   icon,
@@ -47,10 +45,10 @@ function Chip({
 }) {
   return (
     <div
-      className={`flex w-max items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3 text-[11px] font-medium backdrop-blur-md ${
+      className={`flex w-max items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3 text-[11px] font-medium ${
         accent
           ? "border-accent/50 bg-accent/90 text-surface shadow-[0_8px_24px_-8px_var(--accent-glow)]"
-          : "border-white/10 bg-[#0b1219]/80 text-ink"
+          : "border-white/10 bg-[#0b1219]/90 text-ink"
       } ${className}`}
     >
       <span
@@ -169,7 +167,7 @@ function ConnectVisual() {
       {apps.map((a, i) => (
         <span
           key={a}
-          className={`absolute ${spots[i]} flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0b1219]/85 backdrop-blur-md`}
+          className={`absolute ${spots[i]} flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0b1219]/90`}
         >
           <Image
             src={`/tech/${a}.svg`}
@@ -445,7 +443,7 @@ function ServiceCard({
         <div className="w-full">{s.visual}</div>
       </div>
 
-      <span className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-surface">
+      <span className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-surface">
         <ArrowRight className="h-4 w-4" aria-hidden />
       </span>
     </a>
@@ -484,7 +482,7 @@ function FloatingCard({
   );
   return (
     <motion.div
-      className="absolute top-0 w-(--card-w)"
+      className="absolute top-0 w-(--card-w) will-change-transform"
       style={{ left: `calc((100% - var(--card-w)) * ${x})`, y, rotate, scale }}
     >
       <ServiceCard s={s} />
@@ -498,16 +496,15 @@ function PinnedServices() {
     target: ref,
     offset: ["start start", "end end"],
   });
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 220,
-    damping: 40,
-    mass: 0.4,
-  });
+  // Lenis already smooths scrolling, so drive everything from raw progress
+  // (an extra spring here makes the cards lag behind the wheel).
+  const progress = scrollYProgress;
   const keys = [RECEDE[0], RECEDE[1], RETURN[0], RETURN[1]];
   const headingScale = useTransform(progress, keys, [1, 0.94, 0.94, 1]);
-  const headingOpacity = useTransform(progress, keys, [1, 0.15, 0.15, 1]);
-  const headingBlurPx = useTransform(progress, keys, [0, 10, 10, 0]);
-  const headingFilter = useMotionTemplate`blur(${headingBlurPx}px)`;
+  // Crossfade a sharp headline with a pre-blurred copy instead of animating
+  // `filter: blur()` every frame (static blur is rasterised once).
+  const sharpOpacity = useTransform(progress, keys, [1, 0, 0, 1]);
+  const blurredOpacity = useTransform(progress, keys, [0, 1, 1, 0]);
 
   return (
     <div ref={ref} className="relative h-[440vh]">
@@ -529,21 +526,34 @@ function PinnedServices() {
         </div>
 
         <motion.div
-          className="relative z-0 flex h-full flex-col items-center justify-center px-6 text-center"
-          style={{
-            scale: headingScale,
-            opacity: headingOpacity,
-            filter: headingFilter,
-          }}
+          className="relative z-0 h-full will-change-transform"
+          style={{ scale: headingScale }}
         >
-          <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
-          <h2 className="mt-8 max-w-5xl font-display text-5xl leading-[1.05] text-ink xl:text-[4.25rem]">
-            <TextScrub
-              text={HEADING}
-              progress={progress}
-              range={[0, HEADLINE_END]}
-            />
-          </h2>
+          <motion.div
+            className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
+            style={{ opacity: sharpOpacity }}
+          >
+            <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
+            <h2 className="mt-8 max-w-5xl font-display text-5xl leading-[1.05] text-ink xl:text-[4.25rem]">
+              <TextScrub
+                text={HEADING}
+                progress={progress}
+                range={[0, HEADLINE_END]}
+              />
+            </h2>
+          </motion.div>
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center will-change-[opacity]"
+            style={{ opacity: blurredOpacity }}
+          >
+            <div className="opacity-[0.15] blur-[10px]">
+              <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
+              <p className="mt-8 max-w-5xl font-display text-5xl leading-[1.05] text-ink xl:text-[4.25rem]">
+                {HEADING}
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Cards float within a centred column, not the full viewport width */}
@@ -560,6 +570,28 @@ function PinnedServices() {
 }
 
 function StackedServices({ className = "" }: { className?: string }) {
+  const railRef = useRef<HTMLDivElement>(null);
+  const [slide, setSlide] = useState(0);
+
+  // Phones: which card is centred in the swipe row
+  const onRailScroll = () => {
+    const rail = railRef.current;
+    const first = rail?.querySelector<HTMLElement>("[data-slide]");
+    if (!rail || !first) return;
+    const step = first.offsetWidth + 12;
+    setSlide(Math.min(services.length - 1, Math.round(rail.scrollLeft / step)));
+  };
+
+  const goTo = (i: number) => {
+    const rail = railRef.current;
+    const card = rail?.querySelectorAll<HTMLElement>("[data-slide]")[i];
+    if (!rail || !card) return;
+    rail.scrollTo({
+      left: card.offsetLeft - (rail.clientWidth - card.offsetWidth) / 2,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div
       className={`relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 ${className}`}
@@ -581,20 +613,46 @@ function StackedServices({ className = "" }: { className?: string }) {
           <SplitText text={HEADING} />
         </h2>
       </div>
-      {/* Phones: swipeable row of compact cards. sm+: grid. */}
-      <Stagger className="relative -mx-4 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-        {services.map((s) => (
-          <StaggerItem
+      {/* Phones: swipeable row with live dots. sm+: grid. */}
+      <div
+        ref={railRef}
+        onScroll={onRailScroll}
+        className="relative -mx-4 mt-8 snap-x snap-mandatory overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:snap-none sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+      >
+        <Stagger className="flex gap-3 sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          {services.map((s) => (
+            <StaggerItem
+              key={s.id}
+              className="w-[80%] shrink-0 snap-center sm:w-auto"
+            >
+              <div data-slide>
+                <ServiceCard s={s} />
+              </div>
+            </StaggerItem>
+          ))}
+          {/* trailing spacer so the last card can centre */}
+          <span aria-hidden className="w-[10%] shrink-0 sm:hidden" />
+        </Stagger>
+      </div>
+      <div
+        className="mt-5 flex items-center justify-center gap-1.5 sm:hidden"
+        role="tablist"
+        aria-label="Services"
+      >
+        {services.map((s, i) => (
+          <button
             key={s.id}
-            className="w-[78%] shrink-0 snap-center sm:w-auto"
-          >
-            <ServiceCard s={s} />
-          </StaggerItem>
+            type="button"
+            role="tab"
+            aria-selected={i === slide}
+            aria-label={s.title}
+            onClick={() => goTo(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === slide ? "w-6 bg-accent" : "w-1.5 bg-border-strong"
+            }`}
+          />
         ))}
-      </Stagger>
-      <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-slate-muted sm:hidden">
-        Swipe to see all 6 →
-      </p>
+      </div>
     </div>
   );
 }

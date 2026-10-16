@@ -24,7 +24,10 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: `Automation, UI/UX, Custom Solutions & Online Presence | ${BUSINESS_NAME}`,
+  title: {
+    default: `${BUSINESS_NAME} — Your business, on autopilot`,
+    template: `%s | ${BUSINESS_NAME}`,
+  },
   description:
     "Practical workflow automation, UI/UX redesign, custom software solutions and online presence for growing businesses with manual or disconnected operations.",
   icons: {
@@ -32,7 +35,7 @@ export const metadata: Metadata = {
     apple: "/favicon.svg",
   },
   openGraph: {
-    title: `Automation, UI/UX, Custom Solutions & Online Presence | ${BUSINESS_NAME}`,
+    title: `${BUSINESS_NAME} — Automation, UI/UX, custom solutions & online presence`,
     description:
       "Automate operations, redesign interfaces, ship custom solutions and grow your online presence—without building an in-house engineering team.",
     type: "website",
@@ -41,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `Automation, UI/UX, Custom Solutions & Online Presence | ${BUSINESS_NAME}`,
+    title: `${BUSINESS_NAME} — Automation, UI/UX, custom solutions & online presence`,
     description:
       "Automation, UI/UX redesign, custom solutions and online presence for growing businesses.",
   },

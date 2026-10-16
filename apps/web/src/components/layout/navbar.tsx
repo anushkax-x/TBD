@@ -50,7 +50,11 @@ export function Navbar() {
         }`}
         aria-label="Primary"
       >
-        <a href="#top" className="inline-flex items-center" aria-label="FlowMint home">
+        <a
+          href="#top"
+          className="inline-flex items-center"
+          aria-label="FlowMint home"
+        >
           <Logo size={30} priority />
         </a>
 
@@ -79,21 +83,39 @@ export function Navbar() {
         </ul>
 
         <div className="hidden lg:block">
-          <Button className="px-5 py-2.5" arrow onClick={() => handlePrimaryCta("navbar")}>
+          <Button
+            className="px-5 py-2.5"
+            arrow
+            onClick={() => handlePrimaryCta("navbar")}
+          >
             Book a Discovery Call
           </Button>
         </div>
 
-        <button
-          type="button"
-          className="rounded-full p-2 text-ink lg:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Phones/tablets: compact booking pill + menu */}
+        <div className="flex items-center gap-1.5 lg:hidden">
+          <button
+            type="button"
+            onClick={() => handlePrimaryCta("navbar_compact")}
+            className="rounded-full bg-accent px-3.5 py-1.5 text-[13px] font-medium text-surface shadow-[0_6px_20px_-8px_var(--accent-glow)] transition-colors hover:bg-accent-hover"
+          >
+            Book a call
+          </button>
+          <button
+            type="button"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline text-ink"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? (
+              <X className="h-[18px] w-[18px]" />
+            ) : (
+              <Menu className="h-[18px] w-[18px]" />
+            )}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -110,12 +132,19 @@ export function Navbar() {
               className="space-y-1 px-5 pt-4"
               initial="hidden"
               animate="show"
-              variants={{ show: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } } }}
+              variants={{
+                show: {
+                  transition: { staggerChildren: 0.05, delayChildren: 0.1 },
+                },
+              }}
             >
               {links.map((link) => (
                 <motion.li
                   key={link.href}
-                  variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
+                  variants={{
+                    hidden: { opacity: 0, y: 12 },
+                    show: { opacity: 1, y: 0 },
+                  }}
                 >
                   <a
                     href={link.href}

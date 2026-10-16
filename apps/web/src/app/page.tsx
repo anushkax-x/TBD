@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { MobileStickyCta } from "@/components/layout/mobile-sticky-cta";
 import { HeroSection } from "@/components/sections/hero";
 import { WorkVideosSection } from "@/components/sections/work-videos";
 import { ProblemSection } from "@/components/sections/problems";
@@ -12,7 +11,7 @@ import { FaqSection } from "@/components/sections/faq";
 
 export default function HomePage() {
   return (
-    <div id="top" className="pb-20 md:pb-0">
+    <div id="top">
       <Navbar />
       <main>
         <HeroSection />
@@ -25,7 +24,6 @@ export default function HomePage() {
         <FaqSection />
       </main>
       <Footer />
-      <MobileStickyCta />
     </div>
   );
 }

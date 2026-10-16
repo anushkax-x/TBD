@@ -37,7 +37,10 @@ export function SplitText({
       initial="hidden"
       {...(onMount
         ? { animate: "show" }
-        : { whileInView: "show", viewport: { once: true, margin: "0px 0px -10% 0px" } })}
+        : {
+            whileInView: "show",
+            viewport: { once: true, margin: "0px 0px -10% 0px" },
+          })}
       transition={{ staggerChildren: stagger, delayChildren: delay }}
     >
       {words.map((w, i) => (
@@ -48,7 +51,9 @@ export function SplitText({
         >
           <motion.span
             className={`inline-block ${
-              highlight.includes(w.replace(/[^\p{L}\p{N}'-]/gu, "")) ? "text-accent" : ""
+              highlight.includes(w.replace(/[^\p{L}\p{N}'-]/gu, ""))
+                ? "text-accent"
+                : ""
             }`}
             variants={word}
           >

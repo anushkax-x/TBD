@@ -37,7 +37,11 @@ export function GlowOrb({
             "radial-gradient(circle at 50% 50%, rgba(43,179,163,0.9) 0%, rgba(43,179,163,0.35) 35%, rgba(20,53,47,0) 70%)",
           filter: "blur(60px)",
         }}
-        animate={{ x: [0, 40, -30, 0], y: [0, -30, 20, 0], scale: [1, 1.08, 0.95, 1] }}
+        animate={{
+          x: [0, 40, -30, 0],
+          y: [0, -30, 20, 0],
+          scale: [1, 1.08, 0.95, 1],
+        }}
         transition={{ duration, repeat: Infinity, ease: "easeInOut" }}
       />
     </motion.div>

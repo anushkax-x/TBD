@@ -7,7 +7,10 @@ import { EASE_OUT } from "./easing";
 const parent: Variants = {
   hidden: {},
   show: (custom: { stagger: number; delay: number }) => ({
-    transition: { staggerChildren: custom.stagger, delayChildren: custom.delay },
+    transition: {
+      staggerChildren: custom.stagger,
+      delayChildren: custom.delay,
+    },
   }),
 };
 
