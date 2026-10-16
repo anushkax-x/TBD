@@ -18,12 +18,15 @@ export function SplitText({
   delay = 0,
   stagger = 0.06,
   onMount = false,
+  highlight = [],
 }: {
   text: string;
   className?: string;
   delay?: number;
   stagger?: number;
   onMount?: boolean;
+  /** Words (ignoring punctuation) rendered in the accent colour */
+  highlight?: string[];
 }) {
   const words = text.split(" ");
   return (
@@ -43,7 +46,12 @@ export function SplitText({
           aria-hidden
           className="inline-block overflow-hidden pb-[0.12em] align-top -mb-[0.12em]"
         >
-          <motion.span className="inline-block" variants={word}>
+          <motion.span
+            className={`inline-block ${
+              highlight.includes(w.replace(/[^\p{L}\p{N}'-]/gu, "")) ? "text-accent" : ""
+            }`}
+            variants={word}
+          >
             {w}
             {i < words.length - 1 ? " " : ""}
           </motion.span>

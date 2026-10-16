@@ -263,38 +263,6 @@ body {
   animation: chat-caret 0.9s steps(1) infinite;
 }
 
-@keyframes mesh-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(0.85);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.25);
-  }
-}
-
-@keyframes mesh-draw {
-  0%,
-  100% {
-    stroke-opacity: 0.25;
-  }
-  50% {
-    stroke-opacity: 0.8;
-  }
-}
-
-.mesh-node {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: mesh-pulse 2.4s ease-in-out infinite;
-}
-
-.mesh-edge {
-  animation: mesh-draw 2.8s ease-in-out infinite;
-}
-
 /* Problem card illustrations — animate only on the highlighted card */
 .problem-card .pa-fill,
 .problem-card .pa-bar,
@@ -493,75 +461,10 @@ body {
   }
 }
 
-/* About section — handoff vs direct path */
-.about-visual .about-dash {
-  animation: pa-dash 1.2s linear infinite;
-}
-
-.about-visual .about-strike path {
-  stroke-dasharray: 200;
-  animation: about-strike 2.8s ease-in-out infinite;
-}
-
-.about-visual .about-strike path:last-child {
-  animation-delay: 0.12s;
-}
-
-.about-visual .about-link {
-  animation: pa-dash 1.4s linear infinite;
-}
-
-.about-visual .about-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: mesh-pulse 2s ease-in-out infinite;
-}
-
-.about-visual .about-node {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: about-node 2.6s ease-in-out infinite;
-}
-
-@keyframes about-strike {
-  0%,
-  100% {
-    stroke-dashoffset: 200;
-    opacity: 0.25;
-  }
-  40%,
-  70% {
-    stroke-dashoffset: 0;
-    opacity: 0.85;
-  }
-}
-
-@keyframes about-node {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.04);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .about-visual .about-dash,
-  .about-visual .about-strike path,
-  .about-visual .about-link,
-  .about-visual .about-pulse,
-  .about-visual .about-node {
-    animation: none !important;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .chat-bubble,
   .chat-typing-dot,
-  .chat-caret,
-  .mesh-node,
-  .mesh-edge {
+  .chat-caret {
     animation: none;
   }
 }

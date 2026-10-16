@@ -38,7 +38,7 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-hairline bg-surface text-ink">
-      <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16 lg:px-8">
         <Stagger className="grid grid-cols-2 gap-10 sm:grid-cols-3">
           {columns.map((col, i) => (
             <StaggerItem key={col.title} className={i === 2 ? "col-span-2 sm:col-span-1" : ""}>

@@ -30,7 +30,14 @@ function DataEntryArt() {
       <line x1="12" y1="15" x2="30" y2="15" />
       <line x1="12" y1="22" x2="30" y2="22" />
       <line x1="12" y1="29" x2="24" y2="29" />
-      <line x1="42" y1="24" x2="78" y2="24" strokeDasharray="2 4" opacity="0.5" />
+      <line
+        x1="42"
+        y1="24"
+        x2="78"
+        y2="24"
+        strokeDasharray="2 4"
+        opacity="0.5"
+      />
       <rect
         className="pa-travel"
         x="40"
@@ -42,9 +49,30 @@ function DataEntryArt() {
         stroke="none"
       />
       <rect x="84" y="6" width="30" height="36" rx="3" />
-      <line className="pa-fill" style={delay(0)} x1="90" y1="15" x2="108" y2="15" />
-      <line className="pa-fill" style={delay(0.3)} x1="90" y1="22" x2="108" y2="22" />
-      <line className="pa-fill" style={delay(0.6)} x1="90" y1="29" x2="102" y2="29" />
+      <line
+        className="pa-fill"
+        style={delay(0)}
+        x1="90"
+        y1="15"
+        x2="108"
+        y2="15"
+      />
+      <line
+        className="pa-fill"
+        style={delay(0.3)}
+        x1="90"
+        y1="22"
+        x2="108"
+        y2="22"
+      />
+      <line
+        className="pa-fill"
+        style={delay(0.6)}
+        x1="90"
+        y1="29"
+        x2="102"
+        y2="29"
+      />
     </svg>
   );
 }
@@ -65,7 +93,14 @@ function FollowUpArt() {
       <rect x="50" y="8" width="52" height="13" rx="6.5" />
       <line x1="57" y1="14.5" x2="86" y2="14.5" opacity="0.6" />
       <g className="pa-missed">
-        <rect x="60" y="27" width="52" height="13" rx="6.5" strokeDasharray="3 3" />
+        <rect
+          x="60"
+          y="27"
+          width="52"
+          height="13"
+          rx="6.5"
+          strokeDasharray="3 3"
+        />
         <circle cx="76" cy="33.5" r="1.2" fill="currentColor" stroke="none" />
         <circle cx="82" cy="33.5" r="1.2" fill="currentColor" stroke="none" />
         <circle cx="88" cy="33.5" r="1.2" fill="currentColor" stroke="none" />
@@ -89,7 +124,10 @@ function RepetitiveArt() {
           rx="2"
         />
       ))}
-      <g className="pa-spin pa-spin-slow" style={{ transformOrigin: "60px 24px" }}>
+      <g
+        className="pa-spin pa-spin-slow"
+        style={{ transformOrigin: "60px 24px" }}
+      >
         <path d="M60 10 A14 14 0 1 1 46 24" />
         <path d="M42.5 27 L46 23.5 L49.5 27" />
       </g>
@@ -115,13 +153,41 @@ function DisconnectedArt() {
     <svg {...svgProps}>
       <rect x="6" y="17" width="16" height="14" rx="3" />
       <rect x="52" y="6" width="16" height="14" rx="3" />
-      <rect className="pa-pulse-soft" x="98" y="20" width="16" height="14" rx="3" />
-      <line className="pa-dash" x1="22" y1="22" x2="52" y2="15" strokeDasharray="3 3" />
+      <rect
+        className="pa-pulse-soft"
+        x="98"
+        y="20"
+        width="16"
+        height="14"
+        rx="3"
+      />
+      <line
+        className="pa-dash"
+        x1="22"
+        y1="22"
+        x2="52"
+        y2="15"
+        strokeDasharray="3 3"
+      />
       <line x1="68" y1="15" x2="78" y2="18.7" />
       <line x1="88" y1="22.3" x2="98" y2="26" />
       <path className="pa-pulse" d="M80.5 18 L85.5 23 M85.5 18 L80.5 23" />
-      <line x1="14" y1="31" x2="14" y2="40" opacity="0.4" strokeDasharray="2 3" />
-      <line x1="14" y1="40" x2="100" y2="40" opacity="0.4" strokeDasharray="2 3" />
+      <line
+        x1="14"
+        y1="31"
+        x2="14"
+        y2="40"
+        opacity="0.4"
+        strokeDasharray="2 3"
+      />
+      <line
+        x1="14"
+        y1="40"
+        x2="100"
+        y2="40"
+        opacity="0.4"
+        strokeDasharray="2 3"
+      />
     </svg>
   );
 }
@@ -174,7 +240,14 @@ function InterfaceArt() {
       />
       {/* Clean after */}
       <rect x="74" y="6" width="42" height="36" rx="3" />
-      <line className="pa-fill" style={delay(0)} x1="82" y1="16" x2="106" y2="16" />
+      <line
+        className="pa-fill"
+        style={delay(0)}
+        x1="82"
+        y1="16"
+        x2="106"
+        y2="16"
+      />
       <line
         className="pa-fill"
         style={delay(0.25)}
@@ -197,44 +270,45 @@ function InterfaceArt() {
   );
 }
 
-const problems: { title: string; body: string; fix: string; art: ReactNode }[] = [
-  {
-    title: "Manual data entry",
-    body: "Hours lost copying between sheets, inboxes and CRMs.",
-    fix: "Data syncs itself",
-    art: <DataEntryArt />,
-  },
-  {
-    title: "Missed follow-ups",
-    body: "Leads go cold because nobody had time to reply.",
-    fix: "Every lead followed up, automatically",
-    art: <FollowUpArt />,
-  },
-  {
-    title: "Repetitive admin",
-    body: "Skilled people stuck doing work software should do.",
-    fix: "Routine tasks run on autopilot",
-    art: <RepetitiveArt />,
-  },
-  {
-    title: "Disconnected tools",
-    body: "Your website, CRM, payments and email don't talk.",
-    fix: "One connected system",
-    art: <DisconnectedArt />,
-  },
-  {
-    title: "Manual reporting",
-    body: "Someone rebuilds the same report every week.",
-    fix: "Live dashboards, zero compiling",
-    art: <ReportingArt />,
-  },
-  {
-    title: "Dated or confusing UI",
-    body: "Cluttered screens make customers bounce.",
-    fix: "Clear interfaces that convert",
-    art: <InterfaceArt />,
-  },
-];
+const problems: { title: string; body: string; fix: string; art: ReactNode }[] =
+  [
+    {
+      title: "Manual data entry",
+      body: "Hours lost copying between sheets, inboxes and CRMs.",
+      fix: "Data syncs itself",
+      art: <DataEntryArt />,
+    },
+    {
+      title: "Missed follow-ups",
+      body: "Leads go cold because nobody had time to reply.",
+      fix: "Every lead followed up, automatically",
+      art: <FollowUpArt />,
+    },
+    {
+      title: "Repetitive admin",
+      body: "Skilled people stuck doing work software should do.",
+      fix: "Routine tasks run on autopilot",
+      art: <RepetitiveArt />,
+    },
+    {
+      title: "Disconnected tools",
+      body: "Your website, CRM, payments and email don't talk.",
+      fix: "One connected system",
+      art: <DisconnectedArt />,
+    },
+    {
+      title: "Manual reporting",
+      body: "Someone rebuilds the same report every week.",
+      fix: "Live dashboards, zero compiling",
+      art: <ReportingArt />,
+    },
+    {
+      title: "Dated or confusing UI",
+      body: "Cluttered screens make customers bounce.",
+      fix: "Clear interfaces that convert",
+      art: <InterfaceArt />,
+    },
+  ];
 
 export function ProblemSection() {
   const [active, setActive] = useState(0);
@@ -251,13 +325,13 @@ export function ProblemSection() {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="relative mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <Reveal>
               <p className="eyebrow">Where we create value</p>
             </Reveal>
-            <h2 className="mt-5 font-display text-4xl leading-[1.05] text-ink sm:text-5xl lg:text-6xl">
+            <h2 className="mt-5 font-display text-[2.25rem] leading-[1.05] text-ink sm:text-5xl lg:text-6xl">
               <SplitText text="If it relies on memory, it’s already broken." />
             </h2>
           </div>
@@ -270,7 +344,7 @@ export function ProblemSection() {
         </div>
 
         <Stagger
-          className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-10 grid gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3"
           stagger={0.1}
         >
           {problems.map((p, i) => {
@@ -284,7 +358,7 @@ export function ProblemSection() {
                     setPaused(true);
                   }}
                   onMouseLeave={() => setPaused(false)}
-                  className={`problem-card card-glass relative flex h-full flex-col overflow-hidden rounded-3xl p-5 transition-[border-color,box-shadow,transform] duration-500 ${
+                  className={`problem-card card-glass relative flex h-full flex-col overflow-hidden rounded-2xl p-4 transition sm:rounded-3xl sm:p-5-[border-color,box-shadow,transform] duration-500 ${
                     isActive
                       ? "-translate-y-1 !border-[var(--danger)]/40 shadow-[0_24px_60px_-24px_rgba(240,112,112,0.45)]"
                       : ""
@@ -296,9 +370,9 @@ export function ProblemSection() {
                       isActive ? "opacity-[0.12]" : "opacity-0"
                     }`}
                   />
-                  <div className="relative flex items-center gap-4">
+                  <div className="relative flex items-center gap-3 sm:gap-4">
                     <div
-                      className={`flex h-12 w-20 shrink-0 items-center justify-center rounded-xl border px-2.5 transition-colors duration-500 ${
+                      className={`flex h-10 w-16 shrink-0 items-center justify-center rounded-xl border px-2 sm:h-12 sm:w-20 sm:px-2.5 transition-colors duration-500 ${
                         isActive
                           ? "border-[var(--danger)]/30 bg-[var(--danger)]/[0.06] text-[var(--danger)]"
                           : "border-hairline bg-white/[0.02] text-slate-muted/60"
@@ -306,17 +380,19 @@ export function ProblemSection() {
                     >
                       {p.art}
                     </div>
-                    <h3 className="text-base font-medium leading-snug text-ink">{p.title}</h3>
+                    <h3 className="text-base font-medium leading-snug text-ink">
+                      {p.title}
+                    </h3>
                   </div>
                   <p
-                    className={`relative mb-4 mt-4 text-sm leading-relaxed transition-colors duration-500 ${
+                    className={`relative mb-3 mt-3 text-sm leading-relaxed sm:mb-4 sm:mt-4 transition-colors duration-500 ${
                       isActive ? "text-ink-soft" : "text-slate"
                     }`}
                   >
                     {p.body}
                   </p>
                   <p
-                    className={`relative mt-auto flex items-center gap-2 border-t border-hairline pt-4 text-sm font-medium transition-colors duration-500 ${
+                    className={`relative mt-auto flex items-center gap-2 border-t border-hairline pt-3 text-sm sm:pt-4 font-medium transition-colors duration-500 ${
                       isActive ? "text-accent" : "text-accent/70"
                     }`}
                   >
@@ -337,7 +413,7 @@ export function ProblemSection() {
           })}
         </Stagger>
 
-        <p className="mx-auto mt-28 max-w-4xl text-center font-display text-3xl leading-[1.15] text-accent sm:text-5xl">
+        <p className="mx-auto mt-16 max-w-5xl text-balance text-center font-display text-2xl leading-[1.2] text-accent sm:mt-20 sm:text-[2rem] lg:mt-28 lg:text-[2.6rem]">
           <TextScrub text="The goal is not more software. It is fewer manual steps and a clearer way of working." />
         </p>
       </div>

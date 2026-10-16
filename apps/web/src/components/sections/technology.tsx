@@ -22,7 +22,7 @@ const tools = [
 export function TechnologySection() {
   return (
     <section id="technology" className="scroll-mt-24 bg-surface">
-      <div className="mx-auto max-w-6xl px-4 pt-24 text-center sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
         <Reveal>
           <p className="eyebrow">Tools we connect</p>
           <p className="mx-auto mt-4 max-w-lg text-base text-slate">
@@ -31,7 +31,7 @@ export function TechnologySection() {
           </p>
         </Reveal>
       </div>
-      <Reveal variant="fade" className="pb-24 pt-12">
+      <Reveal variant="fade" className="pb-16 pt-8 sm:pb-20 lg:pb-24 lg:pt-12">
         <ul className="sr-only">
           {tools.map((tool) => (
             <li key={tool.file}>{tool.name}</li>

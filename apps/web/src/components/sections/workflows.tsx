@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
 import { LightWave } from "@/components/motion/light-wave";
 import { GlowOrb } from "@/components/motion/glow-orb";
@@ -157,7 +162,10 @@ const stepItem: Variants = {
 
 const connector: Variants = {
   hidden: { scaleX: 0 },
-  show: { scaleX: 1, transition: { duration: 0.5, ease: EASE_OUT, delay: 0.1 } },
+  show: {
+    scaleX: 1,
+    transition: { duration: 0.5, ease: EASE_OUT, delay: 0.1 },
+  },
 };
 
 export function WorkflowsSection() {
@@ -183,11 +191,14 @@ export function WorkflowsSection() {
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <GlowOrb className="-right-48 top-10" size={560} opacity={0.16} />
       </div>
-      <div className="relative mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <Reveal>
-          <h2 className="font-display text-4xl leading-[1.08] text-ink sm:text-5xl">
+          <h2 className="font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
             What a{" "}
-            <span className="relative inline-grid align-bottom text-accent" aria-live="polite">
+            <span
+              className="relative inline-grid align-bottom text-accent"
+              aria-live="polite"
+            >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={current.id}
@@ -211,7 +222,7 @@ export function WorkflowsSection() {
 
         <Reveal delayMs={100}>
           <div
-            className="mt-10 flex flex-wrap gap-2"
+            className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:mt-10 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onFocusCapture={() => setPaused(true)}
@@ -231,7 +242,7 @@ export function WorkflowsSection() {
                     setActiveIndex(i);
                     setPaused(true);
                   }}
-                  className={`relative rounded-full border px-4 py-2 text-sm transition-colors duration-300 ${
+                  className={`relative shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] transition-colors duration-300 sm:px-4 sm:py-2 sm:text-sm ${
                     isActive
                       ? "border-accent/50 text-surface"
                       : "border-hairline bg-white/[0.02] text-slate hover:border-border-strong hover:text-ink"
@@ -242,7 +253,11 @@ export function WorkflowsSection() {
                     <motion.span
                       layoutId="wf-tab"
                       className="absolute inset-0 rounded-full bg-accent shadow-[0_8px_28px_-8px_var(--accent-glow)]"
-                      transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 34,
+                      }}
                     />
                   )}
                   <span className="relative z-10">{w.title}</span>
@@ -253,12 +268,12 @@ export function WorkflowsSection() {
         </Reveal>
 
         <div
-          className="mt-10"
+          className="mt-6 sm:mt-10"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
           <LightWave className="rounded-3xl">
-            <div className="card-glass overflow-hidden rounded-3xl p-6 sm:p-10">
+            <div className="card-glass overflow-hidden rounded-3xl p-5 sm:p-10">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={current.id}
@@ -267,17 +282,17 @@ export function WorkflowsSection() {
                   exit={{ opacity: 0, y: -12, transition: { duration: 0.25 } }}
                 >
                   <motion.div
-                    className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+                    className="mb-6 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:items-start sm:justify-between"
                     variants={stepItem}
                   >
                     <div>
                       <p className="font-mono text-xs uppercase tracking-[0.16em] text-slate-muted">
                         Example · {current.label}
                       </p>
-                      <h3 className="mt-2 text-2xl font-medium text-ink">
+                      <h3 className="mt-2 text-xl font-medium text-ink sm:text-2xl">
                         {current.title}
                       </h3>
-                      <p className="mt-2 max-w-xl text-base text-slate">
+                      <p className="mt-2 max-w-xl text-sm text-slate sm:text-base">
                         {current.summary}
                       </p>
                     </div>
@@ -287,7 +302,10 @@ export function WorkflowsSection() {
                   </motion.div>
 
                   {/* Mobile: vertical timeline */}
-                  <motion.ol className="space-y-0 md:hidden" variants={stepList}>
+                  <motion.ol
+                    className="space-y-0 md:hidden"
+                    variants={stepList}
+                  >
                     {current.steps.map((step, i) => (
                       <motion.li
                         key={`${current.id}-${i}`}
@@ -295,14 +313,14 @@ export function WorkflowsSection() {
                         variants={stepItem}
                       >
                         <div className="flex flex-col items-center">
-                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent-soft/50 font-mono text-[11px] font-medium text-accent">
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent-soft/50 font-mono text-[10px] font-medium text-accent">
                             {i + 1}
                           </span>
                           {i < current.steps.length - 1 && (
-                            <span className="my-1 min-h-3 w-px flex-1 bg-gradient-to-b from-accent/50 to-border" />
+                            <span className="my-0.5 min-h-2 w-px flex-1 bg-gradient-to-b from-accent/50 to-border" />
                           )}
                         </div>
-                        <p className="mb-3 flex-1 rounded-2xl border border-hairline bg-white/[0.03] px-4 py-3 text-sm font-medium text-ink">
+                        <p className="mb-2 flex-1 pt-0.5 text-sm font-medium text-ink">
                           {step}
                         </p>
                       </motion.li>
@@ -341,7 +359,7 @@ export function WorkflowsSection() {
 
               {/* Progress dots for rotation */}
               <div
-                className="mt-10 flex justify-center gap-1.5"
+                className="mt-6 flex justify-center gap-1.5 sm:mt-10"
                 role="tablist"
                 aria-label="Workflow examples"
               >

@@ -110,8 +110,8 @@ type Service = {
   cta: string;
   href: string;
   art: ReactNode;
-  /** Pinned-layout placement: left %, start/length of travel in section progress, tilt */
-  pos: { left: string; start: number; length: number; tilt: number };
+  /** Pinned-layout placement: x = 0..1 across the centred column, start/length of travel in section progress, tilt */
+  pos: { x: number; start: number; length: number; tilt: number };
 };
 
 const services: Service[] = [
@@ -128,7 +128,7 @@ const services: Service[] = [
     cta: "See workflows →",
     href: "#workflows",
     art: <AutomateArt />,
-    pos: { left: "26%", start: 0.0, length: 0.52, tilt: -2 },
+    pos: { x: 0.3, start: 0.0, length: 0.52, tilt: -2 },
   },
   {
     id: "experience",
@@ -143,13 +143,14 @@ const services: Service[] = [
     cta: "Discuss UI →",
     href: "#faq",
     art: <ExperienceArt />,
-    pos: { left: "68%", start: 0.06, length: 0.48, tilt: 2 },
+    pos: { x: 0.92, start: 0.06, length: 0.48, tilt: 2 },
   },
   {
     id: "connect",
     eyebrow: "03",
     title: "Manage your tech",
-    description: "Link apps you pay for—or build a small piece when nothing fits.",
+    description:
+      "Link apps you pay for—or build a small piece when nothing fits.",
     items: [
       "Store ↔ email / SMS",
       "Orders ↔ warehouse",
@@ -158,7 +159,7 @@ const services: Service[] = [
     cta: "See tools →",
     href: "#technology",
     art: <ConnectArt />,
-    pos: { left: "5%", start: 0.15, length: 0.56, tilt: 1.5 },
+    pos: { x: 0.02, start: 0.15, length: 0.56, tilt: 1.5 },
   },
   {
     id: "presence",
@@ -173,13 +174,14 @@ const services: Service[] = [
     cta: "Grow online →",
     href: "#faq",
     art: <PresenceArt />,
-    pos: { left: "52%", start: 0.23, length: 0.5, tilt: -1.5 },
+    pos: { x: 0.62, start: 0.23, length: 0.5, tilt: -1.5 },
   },
   {
     id: "convert",
     eyebrow: "05",
     title: "Improve sales",
-    description: "From browse to purchase—and back again without manual chasing.",
+    description:
+      "From browse to purchase—and back again without manual chasing.",
     items: [
       "Checkout recovery",
       "Post-purchase follow-up",
@@ -188,7 +190,7 @@ const services: Service[] = [
     cta: "Book a call →",
     href: "#faq",
     art: <ConvertArt />,
-    pos: { left: "73%", start: 0.33, length: 0.54, tilt: 2 },
+    pos: { x: 1, start: 0.33, length: 0.54, tilt: 2 },
   },
   {
     id: "custom",
@@ -203,37 +205,103 @@ const services: Service[] = [
     cta: "Custom build →",
     href: "#faq",
     art: <CustomArt />,
-    pos: { left: "22%", start: 0.42, length: 0.52, tilt: -2 },
+    pos: { x: 0.18, start: 0.42, length: 0.52, tilt: -2 },
   },
 ];
 
 const EYEBROW = "What we build";
-const HEADING = "Built for teams that have outgrown spreadsheets and inbox chasing.";
+const HEADING =
+  "Built for teams that have outgrown spreadsheets and inbox chasing.";
 const INTRO =
   "Automate busywork, connect your stack, refresh the interface, ship custom solutions, and grow a stronger online presence.";
 
-function ServiceCard({ s, className = "" }: { s: Service; className?: string }) {
+/**
+ * `compact` tightens the card on phones only (below `sm`); from `sm` up it is
+ * the full card. `floating` is the smaller card used in the pinned desktop layout.
+ */
+function ServiceCard({
+  s,
+  className = "",
+  compact = false,
+  floating = false,
+}: {
+  s: Service;
+  className?: string;
+  compact?: boolean;
+  floating?: boolean;
+}) {
   const label = s.cta.replace(/\s*→$/, "");
   return (
     <article
-      className={`card-glass group flex h-full flex-col rounded-3xl p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] ${className}`}
+      className={`card-glass group flex h-full flex-col rounded-3xl transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] ${
+        compact ? "p-5 sm:p-7" : floating ? "p-6" : "p-7"
+      } ${className}`}
     >
-      <div className="flex items-start justify-between">
-        <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-accent/40 bg-accent-soft/60 font-mono text-sm font-medium text-accent shadow-[0_0_28px_-6px_var(--accent-glow)]">
+      <div
+        className={
+          compact
+            ? "flex items-center justify-between gap-4 sm:block"
+            : "flex items-start justify-between"
+        }
+      >
+        <span
+          className={`inline-flex shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent-soft/60 font-mono font-medium text-accent shadow-[0_0_28px_-6px_var(--accent-glow)] ${
+            compact
+              ? "h-10 w-10 text-xs sm:h-14 sm:w-14 sm:text-sm"
+              : floating
+                ? "h-11 w-11 text-xs"
+                : "h-14 w-14 text-sm"
+          }`}
+        >
           {s.eyebrow}
         </span>
+        <div
+          className={`text-accent/80 transition-colors duration-300 group-hover:text-accent ${
+            compact
+              ? "w-28 [&_svg]:h-10 sm:my-8 sm:w-auto sm:[&_svg]:h-14"
+              : "hidden"
+          }`}
+        >
+          {s.art}
+        </div>
       </div>
-      <div className="my-8 text-accent/80 transition-colors duration-300 group-hover:text-accent">
-        {s.art}
-      </div>
-      <h3 className="text-lg font-medium leading-snug text-ink">{s.title}</h3>
-      <p className="mt-3 text-[15px] leading-relaxed">
+      {!compact && (
+        <div
+          className={`text-accent/80 transition-colors duration-300 group-hover:text-accent ${
+            floating ? "my-5 [&_svg]:h-11" : "my-8"
+          }`}
+        >
+          {s.art}
+        </div>
+      )}
+      <h3
+        className={`font-medium leading-snug text-ink ${
+          compact
+            ? "mt-5 text-base sm:mt-0 sm:text-lg"
+            : floating
+              ? "text-base"
+              : "text-lg"
+        }`}
+      >
+        {s.title}
+      </h3>
+      <p
+        className={`leading-relaxed ${
+          compact
+            ? "mt-2 text-sm sm:mt-3 sm:text-[15px]"
+            : floating
+              ? "mt-2 text-sm"
+              : "mt-3 text-[15px]"
+        }`}
+      >
         <span className="text-ink">{s.description}</span>{" "}
         <span className="text-slate">{s.items.join(" · ")}.</span>
       </p>
       <a
         href={s.href}
-        className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-accent hover:text-accent-hover"
+        className={`mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-hover ${
+          compact ? "pt-4 sm:pt-6" : floating ? "pt-4" : "pt-6"
+        }`}
       >
         {label}
         <ArrowRight
@@ -245,8 +313,14 @@ function ServiceCard({ s, className = "" }: { s: Service; className?: string }) 
   );
 }
 
-function FloatingCard({ s, progress }: { s: Service; progress: MotionValue<number> }) {
-  const { start, length, tilt, left } = s.pos;
+function FloatingCard({
+  s,
+  progress,
+}: {
+  s: Service;
+  progress: MotionValue<number>;
+}) {
+  const { start, length, tilt, x } = s.pos;
   const range = [start, start + length];
   const y = useTransform(progress, range, ["100vh", "-115vh"]);
   const rotate = useTransform(progress, range, [tilt, -tilt]);
@@ -257,26 +331,44 @@ function FloatingCard({ s, progress }: { s: Service; progress: MotionValue<numbe
   );
   return (
     <motion.div
-      className="absolute top-0 w-[21rem] xl:w-[22rem]"
-      style={{ left, y, rotate, scale }}
+      className="absolute top-0 w-(--card-w)"
+      style={{ left: `calc((100% - var(--card-w)) * ${x})`, y, rotate, scale }}
     >
-      <ServiceCard s={s} />
+      <ServiceCard s={s} floating />
     </motion.div>
   );
 }
 
 function PinnedServices() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.4 });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 220,
+    damping: 40,
+    mass: 0.4,
+  });
   const headingScale = useTransform(progress, [0, 0.9, 1], [1, 1, 0.96]);
 
   return (
     <div ref={ref} className="relative h-[360vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <GlowOrb className="-left-48 top-1/4" size={620} opacity={0.22} parallax={0} />
-          <GlowOrb className="-right-40 bottom-0" size={520} opacity={0.16} parallax={0} duration={22} />
+          <GlowOrb
+            className="-left-48 top-1/4"
+            size={620}
+            opacity={0.22}
+            parallax={0}
+          />
+          <GlowOrb
+            className="-right-40 bottom-0"
+            size={520}
+            opacity={0.16}
+            parallax={0}
+            duration={22}
+          />
         </div>
 
         <motion.div
@@ -288,14 +380,22 @@ function PinnedServices() {
             <TextScrub text={HEADING} progress={progress} range={[0, 0.32]} />
           </h2>
           <p className="mt-8 max-w-2xl text-xl leading-relaxed text-ink-soft">
-            <TextScrub text={INTRO} progress={progress} range={[0.18, 0.45]} dim={0.15} />
+            <TextScrub
+              text={INTRO}
+              progress={progress}
+              range={[0.18, 0.45]}
+              dim={0.15}
+            />
           </p>
         </motion.div>
 
-        <div className="absolute inset-0 z-10">
-          {services.map((s) => (
-            <FloatingCard key={s.id} s={s} progress={progress} />
-          ))}
+        {/* Cards float within a centred column, not the full viewport width */}
+        <div className="absolute inset-y-0 left-1/2 z-10 w-full max-w-5xl -translate-x-1/2 px-8 [--card-w:16.5rem] xl:[--card-w:17.5rem]">
+          <div className="relative h-full">
+            {services.map((s) => (
+              <FloatingCard key={s.id} s={s} progress={progress} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -304,26 +404,43 @@ function PinnedServices() {
 
 function StackedServices({ className = "" }: { className?: string }) {
   return (
-    <div className={`relative mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8 ${className}`}>
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <GlowOrb className="-left-40 top-0" size={420} opacity={0.18} parallax={0} />
+    <div
+      className={`relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 ${className}`}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <GlowOrb
+          className="-left-40 top-0"
+          size={420}
+          opacity={0.18}
+          parallax={0}
+        />
       </div>
       <div className="relative text-center">
         <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
-        <h2 className="mx-auto mt-6 max-w-3xl font-display text-4xl leading-[1.08] text-ink sm:text-5xl">
+        <h2 className="mx-auto mt-6 max-w-3xl font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
           <SplitText text={HEADING} />
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate sm:text-lg">
+        <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-slate sm:mt-5 sm:text-lg">
           {INTRO}
         </p>
       </div>
-      <Stagger className="relative mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Phones: swipeable row of compact cards. sm+: grid. */}
+      <Stagger className="relative -mx-4 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
         {services.map((s) => (
-          <StaggerItem key={s.id} className="h-full">
-            <ServiceCard s={s} />
+          <StaggerItem
+            key={s.id}
+            className="h-auto w-[82%] shrink-0 snap-center sm:h-full sm:w-auto"
+          >
+            <ServiceCard s={s} compact />
           </StaggerItem>
         ))}
       </Stagger>
+      <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-slate-muted sm:hidden">
+        Swipe to see all 6 →
+      </p>
     </div>
   );
 }

@@ -194,7 +194,7 @@ function buildRows(
 function ReviewCard({ story }: { story: Story }) {
   return (
     <article
-      className={`group relative flex h-[168px] w-[300px] shrink-0 flex-col justify-between overflow-hidden rounded-3xl border border-accent/25 bg-gradient-to-br ${story.tone} px-5 py-4 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/50 sm:w-[340px]`}
+      className={`group relative flex h-[148px] w-[264px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-accent/25 bg-gradient-to-br ${story.tone} px-4 py-3 sm:h-[168px] sm:rounded-3xl sm:px-5 sm:py-4 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/50 sm:w-[340px]`}
     >
       <div className="flex items-start justify-between gap-2">
         <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-accent">
@@ -267,7 +267,7 @@ function StoryCard({ story }: { story: Story }) {
     </>
   );
 
-  const className = `group relative flex h-[168px] w-[300px] shrink-0 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-br ${story.tone} transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/40 sm:w-[340px]`;
+  const className = `group relative flex h-[148px] w-[264px] shrink-0 overflow-hidden rounded-2xl border border-hairline sm:h-[168px] sm:rounded-3xl bg-gradient-to-br ${story.tone} transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/40 sm:w-[340px]`;
 
   if (story.href) {
     return (
@@ -294,7 +294,12 @@ function MarqueeRow({
   reverse?: boolean;
 }) {
   return (
-    <Marquee speed={reverse ? 32 : 38} reverse={reverse} gapClass="gap-4" className="py-2">
+    <Marquee
+      speed={reverse ? 32 : 38}
+      reverse={reverse}
+      gapClass="gap-4"
+      className="py-2"
+    >
       {items.map((story) => (
         <StoryCard key={story.id} story={story} />
       ))}
@@ -311,19 +316,22 @@ export function WorkVideosSection() {
       className="relative overflow-hidden bg-surface"
       aria-labelledby="work-videos-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 pb-14 pt-28 text-center sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 pb-8 pt-16 text-center sm:px-6 sm:pb-14 sm:pt-20 lg:px-8 lg:pt-28">
         <Reveal>
           <p className="eyebrow eyebrow-pill">Work &amp; customers</p>
         </Reveal>
         <h2
           id="work-videos-heading"
-          className="mx-auto mt-6 max-w-3xl font-display text-4xl leading-[1.08] text-ink sm:text-5xl"
+          className="mx-auto mt-6 max-w-3xl font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl"
         >
           <SplitText text="Recent builds and the teams behind them." />
         </h2>
       </div>
 
-      <Reveal variant="fade" className="space-y-4 pb-28">
+      <Reveal
+        variant="fade"
+        className="space-y-3 pb-16 sm:space-y-4 sm:pb-20 lg:pb-28"
+      >
         <MarqueeRow items={rowA} />
         <MarqueeRow items={rowB} reverse />
       </Reveal>

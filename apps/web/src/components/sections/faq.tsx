@@ -59,16 +59,16 @@ export function FaqSection() {
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <GlowOrb className="-left-48 bottom-0" size={520} opacity={0.14} />
       </div>
-      <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-28 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:px-8">
+      <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:px-8 lg:py-28">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <Reveal>
             <p className="eyebrow">FAQ</p>
           </Reveal>
-          <h2 className="mt-5 font-display text-4xl leading-[1.08] text-ink sm:text-5xl">
+          <h2 className="mt-5 font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
             <SplitText text="Frequently asked questions" />
           </h2>
         </div>
-        <Stagger className="space-y-3" stagger={0.06}>
+        <Stagger className="space-y-2 sm:space-y-3" stagger={0.06}>
           {faqs.map((item, i) => {
             const isOpen = open === i;
             return (
@@ -82,19 +82,25 @@ export function FaqSection() {
                 >
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                    className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left sm:px-6 sm:py-5"
                     aria-expanded={isOpen}
                     onClick={() => setOpen(isOpen ? null : i)}
                   >
-                    <span className="text-base font-medium text-ink">{item.q}</span>
+                    <span className="text-[15px] font-medium text-ink sm:text-base">
+                      {item.q}
+                    </span>
                     <motion.span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border sm:h-8 sm:w-8 ${
                         isOpen
                           ? "border-accent/50 bg-accent text-surface"
                           : "border-hairline text-slate"
                       }`}
                       animate={{ rotate: isOpen ? 180 : 0 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 24,
+                      }}
                     >
                       <ChevronDown className="h-4 w-4" aria-hidden />
                     </motion.span>
@@ -109,7 +115,7 @@ export function FaqSection() {
                         transition={{ duration: 0.45, ease: EASE_OUT }}
                         className="overflow-hidden"
                       >
-                        <p className="px-6 pb-6 text-sm leading-relaxed text-slate">
+                        <p className="px-4 pb-4 text-sm leading-relaxed text-slate sm:px-6 sm:pb-6">
                           {item.a}
                         </p>
                       </motion.div>
