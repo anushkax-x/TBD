@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -411,13 +411,13 @@ function ServiceCard({
     <a
       href={s.href}
       aria-label={`${s.title}: ${s.cta}`}
-      className={`group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-3xl border border-hairline bg-surface-elevated shadow-[0_24px_60px_-30px_rgba(0,0,0,0.9)] transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] ${className}`}
+      className={`group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface-elevated shadow-[0_28px_55px_-16px_rgba(0,0,0,0.85)] transition-[border-color,box-shadow,transform] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] sm:rounded-3xl sm:shadow-[0_24px_60px_-30px_rgba(0,0,0,0.9)] ${className}`}
     >
       <Image
         src={s.image}
         alt=""
         fill
-        sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 80vw"
+        sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 68vw"
         className="object-cover opacity-45 saturate-[0.65] transition duration-700 group-hover:scale-105 group-hover:opacity-55"
         unoptimized
       />
@@ -430,21 +430,21 @@ function ServiceCard({
         className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_70%,rgba(43,179,163,0.18),transparent_70%)]"
       />
 
-      <div className="relative p-5 sm:p-6">
-        <h3 className="text-lg font-medium leading-snug text-white sm:text-xl">
+      <div className="relative p-3.5 sm:p-6">
+        <h3 className="text-[15px] font-medium leading-snug text-white sm:text-xl">
           {s.title}
         </h3>
-        <p className="mt-1.5 text-[13px] leading-relaxed text-ink-soft sm:text-sm">
+        <p className="mt-1 line-clamp-2 text-[12px] leading-relaxed text-ink-soft sm:mt-1.5 sm:line-clamp-none sm:text-sm">
           {s.description}
         </p>
       </div>
 
-      <div className="relative flex flex-1 items-center pb-12 transition-transform duration-500 group-hover:-translate-y-1">
+      <div className="relative flex flex-1 scale-[0.92] items-center pb-10 transition-transform duration-500 group-hover:-translate-y-1 sm:scale-100 sm:pb-12">
         <div className="w-full">{s.visual}</div>
       </div>
 
-      <span className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-surface">
-        <ArrowRight className="h-4 w-4" aria-hidden />
+      <span className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-surface sm:bottom-4 sm:right-4 sm:h-9 sm:w-9">
+        <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden />
       </span>
     </a>
   );
@@ -570,28 +570,6 @@ function PinnedServices() {
 }
 
 function StackedServices({ className = "" }: { className?: string }) {
-  const railRef = useRef<HTMLDivElement>(null);
-  const [slide, setSlide] = useState(0);
-
-  // Phones: which card is centred in the swipe row
-  const onRailScroll = () => {
-    const rail = railRef.current;
-    const first = rail?.querySelector<HTMLElement>("[data-slide]");
-    if (!rail || !first) return;
-    const step = first.offsetWidth + 12;
-    setSlide(Math.min(services.length - 1, Math.round(rail.scrollLeft / step)));
-  };
-
-  const goTo = (i: number) => {
-    const rail = railRef.current;
-    const card = rail?.querySelectorAll<HTMLElement>("[data-slide]")[i];
-    if (!rail || !card) return;
-    rail.scrollTo({
-      left: card.offsetLeft - (rail.clientWidth - card.offsetWidth) / 2,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <div
       className={`relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 ${className}`}
@@ -613,46 +591,29 @@ function StackedServices({ className = "" }: { className?: string }) {
           <SplitText text={HEADING} />
         </h2>
       </div>
-      {/* Phones: swipeable row with live dots. sm+: grid. */}
-      <div
-        ref={railRef}
-        onScroll={onRailScroll}
-        className="relative -mx-4 mt-8 snap-x snap-mandatory overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:snap-none sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
-      >
-        <Stagger className="flex gap-3 sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-          {services.map((s) => (
+      {/*
+        Mobile: smaller floating cards in a zig-zag (tilt + offset + overlap).
+        sm+: normal flat grid.
+      */}
+      <Stagger className="relative mt-10 flex flex-col gap-0 sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        {services.map((s, i) => {
+          const float =
+            i === 0
+              ? "self-center rotate-[2deg] z-[1]"
+              : i % 2 === 1
+                ? "self-start -ml-1 -rotate-[3deg] z-[2]"
+                : "self-end -mr-1 rotate-[2.5deg] z-[3]";
+
+          return (
             <StaggerItem
               key={s.id}
-              className="w-[80%] shrink-0 snap-center sm:w-auto"
+              className={`mb-[-1.25rem] w-[68%] max-w-[15.5rem] drop-shadow-[0_24px_40px_rgba(0,0,0,0.45)] last:mb-0 sm:mb-0 sm:ml-0 sm:mr-0 sm:w-auto sm:max-w-none sm:rotate-0 sm:self-auto sm:drop-shadow-none sm:z-auto ${float}`}
             >
-              <div data-slide>
-                <ServiceCard s={s} />
-              </div>
+              <ServiceCard s={s} />
             </StaggerItem>
-          ))}
-          {/* trailing spacer so the last card can centre */}
-          <span aria-hidden className="w-[10%] shrink-0 sm:hidden" />
-        </Stagger>
-      </div>
-      <div
-        className="mt-5 flex items-center justify-center gap-1.5 sm:hidden"
-        role="tablist"
-        aria-label="Services"
-      >
-        {services.map((s, i) => (
-          <button
-            key={s.id}
-            type="button"
-            role="tab"
-            aria-selected={i === slide}
-            aria-label={s.title}
-            onClick={() => goTo(i)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === slide ? "w-6 bg-accent" : "w-1.5 bg-border-strong"
-            }`}
-          />
-        ))}
-      </div>
+          );
+        })}
+      </Stagger>
     </div>
   );
 }

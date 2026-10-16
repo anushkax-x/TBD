@@ -1,314 +1,346 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Image from "next/image";
-import { ExternalLink, Instagram, Linkedin, Quote } from "lucide-react";
+import { ArrowUpRight, Instagram, TrendingUp } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
-import { Marquee } from "@/components/motion/marquee";
 import { SplitText } from "@/components/motion/split-text";
+import { Marquee } from "@/components/motion/marquee";
+import {
+  getVisibleTestimonials,
+  TestimonialCard,
+} from "./testimonials";
 
-type Story = {
+type CaseStudy = {
   id: string;
-  type: "Project" | "Customer" | "Review";
   client: string;
   title: string;
   result: string;
-  tone: string;
-  /** Optional profile / cover image under /public */
-  image?: string;
-  /** Optional external profile (e.g. Instagram) */
-  href?: string;
-  handle?: string;
-  /** Review author role / company line */
-  role?: string;
+  tags: string[];
+  href: string;
+  linkLabel: string;
 };
 
-function LinkIcon({ href }: { href: string }) {
-  if (href.includes("instagram.com")) {
-    return <Instagram className="h-3.5 w-3.5" aria-hidden />;
-  }
-  if (href.includes("linkedin.com")) {
-    return <Linkedin className="h-3.5 w-3.5" aria-hidden />;
-  }
-  return <ExternalLink className="h-3.5 w-3.5" aria-hidden />;
-}
-
-const customers: Story[] = [
-  {
-    id: "anika",
-    type: "Customer",
-    client: "Content creator",
-    title: "Online presence & growth",
-    result:
-      "Helping @itsaniiikaa grow views and strengthen her Instagram presence as a creator.",
-    tone: "from-[#1a2824] to-[#0c1412]",
-    image: "/customers/itsaniiikaa/profile.jpg",
-    href: "https://www.instagram.com/itsaniiikaa/",
-    handle: "@itsaniiikaa",
-  },
+const sites: (CaseStudy & { image: string; domain: string })[] = [
   {
     id: "copperheads",
-    type: "Customer",
-    client: "Copperheads",
+    client: "Copperheads · PCB fabrication",
     title: "Custom tool for business and UI revamp",
     result:
       "Rebuilt copperheads.in and shipped a custom ordering tool for Tanay Gupta’s PCB fab.",
-    tone: "from-[#2a2218] to-[#14100c]",
-    image: "/customers/copperheads/cover.jpg",
+    tags: ["UI revamp", "Custom tool"],
     href: "https://copperheads.in/",
-    handle: "Tanay Gupta",
+    linkLabel: "Visit copperheads.in",
+    image: "/customers/copperheads/cover.jpg",
+    domain: "copperheads.in",
   },
   {
     id: "anoree",
-    type: "Customer",
-    client: "Online jewellery brand",
+    client: "Anoree · Online jewellery brand",
     title: "Custom workflows and tools",
     result:
       "Built custom workflows and tools so Anoree can run ops cleaner behind the storefront.",
-    tone: "from-[#2a1820] to-[#140c10]",
-    image: "/customers/anoree/cover.jpg",
+    tags: ["Automation", "Custom tools"],
     href: "https://anoree.in/",
-    handle: "Anoree",
+    linkLabel: "Visit anoree.in",
+    image: "/customers/anoree/cover.jpg",
+    domain: "anoree.in",
+  },
+  {
+    id: "realty-ai",
+    client: "Harsh · Real estate manager",
+    title: "Custom dashboard for real estate",
+    result:
+      "Built Realty AI — listings, bids, sales performance and market RSS in one owner dashboard.",
+    tags: ["Custom dashboard", "Ops tool"],
+    href: "#stories",
+    linkLabel: "Realty AI dashboard",
+    image: "/customers/realty-ai/cover.jpg",
+    domain: "Realty AI",
   },
 ];
 
-const reviews: Story[] = [
-  {
-    id: "review-meera",
-    type: "Review",
-    client: "Meera Kapoor",
-    title:
-      "ok honestly I was drowning in WhatsApp orders. they sorted it. not magic, just finally works and I’m not answering msgs at 11pm anymore",
-    result: "skincare brand, Mumbai",
-    role: "founder",
-    tone: "from-[#1f2e2a] to-[#0e1614]",
-    handle: "Meera",
-  },
-  {
-    id: "review-arjun",
-    type: "Review",
-    client: "Arjun Desai",
-    title:
-      "we had sheets everywhere. the dashboard isn’t fancy but I can actually see what’s going on now which is all I wanted lol",
-    result: "apparel, Bangalore",
-    role: "ops",
-    tone: "from-[#1a2834] to-[#0c141c]",
-    handle: "Arjun",
-  },
-  {
-    id: "review-sana",
-    type: "Review",
-    client: "Sana Rahman",
-    title:
-      "site looked like every other clinic before. now people actually book instead of dm-ing me ‘are you free saturday?’ so yeah, happy",
-    result: "wellness studio, Gurgaon",
-    role: "owner",
-    tone: "from-[#2a2430] to-[#141018]",
-    handle: "Sana",
-  },
-];
+const creator: CaseStudy & { avatar: string; handle: string } = {
+  id: "anika",
+  client: "Content creator",
+  title: "Online presence & growth",
+  result:
+    "Helping @itsaniiikaa grow views and strengthen her Instagram presence as a creator.",
+  tags: ["Online presence", "Growth"],
+  href: "https://www.instagram.com/itsaniiikaa/",
+  linkLabel: "View on Instagram",
+  avatar: "/customers/itsaniiikaa/profile.jpg",
+  handle: "@itsaniiikaa",
+};
 
-const projects: Story[] = [
-  {
-    id: "cart",
-    type: "Project",
-    client: "DTC skincare",
-    title: "Cart recovery sequence",
-    result: "Recovered checkouts without manual follow-up.",
-    tone: "from-[#1a3330] to-[#0d1c1a]",
-    image: "/work/checkout.jpg",
-  },
-  {
-    id: "dash",
-    type: "Project",
-    client: "Founder-led SaaS",
-    title: "Ops dashboard",
-    result: "One view for leads, revenue and pipeline.",
-    tone: "from-[#2a2438] to-[#14101c]",
-    image: "/work/dashboard.jpg",
-  },
-  {
-    id: "wh",
-    type: "Project",
-    client: "Home goods brand",
-    title: "Warehouse sync",
-    result: "Stock and storefront finally stayed in lockstep.",
-    tone: "from-[#1e2a3a] to-[#0f1520]",
-    image: "/work/automation.jpg",
-  },
-  {
-    id: "ui",
-    type: "Project",
-    client: "B2B marketplace",
-    title: "Checkout UI redesign",
-    result: "Fewer drop-offs at the payment step.",
-    tone: "from-[#1a2e2c] to-[#0c1816]",
-    image: "/work/design.jpg",
-  },
-  {
-    id: "onboard",
-    type: "Project",
-    client: "Agency studio",
-    title: "Client onboarding",
-    result: "Payment to kickoff without chasing docs.",
-    tone: "from-[#243040] to-[#101820]",
-    image: "/work/laptop.jpg",
-  },
-  {
-    id: "portal",
-    type: "Project",
-    client: "Field services",
-    title: "Technician portal",
-    result: "Jobs, notes and photos in one custom tool.",
-    tone: "from-[#1c2834] to-[#0e141c]",
-    image: "/work/mobile.jpg",
-  },
-];
-
-/** Build two marquee rows with a Customer / Project / Review rhythm. */
-function buildRows(
-  customerList: Story[],
-  projectList: Story[],
-  reviewList: Story[],
-): [Story[], Story[]] {
-  const p = projectList;
-  // Both rows: C → P → R → P → C/P → R/P so types stay mixed while scrolling
-  const rowA: Story[] = [
-    customerList[0],
-    p[0],
-    reviewList[0],
-    p[1],
-    customerList[1],
-    reviewList[1],
-  ];
-  const rowB: Story[] = [
-    customerList[2],
-    p[2],
-    reviewList[2],
-    p[3],
-    p[4],
-    p[5],
-  ];
-  return [rowA.filter(Boolean), rowB.filter(Boolean)];
-}
-
-function ReviewCard({ story }: { story: Story }) {
+function Tags({ tags }: { tags: string[] }) {
   return (
-    <article
-      className={`group relative flex h-[148px] w-[264px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-accent/25 bg-gradient-to-br ${story.tone} px-4 py-3 sm:h-[168px] sm:rounded-3xl sm:px-5 sm:py-4 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/50 sm:w-[340px]`}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-accent">
-          Review
-        </span>
-        <Quote
-          className="h-4 w-4 shrink-0 text-accent/40 transition group-hover:text-accent/70"
-          aria-hidden
-        />
-      </div>
-      <p className="line-clamp-3 text-[12px] font-medium leading-snug text-ink">
-        “{story.title}”
-      </p>
-      <div className="flex items-baseline justify-between gap-2 border-t border-white/10 pt-2">
-        <div>
-          <p className="text-[11px] font-semibold text-ink">
-            {story.handle ?? story.client}
-          </p>
-          <p className="text-[10px] text-slate-muted">
-            {story.role ? `${story.role} · ` : ""}
-            {story.result}
-          </p>
-        </div>
-      </div>
-    </article>
+    <ul className="flex flex-wrap gap-1.5">
+      {tags.map((t) => (
+        <li
+          key={t}
+          className="rounded-full border border-accent/30 bg-accent-soft/30 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-accent"
+        >
+          {t}
+        </li>
+      ))}
+    </ul>
   );
 }
 
-function StoryCard({ story }: { story: Story }) {
-  if (story.type === "Review") {
-    return <ReviewCard story={story} />;
-  }
+function CardLink({ label }: { label: string }) {
+  return (
+    <span className="mt-auto inline-flex items-center gap-1 pt-3.5 text-[13px] font-medium text-accent">
+      {label}
+      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    </span>
+  );
+}
 
+const cardClass =
+  "card-glass group flex h-full w-[280px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_24px_60px_-28px_rgba(43,179,163,0.35)] sm:w-[300px]";
+
+function SiteCard({ c }: { c: (typeof sites)[number] }) {
+  const isExternal = c.href.startsWith("http");
   const inner = (
     <>
-      {story.image ? (
-        <Image
-          src={story.image}
-          alt=""
-          fill
-          className="object-cover opacity-55 transition duration-500 group-hover:opacity-70 group-hover:scale-105"
-          sizes="300px"
-          unoptimized
-        />
-      ) : null}
-
-      <div className="absolute left-3 top-3 z-10 flex items-center gap-2">
-        <span className="rounded border border-white/10 bg-black/40 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-accent backdrop-blur-sm">
-          {story.type}
-        </span>
-        <span className="text-[10px] text-slate-muted backdrop-blur-sm">
-          {story.handle ?? story.client}
-        </span>
+      <div className="p-2.5 pb-0 sm:p-3 sm:pb-0">
+        <div className="overflow-hidden rounded-t-xl border border-b-0 border-white/10 bg-[#0b1219]">
+          <div className="flex items-center gap-2 border-b border-white/10 px-2.5 py-1.5">
+            <span className="flex gap-1">
+              {[0, 1, 2].map((i) => (
+                <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/15" />
+              ))}
+            </span>
+            <span className="mx-auto rounded-md bg-white/5 px-2.5 py-0.5 font-mono text-[9px] text-slate">
+              {c.domain}
+            </span>
+            <span className="w-6" />
+          </div>
+          <div className="relative aspect-[2.2/1] overflow-hidden">
+            <Image
+              src={c.image}
+              alt={`${c.domain} homepage`}
+              fill
+              sizes="300px"
+              className="object-cover object-left-top transition-transform duration-700 group-hover:scale-[1.04]"
+              unoptimized
+            />
+          </div>
+        </div>
       </div>
 
-      {story.href && (
-        <div className="absolute right-3 top-3 z-10 rounded-full border border-white/10 bg-black/40 p-1.5 text-ink backdrop-blur-sm">
-          <LinkIcon href={story.href} />
-        </div>
-      )}
-
-      <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/90 via-black/55 to-transparent px-3 pb-3 pt-10">
-        <h3 className="text-sm font-semibold leading-snug text-ink">
-          {story.title}
+      <div className="flex flex-1 flex-col border-t border-hairline p-4 sm:p-5">
+        <p className="text-[11px] text-slate-muted">{c.client}</p>
+        <h3 className="mt-1 text-base font-medium leading-snug text-ink">
+          {c.title}
         </h3>
-        <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-slate">
-          {story.result}
+        <p className="mt-1.5 line-clamp-3 text-[13px] leading-relaxed text-slate">
+          {c.result}
         </p>
+        <div className="mt-3">
+          <Tags tags={c.tags} />
+        </div>
+        {isExternal ? <CardLink label={c.linkLabel} /> : null}
       </div>
     </>
   );
 
-  const className = `group relative flex h-[148px] w-[264px] shrink-0 overflow-hidden rounded-2xl border border-hairline sm:h-[168px] sm:rounded-3xl bg-gradient-to-br ${story.tone} transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-accent/40 sm:w-[340px]`;
-
-  if (story.href) {
+  if (isExternal) {
     return (
       <a
-        href={story.href}
+        href={c.href}
         target="_blank"
         rel="noopener noreferrer"
-        className={className}
-        aria-label={`${story.title} — ${story.handle ?? story.client}`}
+        className={cardClass}
       >
         {inner}
       </a>
     );
   }
 
-  return <article className={className}>{inner}</article>;
+  return <article className={cardClass}>{inner}</article>;
 }
 
-function MarqueeRow({
-  items,
-  reverse = false,
-}: {
-  items: Story[];
-  reverse?: boolean;
-}) {
+function CreatorCard() {
+  const c = creator;
   return (
-    <Marquee
-      speed={reverse ? 32 : 38}
-      reverse={reverse}
-      gapClass="gap-4"
-      className="py-2"
+    <a
+      href={c.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cardClass}
     >
-      {items.map((story) => (
-        <StoryCard key={story.id} story={story} />
-      ))}
-    </Marquee>
+      <div className="p-2.5 pb-0 sm:p-3 sm:pb-0">
+        <div className="overflow-hidden rounded-t-xl border border-b-0 border-white/10 bg-[#0b1219]">
+          <div className="flex items-center gap-2 border-b border-white/10 px-2.5 py-1.5">
+            <span className="flex gap-1">
+              {[0, 1, 2].map((i) => (
+                <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/15" />
+              ))}
+            </span>
+            <span className="mx-auto rounded-md bg-white/5 px-2.5 py-0.5 font-mono text-[9px] text-slate">
+              instagram.com/{c.handle.slice(1)}
+            </span>
+            <span className="w-6" />
+          </div>
+          <div className="relative aspect-[2.2/1] overflow-hidden">
+            <Image
+              src={c.avatar}
+              alt={c.handle}
+              fill
+              sizes="300px"
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
+              unoptimized
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
+            />
+            <span className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/50 px-2 py-1 text-[10px] font-medium text-ink backdrop-blur-sm">
+              <Instagram className="h-3 w-3" />
+              {c.handle}
+            </span>
+            <span className="absolute bottom-2.5 right-2.5 flex items-center gap-1 rounded-full border border-accent/30 bg-accent/20 px-2 py-1 text-[10px] font-medium text-accent backdrop-blur-sm">
+              <TrendingUp className="h-3 w-3" />
+              Growing
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col border-t border-hairline p-4 sm:p-5">
+        <p className="text-[11px] text-slate-muted">
+          {c.handle} · {c.client}
+        </p>
+        <h3 className="mt-1 text-base font-medium leading-snug text-ink">
+          {c.title}
+        </h3>
+        <p className="mt-1.5 line-clamp-3 text-[13px] leading-relaxed text-slate">
+          {c.result}
+        </p>
+        <div className="mt-3">
+          <Tags tags={c.tags} />
+        </div>
+        <CardLink label={c.linkLabel} />
+      </div>
+    </a>
   );
 }
 
+type ScrollItem = {
+  kind: "site" | "creator" | "review";
+  key: string;
+  node: ReactNode;
+};
+
+function buildScrollItems(): ScrollItem[] {
+  const reviews = getVisibleTestimonials();
+  const projectNodes: ScrollItem[] = [
+    ...sites.map((c) => ({
+      kind: "site" as const,
+      key: c.id,
+      node: <SiteCard c={c} />,
+    })),
+    {
+      kind: "creator" as const,
+      key: creator.id,
+      node: <CreatorCard />,
+    },
+  ];
+  const reviewNodes: ScrollItem[] = reviews.map((t) => ({
+    kind: "review" as const,
+    key: `review-${t.name}`,
+    node: (
+      <TestimonialCard
+        t={t}
+        className="h-full w-[280px] shrink-0 snap-start sm:w-[300px]"
+      />
+    ),
+  }));
+
+  // Interleave project → review so the row feels mixed while scrolling
+  const out: ScrollItem[] = [];
+  const max = Math.max(projectNodes.length, reviewNodes.length);
+  for (let i = 0; i < max; i++) {
+    if (projectNodes[i]) out.push(projectNodes[i]);
+    if (reviewNodes[i]) out.push(reviewNodes[i]);
+  }
+  return out;
+}
+
+/**
+ * Illustrative use cases — clearly labelled as things we can build, not as
+ * past client projects (only the case studies above are real clients).
+ */
+const useCases = [
+  {
+    title: "Cart recovery sequence",
+    body: "Win back abandoned checkouts without manual follow-up.",
+    forWho: "DTC brands",
+    image: "/work/checkout.jpg",
+  },
+  {
+    title: "Ops dashboard",
+    body: "One view for leads, revenue and pipeline.",
+    forWho: "Founder-led teams",
+    image: "/work/dashboard.jpg",
+  },
+  {
+    title: "Warehouse sync",
+    body: "Keep stock and storefront in lockstep automatically.",
+    forWho: "Online stores",
+    image: "/work/automation.jpg",
+  },
+  {
+    title: "Checkout UI redesign",
+    body: "A clearer payment step with fewer drop-offs.",
+    forWho: "Marketplaces",
+    image: "/work/design.jpg",
+  },
+  {
+    title: "Client onboarding",
+    body: "Payment to kickoff without chasing docs.",
+    forWho: "Service businesses",
+    image: "/work/laptop.jpg",
+  },
+  {
+    title: "Technician portal",
+    body: "Jobs, notes and photos in one custom tool.",
+    forWho: "Field services",
+    image: "/work/mobile.jpg",
+  },
+];
+
+function UseCaseCard({ u }: { u: (typeof useCases)[number] }) {
+  return (
+    <article className="group relative h-[176px] w-[280px] shrink-0 overflow-hidden rounded-3xl border border-hairline bg-surface-elevated sm:w-[320px]">
+      <Image
+        src={u.image}
+        alt=""
+        fill
+        sizes="320px"
+        className="object-cover opacity-45 saturate-[0.7] transition duration-700 group-hover:scale-105 group-hover:opacity-60"
+        unoptimized
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-t from-[#070d13] via-[#070d13]/60 to-[#070d13]/20"
+      />
+      <span className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/50 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-accent">
+        Use case · {u.forWho}
+      </span>
+      <div className="absolute inset-x-0 bottom-0 p-4">
+        <h4 className="text-base font-medium text-white">{u.title}</h4>
+        <p className="mt-1 text-[13px] leading-snug text-ink-soft">{u.body}</p>
+      </div>
+    </article>
+  );
+}
+
+/** Real client work + testimonials in one scrollable row. */
 export function WorkVideosSection() {
-  const [rowA, rowB] = buildRows(customers, projects, reviews);
+  const scrollItems = buildScrollItems();
 
   return (
     <section
@@ -316,24 +348,53 @@ export function WorkVideosSection() {
       className="relative overflow-hidden bg-surface"
       aria-labelledby="work-videos-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 pb-8 pt-16 text-center sm:px-6 sm:pb-14 sm:pt-20 lg:px-8 lg:pt-28">
-        <Reveal>
-          <p className="eyebrow eyebrow-pill">Work &amp; customers</p>
-        </Reveal>
-        <h2
-          id="work-videos-heading"
-          className="mx-auto mt-6 max-w-3xl font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl"
-        >
-          <SplitText text="Recent projects and happy customers." />
-        </h2>
+      <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-28">
+        <div className="text-center">
+          <Reveal>
+            <p className="eyebrow eyebrow-pill">Work &amp; customers</p>
+          </Reveal>
+          <h2
+            id="work-videos-heading"
+            className="mx-auto mt-6 max-w-4xl text-balance font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl"
+          >
+            <SplitText text="Recent projects and happy customers." />
+          </h2>
+        </div>
       </div>
 
-      <Reveal
-        variant="fade"
-        className="space-y-3 pb-16 sm:space-y-4 sm:pb-20 lg:pb-28"
-      >
-        <MarqueeRow items={rowA} />
-        <MarqueeRow items={rowB} reverse />
+      <div className="mt-10 pb-12 sm:mt-12 sm:pb-14 lg:pb-16">
+        <div
+          className="flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-3 scroll-smooth sm:gap-4 sm:px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] [scrollbar-width:thin] [scrollbar-color:rgba(43,179,163,0.35)_transparent]"
+          role="list"
+          aria-label="Projects and customer reviews"
+        >
+          {scrollItems.map((item) => (
+            <div
+              key={item.key}
+              role="listitem"
+              className="flex shrink-0 self-stretch"
+            >
+              {item.node}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* More we can build — illustrative, labelled as use cases */}
+      <Reveal variant="fade" className="pb-16 sm:pb-20 lg:pb-28">
+        <div className="mx-auto mb-6 flex max-w-6xl items-end justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          <div>
+            <p className="eyebrow">More we can build</p>
+            <p className="mt-2 text-sm text-slate">
+              Common systems we set up for growing businesses.
+            </p>
+          </div>
+        </div>
+        <Marquee speed={34} gapClass="gap-4" className="py-1">
+          {useCases.map((u) => (
+            <UseCaseCard key={u.title} u={u} />
+          ))}
+        </Marquee>
       </Reveal>
     </section>
   );
