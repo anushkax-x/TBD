@@ -214,10 +214,6 @@ export function WorkflowsSection() {
             </span>{" "}
             can improve
           </h2>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate">
-            From operations and UI to custom tools and online presence—these are
-            the paths owners ask us to fix first. Pick one or watch them rotate.
-          </p>
         </Reveal>
 
         <Reveal delayMs={100}>

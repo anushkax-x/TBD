@@ -324,7 +324,7 @@ export function WorkVideosSection() {
           id="work-videos-heading"
           className="mx-auto mt-6 max-w-3xl font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl"
         >
-          <SplitText text="Recent builds and the teams behind them." />
+          <SplitText text="Recent projects and happy customers." />
         </h2>
       </div>
 

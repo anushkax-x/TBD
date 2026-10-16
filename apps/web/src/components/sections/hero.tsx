@@ -9,7 +9,7 @@ import { GlowOrb } from "@/components/motion/glow-orb";
 import { Magnetic } from "@/components/motion/magnetic";
 import { SplitText } from "@/components/motion/split-text";
 import { EASE_OUT } from "@/components/motion/easing";
-import { HeroAutomation } from "./hero-automation";
+import { HeroVisual } from "./hero-visuals/hero-visual";
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: 40 },
@@ -100,7 +100,7 @@ export function HeroSection() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1.3, ease: EASE_OUT, delay: 0.45 }}
           >
-            <HeroAutomation />
+            <HeroVisual />
           </motion.div>
         </motion.div>
       </div>

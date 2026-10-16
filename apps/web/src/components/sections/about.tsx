@@ -48,13 +48,6 @@ export function AboutSection() {
           <h2 className="mt-5 font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
             <TextScrub text="Work directly with the engineers responsible for your solution." />
           </h2>
-          <Reveal delayMs={100}>
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-slate">
-              A small engineering team for automation, UI/UX, custom solutions
-              and online presence — not a sales funnel with builders somewhere
-              downstream.
-            </p>
-          </Reveal>
 
           <ol ref={listRef} className="relative mt-12 space-y-8 pl-10">
             <span

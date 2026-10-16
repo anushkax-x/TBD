@@ -1,12 +1,24 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import {
+  ArrowRight,
+  Bell,
+  Check,
+  CreditCard,
+  Mail,
+  MousePointer2,
+  Search,
+  ShoppingCart,
+  TrendingUp,
+} from "lucide-react";
 import {
   motion,
   useReducedMotion,
   useScroll,
   useSpring,
+  useMotionTemplate,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -15,101 +27,307 @@ import { SplitText } from "@/components/motion/split-text";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { TextScrub } from "@/components/motion/text-scrub";
 
-const svgProps = {
-  viewBox: "0 0 120 56",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 1.5,
-  strokeLinecap: "round" as const,
-  strokeLinejoin: "round" as const,
-  className: "h-14 w-full max-w-[150px]",
-  "aria-hidden": true,
-};
+/* ------------------------------------------------------------------ */
+/* Card visuals: small product-style UI mocks floating over a photo    */
+/* ------------------------------------------------------------------ */
 
-function AutomateArt() {
+const glass =
+  "rounded-xl border border-white/10 bg-[#0b1219]/80 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md";
+
+function Chip({
+  icon,
+  children,
+  accent = false,
+  className = "",
+}: {
+  icon: ReactNode;
+  children: ReactNode;
+  accent?: boolean;
+  className?: string;
+}) {
   return (
-    <svg {...svgProps}>
-      <circle cx="20" cy="28" r="8" />
-      <path d="M28 28 H44" strokeDasharray="3 3" />
-      <rect x="44" y="16" width="32" height="24" rx="4" />
-      <path d="M76 28 H92" strokeDasharray="3 3" />
-      <path d="M92 28 L108 16 M92 28 L108 28 M92 28 L108 40" />
-    </svg>
+    <div
+      className={`flex w-max items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3 text-[11px] font-medium backdrop-blur-md ${
+        accent
+          ? "border-accent/50 bg-accent/90 text-surface shadow-[0_8px_24px_-8px_var(--accent-glow)]"
+          : "border-white/10 bg-[#0b1219]/80 text-ink"
+      } ${className}`}
+    >
+      <span
+        className={`flex h-5 w-5 items-center justify-center rounded-full ${
+          accent ? "bg-surface/15" : "bg-white/10"
+        }`}
+      >
+        {icon}
+      </span>
+      {children}
+    </div>
   );
 }
 
-function ConvertArt() {
+function AutomationVisual() {
   return (
-    <svg {...svgProps}>
-      <path d="M16 44 L40 44 L52 20 L68 32 L84 8 L104 8" />
-      <circle cx="104" cy="8" r="4" fill="currentColor" stroke="none" />
-      <circle cx="40" cy="44" r="3" />
-      <circle cx="68" cy="32" r="3" />
-    </svg>
+    <div className="flex flex-col items-start gap-2.5 pl-[12%]">
+      <Chip icon={<ShoppingCart className="h-3 w-3" />}>Cart abandoned</Chip>
+      <span className="ml-4 h-4 w-px bg-gradient-to-b from-white/30 to-accent" />
+      <Chip icon={<Mail className="h-3 w-3" />} className="ml-6">
+        Reminder sent
+      </Chip>
+      <span className="ml-10 h-4 w-px bg-gradient-to-b from-white/30 to-accent" />
+      <Chip
+        icon={<Check className="h-3 w-3" strokeWidth={3} />}
+        accent
+        className="ml-12"
+      >
+        Order recovered
+      </Chip>
+    </div>
   );
 }
 
-function ConnectArt() {
+function DesignVisual() {
   return (
-    <svg {...svgProps}>
-      <rect x="10" y="14" width="28" height="28" rx="6" />
-      <rect x="46" y="14" width="28" height="28" rx="6" />
-      <rect x="82" y="14" width="28" height="28" rx="6" />
-      <path d="M38 28 H46 M74 28 H82" />
-      <circle cx="24" cy="28" r="3" fill="currentColor" stroke="none" />
-      <circle cx="60" cy="28" r="3" fill="currentColor" stroke="none" />
-      <circle cx="96" cy="28" r="3" fill="currentColor" stroke="none" />
-    </svg>
+    <div className="relative mx-auto w-[82%]">
+      <div className={`${glass} p-3`}>
+        <div className="flex gap-1">
+          <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+          <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+          <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+        </div>
+        <div className="relative mt-3 rounded-md border border-dashed border-accent px-2 py-1.5">
+          <p className="text-[13px] font-medium leading-tight text-ink">
+            Book in two clicks
+          </p>
+          {[
+            "-left-1 -top-1",
+            "-right-1 -top-1",
+            "-bottom-1 -left-1",
+            "-bottom-1 -right-1",
+          ].map((pos) => (
+            <span
+              key={pos}
+              className={`absolute ${pos} h-2 w-2 rounded-[2px] border border-accent bg-surface`}
+            />
+          ))}
+        </div>
+        <div className="mt-2 h-1.5 w-3/4 rounded-full bg-white/15" />
+        <div className="mt-1.5 h-1.5 w-1/2 rounded-full bg-white/10" />
+      </div>
+      <div
+        className={`${glass} absolute -right-3 -top-7 flex items-center gap-1.5 px-2 py-1.5`}
+      >
+        <span className="font-serif text-sm text-ink">Aa</span>
+        {["#e8eef4", "#2bb3a3", "#14352f", "#0b1118"].map((c) => (
+          <span
+            key={c}
+            className="h-4 w-2.5 rounded-sm"
+            style={{ background: c }}
+          />
+        ))}
+      </div>
+      <span className="absolute -bottom-5 left-2 rounded-full bg-accent px-4 py-1.5 text-[11px] font-medium text-surface shadow-[0_8px_24px_-8px_var(--accent-glow)]">
+        Get started
+      </span>
+      <MousePointer2 className="absolute -bottom-7 left-[5.5rem] h-4 w-4 fill-white text-white" />
+    </div>
   );
 }
 
-function ExperienceArt() {
+function ConnectVisual() {
+  const apps = ["shopify", "slack", "googlesheets", "hubspot"];
+  const spots = [
+    "left-[8%] top-[6%]",
+    "right-[8%] top-[6%]",
+    "left-[8%] bottom-[6%]",
+    "right-[8%] bottom-[6%]",
+  ];
   return (
-    <svg {...svgProps}>
-      <rect x="8" y="6" width="40" height="44" rx="4" opacity="0.45" />
-      <line x1="14" y1="16" x2="42" y2="16" opacity="0.4" />
-      <line x1="14" y1="24" x2="36" y2="24" opacity="0.3" />
-      <path d="M54 28 H66" strokeDasharray="3 3" />
-      <rect x="72" y="6" width="40" height="44" rx="4" />
-      <line x1="80" y1="18" x2="104" y2="18" />
-      <line x1="80" y1="28" x2="96" y2="28" opacity="0.7" />
-      <rect x="80" y="36" width="20" height="8" rx="2" />
-    </svg>
+    <div className="relative mx-auto aspect-[5/4] w-[78%]">
+      <svg
+        viewBox="0 0 100 80"
+        className="absolute inset-0 h-full w-full"
+        aria-hidden
+      >
+        {[
+          [20, 16],
+          [80, 16],
+          [20, 64],
+          [80, 64],
+        ].map(([x, y]) => (
+          <line
+            key={`${x}-${y}`}
+            x1={50}
+            y1={40}
+            x2={x}
+            y2={y}
+            stroke="rgba(43,179,163,0.7)"
+            strokeWidth={0.8}
+            strokeDasharray="2 2"
+          />
+        ))}
+      </svg>
+      {apps.map((a, i) => (
+        <span
+          key={a}
+          className={`absolute ${spots[i]} flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0b1219]/85 backdrop-blur-md`}
+        >
+          <Image
+            src={`/tech/${a}.svg`}
+            alt=""
+            width={18}
+            height={18}
+            className="h-[18px] w-[18px] brightness-0 invert"
+            unoptimized
+          />
+        </span>
+      ))}
+      <span className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-accent/60 bg-accent-soft shadow-[0_0_30px_-4px_var(--accent-glow)]">
+        <Image src="/logo.svg" alt="" width={22} height={22} unoptimized />
+      </span>
+    </div>
   );
 }
 
-function CustomArt() {
+function PresenceVisual() {
   return (
-    <svg {...svgProps}>
-      <rect x="18" y="10" width="84" height="36" rx="4" />
-      <path d="M34 28 H54 M66 22 V34 M78 28 H98" />
-      <circle cx="60" cy="28" r="5" />
-    </svg>
+    <div className="mx-auto flex w-[86%] flex-col gap-2.5">
+      <div
+        className={`${glass} flex items-center gap-2 rounded-full px-3 py-2`}
+      >
+        <Search className="h-3.5 w-3.5 text-slate" />
+        <span className="text-[12px] text-ink">
+          yourbrand<span className="animate-pulse text-accent">|</span>
+        </span>
+        <span className="ml-auto rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-ink-soft">
+          .com
+        </span>
+      </div>
+      <div className={`${glass} p-3`}>
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] text-slate">yourbrand.com</span>
+          <span className="rounded-full bg-accent/20 px-1.5 py-0.5 font-mono text-[9px] text-accent">
+            #1
+          </span>
+        </div>
+        <p className="mt-1 text-[12px] font-medium text-accent">
+          Your brand — exactly what they searched for
+        </p>
+        <div className="mt-1.5 h-1.5 w-4/5 rounded-full bg-white/10" />
+      </div>
+      <Chip
+        icon={<TrendingUp className="h-3 w-3" />}
+        accent
+        className="self-end"
+      >
+        Visitors up
+      </Chip>
+    </div>
   );
 }
 
-function PresenceArt() {
+function SalesVisual() {
   return (
-    <svg {...svgProps}>
-      <circle cx="60" cy="28" r="18" opacity="0.35" />
-      <circle cx="60" cy="28" r="10" />
-      <path d="M60 10 V18 M60 38 V46 M42 28 H50 M70 28 H78" />
-      <circle cx="88" cy="14" r="3" fill="currentColor" stroke="none" />
-      <circle cx="96" cy="36" r="2.5" fill="currentColor" stroke="none" />
-      <circle cx="28" cy="40" r="2.5" fill="currentColor" stroke="none" />
-    </svg>
+    <div className="mx-auto flex w-[86%] flex-col gap-2">
+      {[
+        {
+          icon: <CreditCard className="h-3.5 w-3.5" />,
+          title: "Checkout recovered",
+          sub: "Reminder → paid",
+        },
+        {
+          icon: <Bell className="h-3.5 w-3.5" />,
+          title: "Repeat order",
+          sub: "Win-back email",
+        },
+      ].map((n, i) => (
+        <div
+          key={n.title}
+          className={`${glass} flex items-center gap-2.5 p-2.5 ${i === 1 ? "ml-4 opacity-80" : ""}`}
+        >
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent text-surface">
+            {n.icon}
+          </span>
+          <div className="min-w-0">
+            <p className="text-[12px] font-medium leading-tight text-ink">
+              {n.title}
+            </p>
+            <p className="text-[10px] text-slate">{n.sub}</p>
+          </div>
+          <span className="ml-auto font-mono text-[9px] text-slate-muted">
+            now
+          </span>
+        </div>
+      ))}
+      <svg viewBox="0 0 120 36" className="mt-1 h-9 w-full" aria-hidden>
+        <path
+          d="M2 32 L22 28 L38 30 L56 20 L72 22 L90 10 L118 4"
+          fill="none"
+          stroke="#2bb3a3"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx={118} cy={4} r={3} fill="#3fc4b4" />
+      </svg>
+    </div>
   );
 }
+
+function CustomVisual() {
+  const rows = [
+    { w: "w-16", status: "Done", tone: "bg-accent/20 text-accent" },
+    {
+      w: "w-12",
+      status: "In progress",
+      tone: "bg-amber-400/15 text-amber-300",
+    },
+    { w: "w-14", status: "Done", tone: "bg-accent/20 text-accent" },
+  ];
+  return (
+    <div className={`${glass} mx-auto flex w-[86%] overflow-hidden p-0`}>
+      <div className="flex w-9 flex-col items-center gap-2 border-r border-white/10 py-3">
+        <Image src="/logo.svg" alt="" width={14} height={14} unoptimized />
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className={`h-1.5 w-4 rounded-full ${i === 0 ? "bg-accent" : "bg-white/15"}`}
+          />
+        ))}
+      </div>
+      <div className="flex-1 p-3">
+        <p className="text-[11px] font-medium text-ink">Jobs</p>
+        <div className="mt-2 space-y-1.5">
+          {rows.map((r, i) => (
+            <div
+              key={i}
+              className="flex items-center justify-between rounded-md bg-white/[0.04] px-2 py-1.5"
+            >
+              <span className={`h-1.5 ${r.w} rounded-full bg-white/25`} />
+              <span
+                className={`rounded-full px-1.5 py-0.5 text-[9px] font-medium ${r.tone}`}
+              >
+                {r.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Data                                                                */
+/* ------------------------------------------------------------------ */
 
 type Service = {
   id: string;
-  eyebrow: string;
   title: string;
   description: string;
-  items: string[];
   cta: string;
   href: string;
-  art: ReactNode;
+  image: string;
+  visual: ReactNode;
   /** Pinned-layout placement: x = 0..1 across the centred column, start/length of travel in section progress, tilt */
   pos: { x: number; start: number; length: number; tilt: number };
 };
@@ -117,94 +335,64 @@ type Service = {
 const services: Service[] = [
   {
     id: "automate",
-    eyebrow: "01",
     title: "Workflow automation",
     description: "Cart recovery, fulfilment updates, restock alerts and admin.",
-    items: [
-      "Abandoned cart sequences",
-      "Order & stock alerts",
-      "Internal notifications",
-    ],
-    cta: "See workflows →",
+    cta: "See workflows",
     href: "#workflows",
-    art: <AutomateArt />,
+    image: "/work/automation.jpg",
+    visual: <AutomationVisual />,
     pos: { x: 0.3, start: 0.0, length: 0.52, tilt: -2 },
   },
   {
     id: "experience",
-    eyebrow: "02",
     title: "UI / UX",
     description: "Clearer screens that build trust and reduce drop-off.",
-    items: [
-      "UI audits & redesigns",
-      "Checkout & funnel clarity",
-      "On-brand dashboards",
-    ],
-    cta: "Discuss UI →",
+    cta: "Discuss UI",
     href: "#faq",
-    art: <ExperienceArt />,
+    image: "/work/design.jpg",
+    visual: <DesignVisual />,
     pos: { x: 0.92, start: 0.06, length: 0.48, tilt: 2 },
   },
   {
     id: "connect",
-    eyebrow: "03",
     title: "Manage your tech",
     description:
       "Link apps you pay for—or build a small piece when nothing fits.",
-    items: [
-      "Store ↔ email / SMS",
-      "Orders ↔ warehouse",
-      "Support ↔ order data",
-    ],
-    cta: "See tools →",
+    cta: "See tools",
     href: "#technology",
-    art: <ConnectArt />,
+    image: "/work/laptop.jpg",
+    visual: <ConnectVisual />,
     pos: { x: 0.02, start: 0.15, length: 0.56, tilt: 1.5 },
   },
   {
     id: "presence",
-    eyebrow: "04",
     title: "Grow online presence",
     description: "A stronger digital presence that brings customers in.",
-    items: [
-      "Marketing sites & landings",
-      "Conversion-focused structure",
-      "Search-ready web presence",
-    ],
-    cta: "Grow online →",
+    cta: "Grow online",
     href: "#faq",
-    art: <PresenceArt />,
+    image: "/work/mobile.jpg",
+    visual: <PresenceVisual />,
     pos: { x: 0.62, start: 0.23, length: 0.5, tilt: -1.5 },
   },
   {
     id: "convert",
-    eyebrow: "05",
     title: "Improve sales",
     description:
       "From browse to purchase—and back again without manual chasing.",
-    items: [
-      "Checkout recovery",
-      "Post-purchase follow-up",
-      "Win-back campaigns",
-    ],
-    cta: "Book a call →",
+    cta: "Book a call",
     href: "#faq",
-    art: <ConvertArt />,
+    image: "/work/checkout.jpg",
+    visual: <SalesVisual />,
     pos: { x: 1, start: 0.33, length: 0.54, tilt: 2 },
   },
   {
     id: "custom",
-    eyebrow: "06",
     title: "Build custom tools",
     description: "Focused custom tools when off-the-shelf forces workarounds.",
-    items: [
-      "Internal tools & portals",
-      "Workflow-specific apps",
-      "APIs and data layers",
-    ],
-    cta: "Custom build →",
+    cta: "Custom build",
     href: "#faq",
-    art: <CustomArt />,
+    image: "/work/dashboard.jpg",
+    visual: <CustomVisual />,
     pos: { x: 0.18, start: 0.42, length: 0.52, tilt: -2 },
   },
 ];
@@ -212,106 +400,69 @@ const services: Service[] = [
 const EYEBROW = "What we build";
 const HEADING =
   "Built for teams that have outgrown spreadsheets and inbox chasing.";
-const INTRO =
-  "Automate busywork, connect your stack, refresh the interface, ship custom solutions, and grow a stronger online presence.";
 
-/**
- * `compact` tightens the card on phones only (below `sm`); from `sm` up it is
- * the full card. `floating` is the smaller card used in the pinned desktop layout.
- */
+/** Image-led card: title + one line on top, a UI mock over a photo, arrow link. */
 function ServiceCard({
   s,
   className = "",
-  compact = false,
-  floating = false,
 }: {
   s: Service;
   className?: string;
-  compact?: boolean;
-  floating?: boolean;
 }) {
-  const label = s.cta.replace(/\s*→$/, "");
   return (
-    <article
-      className={`card-glass group flex h-full flex-col rounded-3xl transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] ${
-        compact ? "p-5 sm:p-7" : floating ? "p-6" : "p-7"
-      } ${className}`}
+    <a
+      href={s.href}
+      aria-label={`${s.title}: ${s.cta}`}
+      className={`group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-3xl border border-hairline bg-surface-elevated shadow-[0_24px_60px_-30px_rgba(0,0,0,0.9)] transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] ${className}`}
     >
+      <Image
+        src={s.image}
+        alt=""
+        fill
+        sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 80vw"
+        className="object-cover opacity-45 saturate-[0.65] transition duration-700 group-hover:scale-105 group-hover:opacity-55"
+        unoptimized
+      />
       <div
-        className={
-          compact
-            ? "flex items-center justify-between gap-4 sm:block"
-            : "flex items-start justify-between"
-        }
-      >
-        <span
-          className={`inline-flex shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent-soft/60 font-mono font-medium text-accent shadow-[0_0_28px_-6px_var(--accent-glow)] ${
-            compact
-              ? "h-10 w-10 text-xs sm:h-14 sm:w-14 sm:text-sm"
-              : floating
-                ? "h-11 w-11 text-xs"
-                : "h-14 w-14 text-sm"
-          }`}
-        >
-          {s.eyebrow}
-        </span>
-        <div
-          className={`text-accent/80 transition-colors duration-300 group-hover:text-accent ${
-            compact
-              ? "w-28 [&_svg]:h-10 sm:my-8 sm:w-auto sm:[&_svg]:h-14"
-              : "hidden"
-          }`}
-        >
-          {s.art}
-        </div>
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-b from-[#070d13]/95 via-[#070d13]/40 to-[#070d13]/70"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_70%,rgba(43,179,163,0.18),transparent_70%)]"
+      />
+
+      <div className="relative p-5 sm:p-6">
+        <h3 className="text-lg font-medium leading-snug text-white sm:text-xl">
+          {s.title}
+        </h3>
+        <p className="mt-1.5 text-[13px] leading-relaxed text-ink-soft sm:text-sm">
+          {s.description}
+        </p>
       </div>
-      {!compact && (
-        <div
-          className={`text-accent/80 transition-colors duration-300 group-hover:text-accent ${
-            floating ? "my-5 [&_svg]:h-11" : "my-8"
-          }`}
-        >
-          {s.art}
-        </div>
-      )}
-      <h3
-        className={`font-medium leading-snug text-ink ${
-          compact
-            ? "mt-5 text-base sm:mt-0 sm:text-lg"
-            : floating
-              ? "text-base"
-              : "text-lg"
-        }`}
-      >
-        {s.title}
-      </h3>
-      <p
-        className={`leading-relaxed ${
-          compact
-            ? "mt-2 text-sm sm:mt-3 sm:text-[15px]"
-            : floating
-              ? "mt-2 text-sm"
-              : "mt-3 text-[15px]"
-        }`}
-      >
-        <span className="text-ink">{s.description}</span>{" "}
-        <span className="text-slate">{s.items.join(" · ")}.</span>
-      </p>
-      <a
-        href={s.href}
-        className={`mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-hover ${
-          compact ? "pt-4 sm:pt-6" : floating ? "pt-4" : "pt-6"
-        }`}
-      >
-        {label}
-        <ArrowRight
-          className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-          aria-hidden
-        />
-      </a>
-    </article>
+
+      <div className="relative flex flex-1 items-center pb-12 transition-transform duration-500 group-hover:-translate-y-1">
+        <div className="w-full">{s.visual}</div>
+      </div>
+
+      <span className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-surface">
+        <ArrowRight className="h-4 w-4" aria-hidden />
+      </span>
+    </a>
   );
 }
+
+/**
+ * Pinned timeline (0..1 of section scroll):
+ * headline scrubs in alone → cards float through while the headline recedes
+ * (fade + blur) → cards gone, headline returns into focus.
+ * Card `pos.start/length` are relative to the card phase and remapped here.
+ */
+const HEADLINE_END = 0.16;
+const CARDS_FROM = 0.2;
+const CARDS_SPAN = 0.66;
+const RECEDE = [0.18, 0.28] as const;
+const RETURN = [0.86, 0.95] as const;
 
 function FloatingCard({
   s,
@@ -320,7 +471,9 @@ function FloatingCard({
   s: Service;
   progress: MotionValue<number>;
 }) {
-  const { start, length, tilt, x } = s.pos;
+  const { tilt, x } = s.pos;
+  const start = CARDS_FROM + s.pos.start * CARDS_SPAN;
+  const length = s.pos.length * CARDS_SPAN;
   const range = [start, start + length];
   const y = useTransform(progress, range, ["100vh", "-115vh"]);
   const rotate = useTransform(progress, range, [tilt, -tilt]);
@@ -334,7 +487,7 @@ function FloatingCard({
       className="absolute top-0 w-(--card-w)"
       style={{ left: `calc((100% - var(--card-w)) * ${x})`, y, rotate, scale }}
     >
-      <ServiceCard s={s} floating />
+      <ServiceCard s={s} />
     </motion.div>
   );
 }
@@ -350,10 +503,14 @@ function PinnedServices() {
     damping: 40,
     mass: 0.4,
   });
-  const headingScale = useTransform(progress, [0, 0.9, 1], [1, 1, 0.96]);
+  const keys = [RECEDE[0], RECEDE[1], RETURN[0], RETURN[1]];
+  const headingScale = useTransform(progress, keys, [1, 0.94, 0.94, 1]);
+  const headingOpacity = useTransform(progress, keys, [1, 0.15, 0.15, 1]);
+  const headingBlurPx = useTransform(progress, keys, [0, 10, 10, 0]);
+  const headingFilter = useMotionTemplate`blur(${headingBlurPx}px)`;
 
   return (
-    <div ref={ref} className="relative h-[360vh]">
+    <div ref={ref} className="relative h-[440vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <GlowOrb
@@ -373,24 +530,24 @@ function PinnedServices() {
 
         <motion.div
           className="relative z-0 flex h-full flex-col items-center justify-center px-6 text-center"
-          style={{ scale: headingScale }}
+          style={{
+            scale: headingScale,
+            opacity: headingOpacity,
+            filter: headingFilter,
+          }}
         >
           <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
           <h2 className="mt-8 max-w-5xl font-display text-5xl leading-[1.05] text-ink xl:text-[4.25rem]">
-            <TextScrub text={HEADING} progress={progress} range={[0, 0.32]} />
-          </h2>
-          <p className="mt-8 max-w-2xl text-xl leading-relaxed text-ink-soft">
             <TextScrub
-              text={INTRO}
+              text={HEADING}
               progress={progress}
-              range={[0.18, 0.45]}
-              dim={0.15}
+              range={[0, HEADLINE_END]}
             />
-          </p>
+          </h2>
         </motion.div>
 
         {/* Cards float within a centred column, not the full viewport width */}
-        <div className="absolute inset-y-0 left-1/2 z-10 w-full max-w-5xl -translate-x-1/2 px-8 [--card-w:16.5rem] xl:[--card-w:17.5rem]">
+        <div className="absolute inset-y-0 left-1/2 z-10 w-full max-w-5xl -translate-x-1/2 px-8 [--card-w:16rem] xl:[--card-w:17rem]">
           <div className="relative h-full">
             {services.map((s) => (
               <FloatingCard key={s.id} s={s} progress={progress} />
@@ -423,18 +580,15 @@ function StackedServices({ className = "" }: { className?: string }) {
         <h2 className="mx-auto mt-6 max-w-3xl font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
           <SplitText text={HEADING} />
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-slate sm:mt-5 sm:text-lg">
-          {INTRO}
-        </p>
       </div>
       {/* Phones: swipeable row of compact cards. sm+: grid. */}
       <Stagger className="relative -mx-4 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
         {services.map((s) => (
           <StaggerItem
             key={s.id}
-            className="h-auto w-[82%] shrink-0 snap-center sm:h-full sm:w-auto"
+            className="w-[78%] shrink-0 snap-center sm:w-auto"
           >
-            <ServiceCard s={s} compact />
+            <ServiceCard s={s} />
           </StaggerItem>
         ))}
       </Stagger>
