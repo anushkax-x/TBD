@@ -16,7 +16,7 @@
     "db:migrate": "npm run prisma:migrate -w @consultancy/api",
     "db:seed": "npm run prisma:seed -w @consultancy/api",
     "db:generate": "npm run prisma:generate -w @consultancy/api",
-    "zip": "sh scripts/package-hostinger.sh"
+    "zip": "node scripts/package-hostinger.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
