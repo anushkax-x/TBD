@@ -13,6 +13,7 @@ const services = [
 ];
 
 const explore = [
+  { href: "#templates", label: "Live demos" },
   { href: "#workflows", label: "Workflows" },
   { href: "#about", label: "About" },
   { href: "#services", label: "What we build" },
@@ -61,10 +62,10 @@ export function Footer() {
 
       <motion.p
         aria-hidden
-        className="pointer-events-none mt-12 select-none pb-2 text-center font-display text-[21vw] font-semibold leading-[0.9] tracking-[-0.06em] sm:mt-16 sm:pb-0 sm:leading-[0.8] lg:text-[16rem]"
+        className="pointer-events-none mt-12 select-none pb-2 text-center font-display text-[23vw] leading-[0.9] tracking-[-0.03em] sm:mt-16 sm:pb-0 sm:leading-[0.8] lg:text-[16rem]"
         style={{
           background:
-            "linear-gradient(180deg, rgba(43,179,163,0.22) 0%, rgba(43,179,163,0) 85%)",
+            "linear-gradient(180deg, rgba(34,154,148,0.22) 0%, rgba(34,154,148,0) 85%)",
           WebkitBackgroundClip: "text",
           backgroundClip: "text",
           color: "transparent",

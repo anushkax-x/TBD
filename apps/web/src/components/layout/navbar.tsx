@@ -14,6 +14,7 @@ import { Logo } from "@/components/layout/logo";
 import { EASE_OUT } from "@/components/motion/easing";
 
 const links = [
+  { href: "#templates", label: "Live Demos" },
   { href: "#services", label: "What We Build" },
   { href: "#workflows", label: "Workflows" },
   { href: "#about", label: "Why Us" },

@@ -1,6 +1,6 @@
 import { BUSINESS_NAME } from "@consultancy/shared";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { ChatProvider } from "@/components/chat/chat-provider";
 import { ContactProvider } from "@/components/contact/contact-provider";
 import { MotionProviders } from "@/components/motion/providers";
@@ -16,6 +16,14 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
   display: "swap",
 });
 
@@ -60,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}>
       <body className="min-h-screen bg-surface font-sans text-ink antialiased">
         <MotionProviders>
           <AnalyticsProvider>

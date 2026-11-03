@@ -65,7 +65,7 @@ export function ChatLauncher() {
                 {/* Tail pointing at the launcher */}
                 <span
                   aria-hidden
-                  className="absolute -bottom-1.5 right-5 h-3 w-3 rotate-45 border-b border-r border-hairline bg-[#0d151e]"
+                  className="absolute -bottom-1.5 right-5 h-3 w-3 rotate-45 border-b border-r border-hairline bg-[#0f2826]"
                 />
               </motion.div>
             )}

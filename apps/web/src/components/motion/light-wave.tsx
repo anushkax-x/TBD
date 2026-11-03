@@ -27,7 +27,7 @@ export function LightWave({
         className="pointer-events-none absolute -inset-x-8 -top-20 z-0 h-40"
         style={{
           background:
-            "radial-gradient(ellipse 50% 50% at center, rgba(43,179,163,0.3), transparent 70%)",
+            "radial-gradient(ellipse 50% 50% at center, rgba(34,154,148,0.3), transparent 70%)",
           filter: "blur(16px)",
         }}
         variants={{
@@ -51,7 +51,7 @@ export function LightWave({
         className="pointer-events-none absolute inset-x-6 top-0 z-20 h-px"
         style={{
           background:
-            "linear-gradient(90deg, transparent, rgba(63,196,180,0.9), transparent)",
+            "linear-gradient(90deg, transparent, rgba(45,176,169,0.9), transparent)",
         }}
         variants={{
           hidden: { scaleX: 0, opacity: 0 },

@@ -34,7 +34,7 @@ export function GlowOrb({
         style={{
           opacity,
           background:
-            "radial-gradient(circle at 50% 50%, rgba(43,179,163,0.9) 0%, rgba(43,179,163,0.35) 35%, rgba(20,53,47,0) 70%)",
+            "radial-gradient(circle at 50% 50%, rgba(34,154,148,0.9) 0%, rgba(34,154,148,0.35) 35%, rgba(15,70,68,0) 70%)",
           filter: "blur(60px)",
         }}
         animate={{

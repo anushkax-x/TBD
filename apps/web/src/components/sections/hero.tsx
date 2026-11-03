@@ -35,14 +35,7 @@ export function HeroSection() {
       className="relative -mt-[76px] overflow-hidden pt-[76px]"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="bg-grid absolute inset-0" />
-        <GlowOrb className="-right-40 top-0" size={680} opacity={0.32} />
-        <GlowOrb
-          className="-left-60 top-1/2"
-          size={520}
-          opacity={0.18}
-          duration={24}
-        />
+        <GlowOrb className="-right-40 top-0" size={680} opacity={0.14} />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-surface" />
       </div>
 
@@ -71,7 +64,7 @@ export function HeroSection() {
           >
             Automation · UI/UX · Custom solutions · Online presence
           </motion.p>
-          <h1 className="mt-6 font-display text-[3.4rem] leading-[0.98] text-ink sm:mt-7 sm:text-7xl sm:leading-[1.02] lg:text-[5.5rem]">
+          <h1 className="mt-6 font-display text-[3.9rem] leading-[0.95] text-ink sm:mt-7 sm:text-[5.25rem] sm:leading-[0.95] lg:text-[6.5rem]">
             <SplitText
               onMount
               delay={0.2}

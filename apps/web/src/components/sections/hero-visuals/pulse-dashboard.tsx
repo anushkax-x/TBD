@@ -42,16 +42,16 @@ export function PulseDashboard() {
         </span>
       </div>
 
-      <div className="mt-4 rounded-2xl border border-white/10 bg-[#0b1219] p-4">
+      <div className="mt-4 rounded-2xl border border-white/10 bg-[#0e2624] p-4">
         <p className="text-[11px] text-slate">Tasks handled for you</p>
-        <motion.p className="mt-1 font-display text-4xl tabular-nums text-ink">
+        <motion.p className="mt-1 font-sans text-4xl font-medium tracking-tight tabular-nums text-ink">
           {shown}
         </motion.p>
         <svg viewBox="0 0 160 56" className="mt-2 h-14 w-full" aria-hidden>
           <defs>
             <linearGradient id="pd-fill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgba(43,179,163,0.35)" />
-              <stop offset="100%" stopColor="rgba(43,179,163,0)" />
+              <stop offset="0%" stopColor="rgba(34,154,148,0.35)" />
+              <stop offset="100%" stopColor="rgba(34,154,148,0)" />
             </linearGradient>
           </defs>
           <motion.path
@@ -66,7 +66,7 @@ export function PulseDashboard() {
             key={`line-${cycle}`}
             d={chart}
             fill="none"
-            stroke="#2bb3a3"
+            stroke="#229a94"
             strokeWidth={2}
             strokeLinecap="round"
             initial={{ pathLength: reduce ? 1 : 0 }}

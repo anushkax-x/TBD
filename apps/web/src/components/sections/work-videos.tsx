@@ -5,7 +5,6 @@ import Image from "next/image";
 import { ArrowUpRight, Instagram, TrendingUp } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitText } from "@/components/motion/split-text";
-import { Marquee } from "@/components/motion/marquee";
 import {
   getVisibleTestimonials,
   TestimonialCard,
@@ -98,14 +97,14 @@ function CardLink({ label }: { label: string }) {
 }
 
 const cardClass =
-  "card-glass group flex h-full w-[280px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_24px_60px_-28px_rgba(43,179,163,0.35)] sm:w-[300px]";
+  "card-glass group flex h-full w-[280px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_24px_60px_-28px_rgba(34,154,148,0.35)] sm:w-[300px]";
 
 function SiteCard({ c }: { c: (typeof sites)[number] }) {
   const isExternal = c.href.startsWith("http");
   const inner = (
     <>
       <div className="p-2.5 pb-0 sm:p-3 sm:pb-0">
-        <div className="overflow-hidden rounded-t-xl border border-b-0 border-white/10 bg-[#0b1219]">
+        <div className="overflow-hidden rounded-t-xl border border-b-0 border-white/10 bg-[#0e2624]">
           <div className="flex items-center gap-2 border-b border-white/10 px-2.5 py-1.5">
             <span className="flex gap-1">
               {[0, 1, 2].map((i) => (
@@ -172,7 +171,7 @@ function CreatorCard() {
       className={cardClass}
     >
       <div className="p-2.5 pb-0 sm:p-3 sm:pb-0">
-        <div className="overflow-hidden rounded-t-xl border border-b-0 border-white/10 bg-[#0b1219]">
+        <div className="overflow-hidden rounded-t-xl border border-b-0 border-white/10 bg-[#0e2624]">
           <div className="flex items-center gap-2 border-b border-white/10 px-2.5 py-1.5">
             <span className="flex gap-1">
               {[0, 1, 2].map((i) => (
@@ -269,75 +268,6 @@ function buildScrollItems(): ScrollItem[] {
   return out;
 }
 
-/**
- * Illustrative use cases — clearly labelled as things we can build, not as
- * past client projects (only the case studies above are real clients).
- */
-const useCases = [
-  {
-    title: "Cart recovery sequence",
-    body: "Win back abandoned checkouts without manual follow-up.",
-    forWho: "DTC brands",
-    image: "/work/checkout.jpg",
-  },
-  {
-    title: "Ops dashboard",
-    body: "One view for leads, revenue and pipeline.",
-    forWho: "Founder-led teams",
-    image: "/work/dashboard.jpg",
-  },
-  {
-    title: "Warehouse sync",
-    body: "Keep stock and storefront in lockstep automatically.",
-    forWho: "Online stores",
-    image: "/work/automation.jpg",
-  },
-  {
-    title: "Checkout UI redesign",
-    body: "A clearer payment step with fewer drop-offs.",
-    forWho: "Marketplaces",
-    image: "/work/design.jpg",
-  },
-  {
-    title: "Client onboarding",
-    body: "Payment to kickoff without chasing docs.",
-    forWho: "Service businesses",
-    image: "/work/laptop.jpg",
-  },
-  {
-    title: "Technician portal",
-    body: "Jobs, notes and photos in one custom tool.",
-    forWho: "Field services",
-    image: "/work/mobile.jpg",
-  },
-];
-
-function UseCaseCard({ u }: { u: (typeof useCases)[number] }) {
-  return (
-    <article className="group relative h-[176px] w-[280px] shrink-0 overflow-hidden rounded-3xl border border-hairline bg-surface-elevated sm:w-[320px]">
-      <Image
-        src={u.image}
-        alt=""
-        fill
-        sizes="320px"
-        className="object-cover opacity-45 saturate-[0.7] transition duration-700 group-hover:scale-105 group-hover:opacity-60"
-        unoptimized
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-t from-[#070d13] via-[#070d13]/60 to-[#070d13]/20"
-      />
-      <span className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/50 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-accent">
-        Use case · {u.forWho}
-      </span>
-      <div className="absolute inset-x-0 bottom-0 p-4">
-        <h4 className="text-base font-medium text-white">{u.title}</h4>
-        <p className="mt-1 text-[13px] leading-snug text-ink-soft">{u.body}</p>
-      </div>
-    </article>
-  );
-}
-
 /** Real client work + testimonials in one scrollable row. */
 export function WorkVideosSection() {
   const scrollItems = buildScrollItems();
@@ -345,7 +275,7 @@ export function WorkVideosSection() {
   return (
     <section
       id="stories"
-      className="relative overflow-hidden bg-surface"
+      className="theme-sand relative overflow-hidden"
       aria-labelledby="work-videos-heading"
     >
       <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-28">
@@ -355,16 +285,16 @@ export function WorkVideosSection() {
           </Reveal>
           <h2
             id="work-videos-heading"
-            className="mx-auto mt-6 max-w-4xl text-balance font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl"
+            className="mx-auto mt-6 max-w-4xl text-balance font-display text-[2.4rem] leading-[1.02] text-ink sm:text-[3.5rem]"
           >
             <SplitText text="Recent projects and happy customers." />
           </h2>
         </div>
       </div>
 
-      <div className="mt-10 pb-12 sm:mt-12 sm:pb-14 lg:pb-16">
+      <div className="mt-10 pb-16 sm:mt-12 sm:pb-20 lg:pb-28">
         <div
-          className="flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-3 scroll-smooth sm:gap-4 sm:px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] [scrollbar-width:thin] [scrollbar-color:rgba(43,179,163,0.35)_transparent]"
+          className="theme-night flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-3 scroll-smooth sm:gap-4 sm:px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] [scrollbar-width:thin] [scrollbar-color:rgba(15,107,107,0.35)_transparent]"
           role="list"
           aria-label="Projects and customer reviews"
         >
@@ -379,23 +309,6 @@ export function WorkVideosSection() {
           ))}
         </div>
       </div>
-
-      {/* More we can build — illustrative, labelled as use cases */}
-      <Reveal variant="fade" className="pb-16 sm:pb-20 lg:pb-28">
-        <div className="mx-auto mb-6 flex max-w-6xl items-end justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <div>
-            <p className="eyebrow">More we can build</p>
-            <p className="mt-2 text-sm text-slate">
-              Common systems we set up for growing businesses.
-            </p>
-          </div>
-        </div>
-        <Marquee speed={34} gapClass="gap-4" className="py-1">
-          {useCases.map((u) => (
-            <UseCaseCard key={u.title} u={u} />
-          ))}
-        </Marquee>
-      </Reveal>
     </section>
   );
 }

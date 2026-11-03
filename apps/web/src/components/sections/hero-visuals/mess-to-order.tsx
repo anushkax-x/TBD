@@ -93,7 +93,7 @@ export function MessToOrder() {
               className={`absolute inset-x-0 top-0 flex h-[46px] items-center gap-3 rounded-xl border px-3 text-[13px] transition-colors duration-300 ${
                 isDone
                   ? "border-accent/30 bg-accent-soft/30 text-ink"
-                  : "border-white/10 bg-[#111a24] text-ink-soft shadow-[0_10px_24px_-12px_rgba(0,0,0,0.9)]"
+                  : "border-white/10 bg-[#163936] text-ink-soft shadow-[0_10px_24px_-12px_rgba(0,0,0,0.9)]"
               }`}
               animate={
                 isDone
@@ -130,7 +130,7 @@ export function MessToOrder() {
             className="pointer-events-none absolute inset-x-[-8px] z-10 h-10"
             style={{
               background:
-                "linear-gradient(180deg, transparent, rgba(43,179,163,0.18) 45%, rgba(63,196,180,0.9) 50%, rgba(43,179,163,0.18) 55%, transparent)",
+                "linear-gradient(180deg, transparent, rgba(34,154,148,0.18) 45%, rgba(45,176,169,0.9) 50%, rgba(34,154,148,0.18) 55%, transparent)",
             }}
             initial={{ top: -40, opacity: 0 }}
             animate={{

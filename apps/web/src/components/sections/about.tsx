@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { motion, useScroll } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
-import { GlowOrb } from "@/components/motion/glow-orb";
 import { TextScrub } from "@/components/motion/text-scrub";
 import { AboutHandoff } from "./about-handoff";
 
@@ -37,15 +36,12 @@ export function AboutSection() {
       id="about"
       className="relative overflow-hidden border-y border-hairline bg-surface-elevated/40"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <GlowOrb className="-right-32 top-1/4" size={560} opacity={0.2} />
-      </div>
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 lg:px-8 lg:py-28">
         <div>
           <Reveal>
             <p className="eyebrow">Why FlowMint</p>
           </Reveal>
-          <h2 className="mt-5 font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
+          <h2 className="mt-5 font-display text-[2.4rem] leading-[1.02] text-ink sm:text-[3.5rem]">
             <TextScrub text="Work directly with the engineers responsible for your solution." />
           </h2>
 

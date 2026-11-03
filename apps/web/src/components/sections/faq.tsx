@@ -53,14 +53,14 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="scroll-mt-24 border-t border-hairline bg-surface"
+      className="theme-sand scroll-mt-24 border-t border-hairline bg-surface"
     >
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:px-8 lg:py-28">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <Reveal>
             <p className="eyebrow">FAQ</p>
           </Reveal>
-          <h2 className="mt-5 font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
+          <h2 className="mt-5 font-display text-[2.4rem] leading-[1.02] text-ink sm:text-[3.5rem]">
             <SplitText text="Frequently asked questions" />
           </h2>
         </div>

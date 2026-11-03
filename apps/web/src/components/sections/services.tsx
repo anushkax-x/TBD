@@ -30,7 +30,7 @@ import { TextScrub } from "@/components/motion/text-scrub";
 /* ------------------------------------------------------------------ */
 
 const glass =
-  "rounded-xl border border-white/10 bg-[#0b1219]/90 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.9)]";
+  "rounded-xl border border-white/10 bg-[#0e2624]/90 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.9)]";
 
 function Chip({
   icon,
@@ -48,7 +48,7 @@ function Chip({
       className={`flex w-max items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3 text-[11px] font-medium ${
         accent
           ? "border-accent/50 bg-accent/90 text-surface shadow-[0_8px_24px_-8px_var(--accent-glow)]"
-          : "border-white/10 bg-[#0b1219]/90 text-ink"
+          : "border-white/10 bg-[#0e2624]/90 text-ink"
       } ${className}`}
     >
       <span
@@ -115,7 +115,7 @@ function DesignVisual() {
         className={`${glass} absolute -right-3 -top-7 flex items-center gap-1.5 px-2 py-1.5`}
       >
         <span className="font-serif text-sm text-ink">Aa</span>
-        {["#e8eef4", "#2bb3a3", "#14352f", "#0b1118"].map((c) => (
+        {["#fbf6ec", "#229a94", "#0f4644", "#0e2624"].map((c) => (
           <span
             key={c}
             className="h-4 w-2.5 rounded-sm"
@@ -158,7 +158,7 @@ function ConnectVisual() {
             y1={40}
             x2={x}
             y2={y}
-            stroke="rgba(43,179,163,0.7)"
+            stroke="rgba(34,154,148,0.7)"
             strokeWidth={0.8}
             strokeDasharray="2 2"
           />
@@ -167,7 +167,7 @@ function ConnectVisual() {
       {apps.map((a, i) => (
         <span
           key={a}
-          className={`absolute ${spots[i]} flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0b1219]/90`}
+          className={`absolute ${spots[i]} flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0e2624]/90`}
         >
           <Image
             src={`/tech/${a}.svg`}
@@ -260,12 +260,12 @@ function SalesVisual() {
         <path
           d="M2 32 L22 28 L38 30 L56 20 L72 22 L90 10 L118 4"
           fill="none"
-          stroke="#2bb3a3"
+          stroke="#229a94"
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx={118} cy={4} r={3} fill="#3fc4b4" />
+        <circle cx={118} cy={4} r={3} fill="#2db0a9" />
       </svg>
     </div>
   );
@@ -411,7 +411,7 @@ function ServiceCard({
     <a
       href={s.href}
       aria-label={`${s.title}: ${s.cta}`}
-      className={`group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface-elevated shadow-[0_28px_55px_-16px_rgba(0,0,0,0.85)] transition-[border-color,box-shadow,transform] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(43,179,163,0.15),0_30px_80px_-30px_rgba(43,179,163,0.45)] sm:rounded-3xl sm:shadow-[0_24px_60px_-30px_rgba(0,0,0,0.9)] ${className}`}
+      className={`group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface-elevated shadow-[0_28px_55px_-16px_rgba(0,0,0,0.85)] transition-[border-color,box-shadow,transform] duration-300 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(34,154,148,0.15),0_30px_80px_-30px_rgba(34,154,148,0.45)] sm:rounded-3xl sm:shadow-[0_24px_60px_-30px_rgba(0,0,0,0.9)] ${className}`}
     >
       <Image
         src={s.image}
@@ -423,11 +423,11 @@ function ServiceCard({
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[#070d13]/95 via-[#070d13]/40 to-[#070d13]/70"
+        className="absolute inset-0 bg-gradient-to-b from-[#0b201e]/95 via-[#0b201e]/40 to-[#0b201e]/70"
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_70%,rgba(43,179,163,0.18),transparent_70%)]"
+        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_70%,rgba(34,154,148,0.18),transparent_70%)]"
       />
 
       <div className="relative p-3.5 sm:p-6">
@@ -453,14 +453,13 @@ function ServiceCard({
 /**
  * Pinned timeline (0..1 of section scroll):
  * headline scrubs in alone → cards float through while the headline recedes
- * (fade + blur) → cards gone, headline returns into focus.
+ * (fade + blur) and stays receded after the cards have passed.
  * Card `pos.start/length` are relative to the card phase and remapped here.
  */
 const HEADLINE_END = 0.16;
 const CARDS_FROM = 0.2;
 const CARDS_SPAN = 0.66;
 const RECEDE = [0.18, 0.28] as const;
-const RETURN = [0.86, 0.95] as const;
 
 function FloatingCard({
   s,
@@ -499,12 +498,12 @@ function PinnedServices() {
   // Lenis already smooths scrolling, so drive everything from raw progress
   // (an extra spring here makes the cards lag behind the wheel).
   const progress = scrollYProgress;
-  const keys = [RECEDE[0], RECEDE[1], RETURN[0], RETURN[1]];
-  const headingScale = useTransform(progress, keys, [1, 0.94, 0.94, 1]);
+  const keys = [RECEDE[0], RECEDE[1]];
+  const headingScale = useTransform(progress, keys, [1, 0.94]);
   // Crossfade a sharp headline with a pre-blurred copy instead of animating
   // `filter: blur()` every frame (static blur is rasterised once).
-  const sharpOpacity = useTransform(progress, keys, [1, 0, 0, 1]);
-  const blurredOpacity = useTransform(progress, keys, [0, 1, 1, 0]);
+  const sharpOpacity = useTransform(progress, keys, [1, 0]);
+  const blurredOpacity = useTransform(progress, keys, [0, 1]);
 
   return (
     <div ref={ref} className="relative h-[440vh]">
@@ -513,13 +512,13 @@ function PinnedServices() {
           <GlowOrb
             className="-left-48 top-1/4"
             size={620}
-            opacity={0.22}
+            opacity={0.1}
             parallax={0}
           />
           <GlowOrb
             className="-right-40 bottom-0"
             size={520}
-            opacity={0.16}
+            opacity={0.08}
             parallax={0}
             duration={22}
           />
@@ -534,7 +533,7 @@ function PinnedServices() {
             style={{ opacity: sharpOpacity }}
           >
             <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
-            <h2 className="mt-8 max-w-5xl font-display text-5xl leading-[1.05] text-ink xl:text-[4.25rem]">
+            <h2 className="mt-8 max-w-5xl font-display text-6xl leading-[1] text-ink xl:text-[5rem]">
               <TextScrub
                 text={HEADING}
                 progress={progress}
@@ -549,7 +548,7 @@ function PinnedServices() {
           >
             <div className="opacity-[0.15] blur-[10px]">
               <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
-              <p className="mt-8 max-w-5xl font-display text-5xl leading-[1.05] text-ink xl:text-[4.25rem]">
+              <p className="mt-8 max-w-5xl font-display text-6xl leading-[1] text-ink xl:text-[5rem]">
                 {HEADING}
               </p>
             </div>
@@ -574,20 +573,9 @@ function StackedServices({ className = "" }: { className?: string }) {
     <div
       className={`relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 ${className}`}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <GlowOrb
-          className="-left-40 top-0"
-          size={420}
-          opacity={0.18}
-          parallax={0}
-        />
-      </div>
       <div className="relative text-center">
         <p className="eyebrow eyebrow-pill">{EYEBROW}</p>
-        <h2 className="mx-auto mt-6 max-w-3xl font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
+        <h2 className="mx-auto mt-6 max-w-3xl font-display text-[2.4rem] leading-[1.02] text-ink sm:text-[3.5rem]">
           <SplitText text={HEADING} />
         </h2>
       </div>

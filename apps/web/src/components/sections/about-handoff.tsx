@@ -80,7 +80,7 @@ function Node({
             className="absolute -inset-1 rounded-full"
             style={{
               background:
-                "conic-gradient(from 0deg, transparent 0deg, rgba(63,196,180,0.85) 70deg, transparent 150deg)",
+                "conic-gradient(from 0deg, transparent 0deg, rgba(45,176,169,0.85) 70deg, transparent 150deg)",
               WebkitMask:
                 "radial-gradient(circle, transparent 25px, #000 26px)",
               mask: "radial-gradient(circle, transparent 25px, #000 26px)",
@@ -239,7 +239,7 @@ export function AboutHandoff() {
           className="absolute left-[8%] right-[8%] top-[22px] h-px"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(90deg, rgba(107,124,143,0.5) 0 4px, transparent 4px 9px)",
+              "repeating-linear-gradient(90deg, rgba(116, 133, 127,0.5) 0 4px, transparent 4px 9px)",
           }}
         />
         <Node
@@ -311,7 +311,7 @@ export function AboutHandoff() {
           className="absolute left-[8%] right-[8%] top-[21.5px] h-[2px] rounded-full"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(90deg, rgba(43,179,163,0.9) 0 8px, rgba(43,179,163,0.25) 8px 16px)",
+              "repeating-linear-gradient(90deg, rgba(34,154,148,0.9) 0 8px, rgba(34,154,148,0.25) 8px 16px)",
             backgroundSize: "16px 2px",
           }}
           animate={

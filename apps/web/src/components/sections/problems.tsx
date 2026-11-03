@@ -28,10 +28,10 @@ function Counter({
       className={`items-center gap-3 rounded-full border px-4 py-2 transition-colors duration-500 ${className} ${
         left === 0
           ? "border-accent/40 bg-accent-soft/80 text-accent"
-          : "border-[var(--danger)]/40 bg-[#2a1416]/90 text-[var(--danger)]"
+          : "border-[var(--danger)]/40 bg-[var(--danger-soft)]/90 text-[var(--danger)]"
       }`}
     >
-      <span className="relative inline-grid font-display text-2xl tabular-nums">
+      <span className="relative inline-grid font-sans text-2xl font-medium tracking-tight tabular-nums">
         <AnimatePresence initial={false}>
           <motion.span
             key={left}
@@ -92,14 +92,14 @@ export function ProblemSection() {
   const left = problems.length - fixedCount;
 
   return (
-    <section className="relative overflow-x-clip">
+    <section className="theme-sand relative overflow-x-clip">
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <Reveal>
               <p className="eyebrow">Where we create value</p>
             </Reveal>
-            <h2 className="mt-5 max-w-3xl font-display text-[2.25rem] leading-[1.05] text-ink sm:text-5xl lg:text-6xl">
+            <h2 className="mt-5 max-w-3xl font-display text-[2.6rem] leading-[1] text-ink sm:text-6xl lg:text-7xl">
               <SplitText text="If it relies on memory, it’s already broken." />
             </h2>
           </div>
@@ -113,7 +113,7 @@ export function ProblemSection() {
         <div className="sticky top-3 z-20 mt-8 flex justify-center sm:hidden">
           <Counter
             left={left}
-            className="flex shadow-[0_10px_30px_-10px_rgba(0,0,0,0.9)] backdrop-blur-md"
+            className="flex shadow-[0_10px_30px_-12px_rgba(18,49,47,0.35)] backdrop-blur-md"
           />
         </div>
 
@@ -128,8 +128,8 @@ export function ProblemSection() {
                 key={p.title}
                 className={`relative overflow-hidden rounded-2xl border p-4 sm:rounded-3xl sm:p-6 ${
                   fixed
-                    ? "border-accent/30 bg-[linear-gradient(180deg,rgba(20,53,47,0.45),rgba(10,16,23,0.7))]"
-                    : "border-[var(--danger)]/30 bg-[linear-gradient(180deg,rgba(240,112,112,0.07),rgba(10,16,23,0.7))]"
+                    ? "border-accent/30 bg-accent-soft/70"
+                    : "border-[var(--danger)]/30 bg-surface-elevated"
                 }`}
                 initial={false}
                 animate={{
@@ -215,7 +215,7 @@ export function ProblemSection() {
           })}
         </div>
 
-        <p className="mx-auto mt-16 max-w-5xl text-balance text-center font-display text-2xl leading-[1.2] text-accent sm:mt-20 sm:text-[2rem] lg:mt-28 lg:text-[2.6rem]">
+        <p className="mx-auto mt-16 max-w-5xl text-balance text-center font-display text-[1.75rem] leading-[1.15] text-accent sm:mt-20 sm:text-[2.4rem] lg:mt-28 lg:text-[3rem]">
           <TextScrub text="The goal is not more software. It is fewer manual steps and a clearer way of working." />
         </p>
       </div>

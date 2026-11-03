@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 import { LightWave } from "@/components/motion/light-wave";
-import { GlowOrb } from "@/components/motion/glow-orb";
 import { EASE_OUT } from "@/components/motion/easing";
 
 type Workflow = {
@@ -202,12 +201,9 @@ export function WorkflowsSection() {
       id="workflows"
       className="relative overflow-hidden border-y border-hairline bg-surface-elevated/40"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <GlowOrb className="-right-48 top-10" size={560} opacity={0.16} />
-      </div>
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <Reveal>
-          <h2 className="font-display text-[2rem] leading-[1.08] text-ink sm:text-5xl">
+          <h2 className="font-display text-[2.4rem] leading-[1.02] text-ink sm:text-[3.5rem]">
             Workflows we automate for{" "}
             <span
               className="relative inline-grid align-bottom text-accent"

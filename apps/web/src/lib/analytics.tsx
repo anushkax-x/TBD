@@ -26,6 +26,8 @@ type AnalyticsEvent =
   | "contact_form_submitted"
   | "booking_clicked"
   | "example_project_viewed"
+  | "template_previewed"
+  | "template_cta_clicked"
   | "chat_prompt_shown"
   | "chat_prompt_dismissed"
   | "chat_started"
